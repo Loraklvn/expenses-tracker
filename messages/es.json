@@ -1,0 +1,32 @@
+{
+  "Home": {
+    "welcome": "¡Bienvenido!",
+    "description": "Esta es la versión en español del sitio."
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Agregar",
+    "view": "Ver",
+    "search": "Buscar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "budget": "Presupuesto"
+  },
+  "budget_list": {
+    "title": "Lista de Presupuesto",
+    "spent": "Gastado",
+    "remaining": "restante",
+    "budget": "Presupuesto"
+  },
+  "expenses": {
+    "add_transaction": "Agregar Transacción",
+    "add_new_transaction_to": "Agregar nueva transacción a {expenseName}",
+    "amount": "Cantidad"
+  }
+}

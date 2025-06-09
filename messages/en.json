@@ -1,0 +1,32 @@
+{
+  "Home": {
+    "welcome": "Welcome!",
+    "description": "This is the English version of the site."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "view": "View",
+    "search": "Search",
+    "next": "Next",
+    "previous": "Previous",
+    "budget": "Budget"
+  },
+  "budget_list": {
+    "title": "Budget List",
+    "spent": "Spent",
+    "remaining": "remaining",
+    "budget": "Budget"
+  },
+  "expenses": {
+    "add_transaction": "Add Transaction",
+    "add_new_transaction_to": "Add new transaction to {expenseName}",
+    "amount": "Amount"
+  }
+}
