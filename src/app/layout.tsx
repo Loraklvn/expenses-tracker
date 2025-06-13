@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -40,6 +42,8 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <NextIntlClientProvider>
+              <ToastContainer />
+
               <main>{children}</main>
             </NextIntlClientProvider>
           </ThemeProvider>

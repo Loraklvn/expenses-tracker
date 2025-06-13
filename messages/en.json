@@ -27,6 +27,7 @@
   "expenses": {
     "add_transaction": "Add Transaction",
     "add_new_transaction_to": "Add new transaction to {expenseName}",
+    "error_adding_transaction": "Error adding transaction: {error}",
     "amount": "Amount"
   }
 }

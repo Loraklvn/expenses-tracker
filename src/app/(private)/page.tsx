@@ -1,4 +1,4 @@
-import BudgetsList from "@/components/budgets/BudgetsList";
+import BudgetsList from "@/components/home/BudgetsList";
 import { fetchBudgetsClient } from "@/lib/supabase/requests";
 
 export default async function BudgetTracker() {

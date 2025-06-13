@@ -1,9 +1,9 @@
-import ExpensesList from "@/components/expenses/ExpensesList/ExpensesList";
+import ExpensesShell from "@/components/budget/ExpensesShell";
 import {
   fetchBudgetClient,
   fetchExpensesClient,
 } from "@/lib/supabase/requests";
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 
 interface BudgetPageProps {
   params: { budgetId: string };
@@ -17,10 +17,6 @@ const BudgetPage = async ({
   const budget = await fetchBudgetClient(Number(budgetId));
   const expenses = await fetchExpensesClient(Number(budgetId));
 
-  return (
-    <div>
-      <ExpensesList budget={budget} expenses={expenses} />
-    </div>
-  );
+  return <ExpensesShell budget={budget} initialExpenses={expenses} />;
 };
 export default BudgetPage;

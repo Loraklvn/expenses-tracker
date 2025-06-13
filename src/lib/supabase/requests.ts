@@ -39,3 +39,19 @@ export async function fetchExpensesClient(
   if (error) throw error;
   return data || [];
 }
+
+export async function addTransactionClient(
+  expenseId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.from("transaction").insert([
+    {
+      expense_id: expenseId,
+      amount,
+      description,
+    },
+  ]);
+  if (error) throw error;
+}
