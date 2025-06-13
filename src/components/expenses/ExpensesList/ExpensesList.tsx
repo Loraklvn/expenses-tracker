@@ -11,34 +11,22 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { fetchExpensesClient } from "@/lib/supabase/requests";
-import { Budget, Expense, Transaction } from "@/types";
+import { BudgetWithCurrent, ExpenseWithCurrent } from "@/lib/supabase/requests";
+import { Expense } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, DollarSign, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { ReactElement, useState } from "react";
 
 const ExpensesList = ({
-  setCurrentView,
-
-  getCurrentSpent,
-  transactions,
-  setTransactions,
-  selectedBudget,
+  budget,
+  expenses,
 }: {
-  transactions: Transaction[];
-  setCurrentView: (view: "budgets" | "expenses") => void;
-  getCurrentSpent: (expenseId: number) => number;
-  setTransactions: (transactions: Transaction[]) => void;
-  selectedBudget?: Budget | null;
+  budget: BudgetWithCurrent | null;
+  expenses: ExpenseWithCurrent[];
 }): ReactElement => {
   const t = useTranslations("expenses");
-  const { data: expenses = [] } = useQuery({
-    queryKey: ["expenses", selectedBudget?.id],
-    queryFn: async () => await fetchExpensesClient(selectedBudget?.id || 0),
-    enabled: !!selectedBudget,
-  });
 
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
@@ -47,16 +35,6 @@ const ExpensesList = ({
   const handleAddTransaction = () => {
     if (!selectedExpense || !transactionAmount) return;
 
-    const newTransaction: Transaction = {
-      id: transactions.length + 1,
-      description: `Transaction for ${selectedExpense.name}`,
-      amount: Number.parseFloat(transactionAmount),
-      type: "expense",
-      transaction_date: new Date().toISOString().split("T")[0],
-      expense_id: selectedExpense.id,
-    };
-
-    setTransactions([...transactions, newTransaction]);
     setTransactionAmount("");
     setShowAddTransaction(false);
     setSelectedExpense(null);
@@ -66,19 +44,17 @@ const ExpensesList = ({
     <div className="min-h-screen bg-background p-4 pb-20">
       <div className="max-w-md mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setCurrentView("budgets")}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <h1 className="text-2xl font-bold">{selectedBudget?.name}</h1>
+          <Link href="/">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold">{budget?.name}</h1>
         </div>
 
         <div className="space-y-1">
           {expenses?.map((expense) => {
-            const currentSpent = getCurrentSpent(expense.id);
+            const currentSpent = expense.current_amount;
 
             return (
               <div
