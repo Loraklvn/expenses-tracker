@@ -58,8 +58,8 @@ const AddTransactionModal = ({
   };
 
   return (
-    <Dialog open={visible} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={visible} onOpenChange={onClose} modal>
+      <DialogContent className="sm:max-w-[425px] top-[22%] translate-y-0">
         <DialogHeader>
           <DialogTitle>{t("add_transaction")}</DialogTitle>
           <DialogDescription>
