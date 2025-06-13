@@ -1,4 +1,3 @@
-import Navbar from "@/components/common/Navbar";
 import Providers from "@/Providers";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
@@ -41,10 +40,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <NextIntlClientProvider>
-              <main>
-                <Navbar />
-                {children}
-              </main>
+              <main>{children}</main>
             </NextIntlClientProvider>
           </ThemeProvider>
         </Providers>
