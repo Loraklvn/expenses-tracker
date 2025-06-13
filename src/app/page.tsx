@@ -2,7 +2,9 @@
 
 import BudgetsList from "@/components/budgets/BudgetsList";
 import ExpensesList from "@/components/expenses/ExpensesList/ExpensesList";
+import { fetchBudgetsClient } from "@/lib/supabase/requests";
 import { Budget, Expense, Transaction } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function BudgetTracker() {
@@ -10,6 +12,13 @@ export default function BudgetTracker() {
     "budgets"
   );
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
+
+  const { data: budgets } = useQuery({
+    queryKey: ["budgets"],
+    queryFn: fetchBudgetsClient,
+  });
+
+  console.log({ budgets });
 
   const [expenses] = useState<Expense[]>([
     {
@@ -107,6 +116,7 @@ export default function BudgetTracker() {
   if (currentView === "budgets") {
     return (
       <BudgetsList
+        budgets={budgets || []}
         setCurrentView={setCurrentView}
         setSelectedBudget={setSelectedBudget}
         getBudgetExpenses={getBudgetExpenses}
@@ -118,7 +128,6 @@ export default function BudgetTracker() {
   return (
     <ExpensesList
       setCurrentView={setCurrentView}
-      getBudgetExpenses={getBudgetExpenses}
       getCurrentSpent={getCurrentSpent}
       transactions={transactions}
       setTransactions={setTransactions}

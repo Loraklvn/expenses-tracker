@@ -11,28 +11,34 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { fetchExpensesClient } from "@/lib/supabase/requests";
 import { Budget, Expense, Transaction } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, DollarSign, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ReactElement, useState } from "react";
 
 const ExpensesList = ({
   setCurrentView,
-  getBudgetExpenses,
+
   getCurrentSpent,
   transactions,
   setTransactions,
   selectedBudget,
 }: {
-  setCurrentView: (view: "budgets" | "expenses") => void;
-  getBudgetExpenses: (budgetId: number) => Expense[];
-  getCurrentSpent: (expenseId: number) => number;
   transactions: Transaction[];
+  setCurrentView: (view: "budgets" | "expenses") => void;
+  getCurrentSpent: (expenseId: number) => number;
   setTransactions: (transactions: Transaction[]) => void;
   selectedBudget?: Budget | null;
 }): ReactElement => {
   const t = useTranslations("expenses");
+  const { data: expenses = [] } = useQuery({
+    queryKey: ["expenses", selectedBudget?.id],
+    queryFn: async () => await fetchExpensesClient(selectedBudget?.id || 0),
+    enabled: !!selectedBudget,
+  });
 
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
@@ -71,7 +77,7 @@ const ExpensesList = ({
         </div>
 
         <div className="space-y-1">
-          {getBudgetExpenses(selectedBudget?.id || 0).map((expense) => {
+          {expenses?.map((expense) => {
             const currentSpent = getCurrentSpent(expense.id);
 
             return (

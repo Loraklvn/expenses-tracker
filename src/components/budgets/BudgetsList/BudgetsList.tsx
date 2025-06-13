@@ -8,36 +8,14 @@ import { useTranslations } from "next-intl";
 
 import { ReactElement } from "react";
 
-const budgets = [
-  {
-    id: 1,
-    name: "January 2024",
-    expected_amount: 2500,
-    start_date: "2024-01-01",
-    end_date: "2024-01-31",
-  },
-  {
-    id: 2,
-    name: "February 2024",
-    expected_amount: 2300,
-    start_date: "2024-02-01",
-    end_date: "2024-02-29",
-  },
-  {
-    id: 3,
-    name: "March 2024",
-    expected_amount: 2600,
-    start_date: "2024-03-01",
-    end_date: "2024-03-31",
-  },
-];
-
 const BudgetsList = ({
+  budgets,
   setCurrentView,
   setSelectedBudget,
   getBudgetExpenses,
   getCurrentSpent,
 }: {
+  budgets: Budget[];
   setCurrentView: (view: "budgets" | "expenses") => void;
   setSelectedBudget: (budget: Budget) => void;
   getBudgetExpenses: (budgetId: number) => Expense[];

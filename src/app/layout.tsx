@@ -1,10 +1,11 @@
+import Navbar from "@/components/common/Navbar";
+import Providers from "@/Providers";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import Navbar from "@/components/common/Navbar";
+import { ThemeProvider } from "next-themes";
+import { Geist } from "next/font/google";
+import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -32,19 +33,21 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextIntlClientProvider>
-            <main>
-              <Navbar />
-              {children}
-            </main>
-          </NextIntlClientProvider>
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextIntlClientProvider>
+              <main>
+                <Navbar />
+                {children}
+              </main>
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
