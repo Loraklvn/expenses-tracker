@@ -1,5 +1,5 @@
 import Providers from "@/Providers";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
@@ -8,6 +8,12 @@ import { ToastContainer } from "react-toastify";
 
 import "./globals.css";
 
+const APP_NAME = "Spendiee";
+const APP_DEFAULT_TITLE = "Spendiee - PWA App";
+const APP_TITLE_TEMPLATE = "%s -  Spendiee";
+const APP_DESCRIPTION =
+  "Spendiee is a Progressive Web App (PWA) designed to help you manage your expenses efficiently and effectively.";
+
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
@@ -15,8 +21,38 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata: Metadata = {
   manifest: "/manifest.json",
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: APP_DEFAULT_TITLE,
+  description: APP_DESCRIPTION,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
 };
 
 const geistSans = Geist({
