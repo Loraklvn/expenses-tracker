@@ -1,18 +1,23 @@
-import { AuthButton } from "@/components/auth-button";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import { LogoutButton } from "@/components/logout-button";
+import { HomeIcon, PieChartIcon, PlusCircleIcon } from "lucide-react";
 import { ReactElement } from "react";
-import LanguageSwitcher from "../LanguageSwitcher";
 
 const Navbar = (): ReactElement => {
   return (
-    <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 px-2">
-      <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-        <div className="flex items-center">
-          <LanguageSwitcher />
-          <ThemeSwitcher />
-        </div>
-        <AuthButton />
-      </div>
+    <nav className="h-16 border-t bg-white flex items-center justify-around">
+      <button className="flex flex-col items-center text-sm">
+        <HomeIcon className="w-6 h-6" />
+        Home
+      </button>
+      <button className="flex flex-col items-center text-sm">
+        <PieChartIcon className="w-6 h-6" />
+        Budgets
+      </button>
+      <button className="flex flex-col items-center text-sm">
+        <PlusCircleIcon className="w-6 h-6" />
+        New
+      </button>
+      <LogoutButton />
     </nav>
   );
 };

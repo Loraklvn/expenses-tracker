@@ -42,7 +42,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
+      <body
+        className={`${geistSans.className} antialiased h-full flex flex-col`}
+      >
         <Providers>
           <ThemeProvider
             attribute="class"
@@ -52,8 +54,7 @@ export default async function RootLayout({
           >
             <NextIntlClientProvider>
               <ToastContainer />
-
-              <main>{children}</main>
+              {children}
             </NextIntlClientProvider>
           </ThemeProvider>
         </Providers>
