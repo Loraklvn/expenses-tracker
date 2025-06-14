@@ -7,7 +7,7 @@ const PrivateLayout = ({
   children: React.ReactNode;
 }): ReactElement => {
   return (
-    <div className="max-h-screen h-screen flex-1 flex flex-col overflow-hidden">
+    <div className="max-h-svh h-svh flex-1 flex flex-col overflow-hidden">
       {/* 2) Scrollable content area */}
       <main className="flex-1 overflow-y-auto">{children}</main>
 
