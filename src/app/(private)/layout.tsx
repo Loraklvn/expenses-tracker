@@ -1,4 +1,3 @@
-import Navbar from "@/components/common/Navbar";
 import React, { ReactElement } from "react";
 
 const PrivateLayout = ({
@@ -7,11 +6,12 @@ const PrivateLayout = ({
   children: React.ReactNode;
 }): ReactElement => {
   return (
-    <div className="max-h-svh h-svh flex-1 flex flex-col overflow-hidden">
-      {/* 2) Scrollable content area */}
-      <main className="flex-1 overflow-y-auto">{children}</main>
+    <div className="max-h-dvh h-full flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 overflow-y-auto border-2 bg-blue-500">
+        {children}
+      </main>
 
-      <Navbar />
+      {/* <Navbar /> */}
     </div>
   );
 };
