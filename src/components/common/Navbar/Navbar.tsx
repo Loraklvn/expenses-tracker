@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 
 const Navbar = (): ReactElement => {
   return (
-    <nav className="h-16 border-t bg-white flex items-center justify-around">
+    <nav className="h-20 border-t bg-white flex pt-2 justify-around">
       <button className="flex flex-col items-center text-sm">
         <HomeIcon className="w-6 h-6" />
         Home
