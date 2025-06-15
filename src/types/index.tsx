@@ -7,6 +7,14 @@ export interface Transaction {
   expense_id: number;
 }
 
+export type ExpenseTemplate = {
+  id: string;
+  name: string;
+  description: string;
+  user_id: string;
+  category_id: number;
+};
+
 export interface Expense {
   id: number;
   name: string;

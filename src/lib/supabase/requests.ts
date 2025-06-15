@@ -1,5 +1,5 @@
 // lib/supabase/requests.ts
-import { Budget, Expense } from "@/types";
+import { Budget, Expense, ExpenseTemplate } from "@/types";
 import { createClient } from "./client";
 
 /** Client-side: fetch budgets (you can wrap this in React-Query if you like) */
@@ -55,6 +55,18 @@ export async function addTransactionClient(
   ]);
   if (error) throw error;
 }
+
+export const fetchExpensesTemplateClient = async (): Promise<
+  ExpenseTemplate[]
+> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("expense_template")
+    .select("*")
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return data || [];
+};
 
 // Server-side: fetch budgets
 export async function fetchBudgetsServer(): Promise<BudgetWithCurrent[]> {
