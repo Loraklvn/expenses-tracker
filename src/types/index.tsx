@@ -25,6 +25,11 @@ export interface Expense {
   budget_id: number;
 }
 
+export type PreloadedExpenseTemplate = ExpenseTemplate & {
+  selected: boolean;
+  amount: number | string; // Allow string for input compatibility
+};
+
 export interface Budget {
   id: number;
   name: string;
