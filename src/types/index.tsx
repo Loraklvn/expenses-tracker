@@ -30,6 +30,13 @@ export type PreloadedExpenseTemplate = ExpenseTemplate & {
   amount: number | string; // Allow string for input compatibility
 };
 
+export type CustomExpense = {
+  id: string;
+  name: string;
+  amount: string;
+  category: string;
+};
+
 export interface Budget {
   id: number;
   name: string;

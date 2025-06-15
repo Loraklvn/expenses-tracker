@@ -6,7 +6,8 @@ import NewBudgetHeader from "@/components/new-budget/NewBudgetHeader";
 import PreloadedExpenses from "@/components/new-budget/PreloadedExpenses";
 import { Button } from "@/components/ui/button";
 import { fetchExpensesTemplateClient } from "@/lib/supabase/requests";
-import { PreloadedExpenseTemplate } from "@/types";
+import { CustomExpense, PreloadedExpenseTemplate } from "@/types";
+import { genId } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -23,6 +24,11 @@ export default function CreateBudget() {
   // Initialize the state for preloaded expense templates
   const [expenseTemplates, setSelectedExpenseTemplates] = useState<
     PreloadedExpenseTemplate[]
+  >([]);
+
+  // Initialize the state for custom expenses
+  const [customExpenses, setCustomExpenses] = useState<
+    { id: string; name: string; amount: string; category: string }[]
   >([]);
 
   // Set the default selected expense templates when the component mounts
@@ -47,6 +53,7 @@ export default function CreateBudget() {
     });
   };
 
+  //  Update the amount for a specific expense template
   const updateExpenseTemplateAmount = (templateId: string, amount: string) => {
     setSelectedExpenseTemplates((prev) => {
       const updatedTemplates = prev.map((template) =>
@@ -54,6 +61,32 @@ export default function CreateBudget() {
       );
       return updatedTemplates;
     });
+  };
+
+  // Function to add a new custom expense
+  const addCustomExpense = () => {
+    setCustomExpenses((prev) => [
+      ...prev,
+      { id: genId(), name: "", amount: "", category: "" },
+    ]);
+  };
+
+  // Function to update a custom expense
+  const updateCustomExpense = (
+    id: string,
+    field: keyof CustomExpense,
+    value: string | number
+  ) => {
+    setCustomExpenses((prev) =>
+      prev.map((expense) =>
+        expense.id === id ? { ...expense, [field]: value } : expense
+      )
+    );
+  };
+
+  // Function to remove a custom expense by its ID
+  const removeCustomExpense = (id: string) => {
+    setCustomExpenses((prev) => prev.filter((expense) => expense.id !== id));
   };
 
   return (
@@ -78,7 +111,12 @@ export default function CreateBudget() {
           />
 
           {/* Custom Expenses */}
-          <CustomExpenses />
+          <CustomExpenses
+            customExpenses={customExpenses}
+            addCustomExpense={addCustomExpense}
+            updateCustomExpense={updateCustomExpense}
+            removeCustomExpense={removeCustomExpense}
+          />
 
           {/* Create Button */}
           <Button
