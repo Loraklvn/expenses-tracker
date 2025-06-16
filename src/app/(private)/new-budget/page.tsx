@@ -5,17 +5,43 @@ import CustomExpenses from "@/components/new-budget/CustomExpenses";
 import NewBudgetHeader from "@/components/new-budget/NewBudgetHeader";
 import PreloadedExpenses from "@/components/new-budget/PreloadedExpenses";
 import { Button } from "@/components/ui/button";
-import { fetchExpensesTemplateClient } from "@/lib/supabase/requests";
+import {
+  createBudgetWithLinesClient,
+  fetchCategoriesClient,
+  fetchExpensesTemplateClient,
+} from "@/lib/supabase/requests";
+import { cn } from "@/lib/utils";
 import { CustomExpense, PreloadedExpenseTemplate } from "@/types";
 import { genId } from "@/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function CreateBudget() {
   const { data: defaultExpensesTemplate } = useQuery({
     queryKey: ["expenseTemplates"],
     queryFn: fetchExpensesTemplateClient,
   });
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategoriesClient,
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createBudgetWithLinesClient,
+    onSuccess: (newId) => {
+      toast.success("Budget created!");
+      router.push(`/budget/${newId}`);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to create budget.");
+    },
+  });
+
+  const router = useRouter();
 
   // Initialize the state for new budget details
   const [newBudgetName, setNewBudgetName] = useState("");
@@ -89,8 +115,43 @@ export default function CreateBudget() {
     setCustomExpenses((prev) => prev.filter((expense) => expense.id !== id));
   };
 
+  const handleCreateBudget = async () => {
+    // validate all selected expense templates have an amount
+    const allTemplatesHaveAmount = expenseTemplates.every(
+      (template) => !template.selected || (template.selected && template.amount)
+    );
+    if (!allTemplatesHaveAmount) {
+      toast.error(
+        "Please ensure all selected expense templates have an amount."
+      );
+      return;
+    }
+    // validate all custom expenses have a name, category and amount
+    const allCustomExpensesValid = customExpenses.every(
+      (expense) => expense.name && expense.category && expense.amount
+    );
+    if (!allCustomExpensesValid) {
+      toast.error(
+        "Please ensure all custom expenses have a name, category, and amount."
+      );
+      return;
+    }
+
+    mutate({
+      name: newBudgetName,
+      expectedAmount: parseFloat(newBudgetAmount),
+      templates: expenseTemplates,
+      customs: customExpenses,
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-background p-4 pb-0">
+    <div
+      className={cn(
+        "min-h-screen bg-background py-4 px-2 pb-0",
+        isPending ? "opacity-50 pointer-events-none" : ""
+      )}
+    >
       <div className="max-w-md mx-auto">
         <NewBudgetHeader />
 
@@ -108,6 +169,7 @@ export default function CreateBudget() {
             expenseTemplates={expenseTemplates}
             toggleExpenseTemplate={toggleExpenseTemplate}
             updateExpenseTemplateAmount={updateExpenseTemplateAmount}
+            categories={categories || []}
           />
 
           {/* Custom Expenses */}
@@ -116,6 +178,7 @@ export default function CreateBudget() {
             addCustomExpense={addCustomExpense}
             updateCustomExpense={updateCustomExpense}
             removeCustomExpense={removeCustomExpense}
+            categories={categories || []}
           />
 
           {/* Create Button */}
@@ -123,7 +186,7 @@ export default function CreateBudget() {
             className="w-full"
             size="lg"
             disabled={!newBudgetName || !newBudgetAmount}
-            // onClick={handleCreateBudget}
+            onClick={handleCreateBudget}
           >
             Create Budget
           </Button>

@@ -6,10 +6,12 @@ import React, { ReactElement } from "react";
 
 const PreloadedExpenseRow = ({
   template,
+  category,
   toggleExpenseTemplate,
   updateExpenseTemplateAmount,
 }: {
   template: PreloadedExpenseTemplate;
+  category: string;
   toggleExpenseTemplate: (templateId: string) => void;
   updateExpenseTemplateAmount: (templateId: string, amount: string) => void;
 }): ReactElement => {
@@ -22,9 +24,7 @@ const PreloadedExpenseRow = ({
         />
         <div>
           <p className="font-medium">{template.name}</p>
-          <p className="text-sm text-muted-foreground">
-            {template.category_id} - category
-          </p>
+          <p className="text-sm text-muted-foreground">{category}</p>
         </div>
       </div>
       {template.selected && (

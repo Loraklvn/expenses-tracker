@@ -9,17 +9,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CustomExpense } from "@/types";
+import { Category, CustomExpense } from "@/types";
 import { Plus, XIcon } from "lucide-react";
 import { ReactElement } from "react";
 
 const CustomExpenses = ({
   customExpenses,
+  categories,
   addCustomExpense,
   updateCustomExpense,
   removeCustomExpense,
 }: {
   customExpenses: CustomExpense[];
+  categories: Category[];
   addCustomExpense: () => void;
   updateCustomExpense: (
     id: string,
@@ -43,16 +45,23 @@ const CustomExpenses = ({
           <div className="space-y-1 mb-4">
             {customExpenses.map((expense) => (
               <div
-                className="flex items-center justify-between py-2 border-b transition-colors"
+                className="pt-3 pb-1 border-b transition-colors"
                 key={expense.id}
               >
-                <div className="flex items-center gap-3 flex-1">
+                <div className="relative flex items-center justify-between gap-1 flex-1">
+                  <button
+                    onClick={() => removeCustomExpense(expense.id)}
+                    className="absolute right-0 -top-4"
+                  >
+                    <XIcon className="h-3 w-3 text-red-500" />
+                  </button>
                   <Input
-                    placeholder="Expense Name"
+                    placeholder="Name"
                     value={expense.name}
                     onChange={(e) =>
                       updateCustomExpense(expense.id, "name", e.target.value)
                     }
+                    className="w-[120px]"
                   />
 
                   <Select
@@ -61,21 +70,26 @@ const CustomExpenses = ({
                       updateCustomExpense(expense.id, "category", value)
                     }
                   >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select a category" />
+                    <SelectTrigger className="w-[120px] truncate">
+                      <SelectValue
+                        placeholder="Select a category"
+                        className="truncate"
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
-                        <SelectItem value="food">Food</SelectItem>
-                        <SelectItem value="transportation">
-                          Transportation
+                        <SelectItem value="long">
+                          Uncategorised very long
                         </SelectItem>
-                        <SelectItem value="utilities">Utilities</SelectItem>
-                        <SelectItem value="entertainment">
-                          Entertainment
-                        </SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        {categories.map((category) => (
+                          <SelectItem
+                            key={category.id}
+                            value={`${category.id}`}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -87,16 +101,9 @@ const CustomExpenses = ({
                     onChange={(e) =>
                       updateCustomExpense(expense.id, "amount", e.target.value)
                     }
+                    className="w-[120px]"
                   />
                 </div>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeCustomExpense(expense.id)}
-                >
-                  <XIcon className="h-4 w-4 text-red-500" />
-                </Button>
               </div>
             ))}
           </div>

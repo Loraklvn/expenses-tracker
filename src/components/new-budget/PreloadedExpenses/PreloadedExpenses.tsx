@@ -1,13 +1,15 @@
-import { PreloadedExpenseTemplate } from "@/types";
+import { Category, PreloadedExpenseTemplate } from "@/types";
 import { ReactElement } from "react";
 import PreloadedExpenseRow from "../PreloadedExpenseRow";
 
 const PreloadedExpenses = ({
   expenseTemplates,
+  categories,
   toggleExpenseTemplate,
   updateExpenseTemplateAmount,
 }: {
   expenseTemplates: PreloadedExpenseTemplate[];
+  categories: Category[];
   toggleExpenseTemplate: (templateId: string) => void;
   updateExpenseTemplateAmount: (templateId: string, amount: string) => void;
 }): ReactElement => {
@@ -29,6 +31,10 @@ const PreloadedExpenses = ({
               template={template}
               toggleExpenseTemplate={toggleExpenseTemplate}
               updateExpenseTemplateAmount={updateExpenseTemplateAmount}
+              category={
+                categories.find((cat) => cat.id === template.category_id)
+                  ?.name || "Uncategorized"
+              }
             />
           ))}
       </div>
