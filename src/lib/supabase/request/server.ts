@@ -42,8 +42,8 @@ export async function addTransactionServer(
   amount: number,
   description?: string
 ): Promise<void> {
-  const supabase = createServer();
-  const { error } = await (await supabase).from("transaction").insert([
+  const supabase = await createServer();
+  const { error } = await supabase.from("transaction").insert([
     {
       expense_id: expenseId,
       amount,
