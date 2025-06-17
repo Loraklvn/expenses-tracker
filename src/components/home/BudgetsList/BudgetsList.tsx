@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { BudgetWithCurrent } from "@/lib/supabase/requests";
+import { BudgetWithCurrent } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
 import { Calendar, DollarSign } from "lucide-react";
 import { useTranslations } from "next-intl";

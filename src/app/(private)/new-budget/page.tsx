@@ -9,7 +9,7 @@ import {
   createBudgetWithLinesClient,
   fetchCategoriesClient,
   fetchExpensesTemplateClient,
-} from "@/lib/supabase/requests";
+} from "@/lib/supabase/request/client";
 import { cn } from "@/lib/utils";
 import { CustomExpense, PreloadedExpenseTemplate } from "@/types";
 import { genId } from "@/utils";

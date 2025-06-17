@@ -1,9 +1,8 @@
 // lib/supabase/requests.ts
-import { Budget, Category, Expense, ExpenseTemplate } from "@/types";
-import { createClient } from "./client";
+import { Category, ExpenseTemplate } from "@/types";
+import { createClient } from "../client";
 
 /** Client-side: fetch budgets (you can wrap this in React-Query if you like) */
-export type BudgetWithCurrent = Budget & { current_amount: number };
 export async function fetchBudgetsClient(): Promise<BudgetWithCurrent[]> {
   const supabase = createClient();
   const { data, error } = await supabase
@@ -26,7 +25,6 @@ export const fetchBudgetClient = async (
   return data || null;
 };
 
-export type ExpenseWithCurrent = Expense & { current_amount: number };
 export async function fetchExpensesClient(
   budgetId: number
 ): Promise<ExpenseWithCurrent[]> {
@@ -79,7 +77,12 @@ export const fetchCategoriesClient = async (): Promise<Category[]> => {
 };
 
 // lib/supabase/requests.ts
-import type { PreloadedExpenseTemplate, CustomExpense } from "@/types";
+import type {
+  BudgetWithCurrent,
+  CustomExpense,
+  ExpenseWithCurrent,
+  PreloadedExpenseTemplate,
+} from "@/types";
 
 export interface CreateBudgetArgs {
   name: string;
@@ -141,50 +144,3 @@ export async function createBudgetWithLinesClient({
 }
 
 // Server-side: fetch budgets
-export async function fetchBudgetsServer(): Promise<BudgetWithCurrent[]> {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("budgets_with_current")
-    .select("*");
-  if (error) throw error;
-  return data || [];
-}
-export const fetchBudgetServer = async (
-  budgetId: number
-): Promise<BudgetWithCurrent | null> => {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("budgets_with_current")
-    .select("*")
-    .eq("id", budgetId)
-    .single();
-  if (error) throw error;
-  return data || null;
-};
-export async function fetchExpensesServer(
-  budgetId: number
-): Promise<ExpenseWithCurrent[]> {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("expenses_with_current")
-    .select("*")
-    .eq("budget_id", budgetId);
-
-  if (error) throw error;
-  return data || [];
-}
-export async function addTransactionServer(
-  expenseId: number,
-  amount: number,
-  description?: string
-): Promise<void> {
-  const supabase = createClient();
-  const { error } = await supabase.from("transaction").insert([
-    {
-      expense_id: expenseId,
-      amount,
-      description,
-    },
-  ]);
-  if (error) throw error;
-}

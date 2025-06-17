@@ -9,10 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  addTransactionClient,
-  ExpenseWithCurrent,
-} from "@/lib/supabase/requests";
+import { addTransactionClient } from "@/lib/supabase/request/client";
+import { ExpenseWithCurrent } from "@/types";
 
 import { DollarSign } from "lucide-react";
 import { useTranslations } from "next-intl";

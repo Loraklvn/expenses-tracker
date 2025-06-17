@@ -2,7 +2,7 @@ import ExpensesShell from "@/components/budget/ExpensesShell";
 import {
   fetchBudgetServer,
   fetchExpensesServer,
-} from "@/lib/supabase/requests";
+} from "@/lib/supabase/request/server";
 import { ReactElement } from "react";
 
 type Params = Promise<{ budgetId: string }>;

@@ -1,17 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  BudgetWithCurrent,
-  ExpenseWithCurrent,
-  fetchExpensesClient,
-} from "@/lib/supabase/requests";
+import { fetchExpensesClient } from "@/lib/supabase/request/client";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
 import AddTransactionModal from "../AddTransactionModal";
 import ExpensesList from "../ExpensesList/ExpensesList";
+import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
 
 const ExpensesShell = ({
   budget,

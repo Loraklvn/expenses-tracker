@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ExpenseWithCurrent } from "@/lib/supabase/requests";
+import { ExpenseWithCurrent } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
 import { Plus } from "lucide-react";
 import { ReactElement } from "react";

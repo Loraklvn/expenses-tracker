@@ -1,8 +1,8 @@
 import BudgetsList from "@/components/home/BudgetsList";
-import { fetchBudgetsClient } from "@/lib/supabase/requests";
+import { fetchBudgetsServer } from "@/lib/supabase/request/server";
 
 export default async function BudgetTracker() {
-  const budgets = await fetchBudgetsClient();
+  const budgets = await fetchBudgetsServer();
 
   return <BudgetsList budgets={budgets || []} />;
 }
