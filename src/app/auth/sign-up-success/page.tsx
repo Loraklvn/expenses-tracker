@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -5,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -23,6 +25,18 @@ export default function Page() {
                 You&apos;ve successfully signed up. Please check your email to
                 confirm your account before signing in.
               </p>
+
+              {/* Go to sign in page after confirming email */}
+              <p className="text-sm text-muted-foreground">
+                After confirming your email, you can sign in to your account.
+              </p>
+
+              <Link
+                href="/auth/login"
+                className="mt-4 text-center block text-sm text-muted-foreground underline underline-offset-4"
+              >
+                <Button>Go to sign in</Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
