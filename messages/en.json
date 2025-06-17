@@ -16,7 +16,11 @@
     "search": "Search",
     "next": "Next",
     "previous": "Previous",
-    "budget": "Budget"
+    "budget": "Budget",
+    "logout": "Logout",
+    "home": "Home",
+    "budgets": "Budgets",
+    "new": "New"
   },
   "budget_list": {
     "title": "Budget List",
@@ -28,6 +32,21 @@
     "add_transaction": "Add Transaction",
     "add_new_transaction_to": "Add new transaction to {expenseName}",
     "error_adding_transaction": "Error adding transaction: {error}",
+    "amount": "Amount"
+  },
+  "new_budget": {
+    "title": "Create Budget",
+    "budget_name": "Budget Name",
+    "budget_name_placeholder": "e.g., March 2024",
+    "budget_amount": "Budget Amount",
+    "select_expenses": "Select Expenses",
+    "select_category": "Category",
+    "create_budget": "Create Budget",
+    "error_creating_budget": "Error creating budget: {error}",
+    "success_creating_budget": "Budget created successfully",
+    "custom_expenses": "Other Expenses",
+    "add": "Add",
+    "name": "Name",
     "amount": "Amount"
   }
 }

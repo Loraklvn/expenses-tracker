@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { CustomExpense, PreloadedExpenseTemplate } from "@/types";
 import { genId } from "@/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -42,6 +43,7 @@ export default function CreateBudget() {
   });
 
   const router = useRouter();
+  const t = useTranslations("new_budget");
 
   // Initialize the state for new budget details
   const [newBudgetName, setNewBudgetName] = useState("");
@@ -188,7 +190,7 @@ export default function CreateBudget() {
             disabled={!newBudgetName || !newBudgetAmount}
             onClick={handleCreateBudget}
           >
-            Create Budget
+            {t("create_budget")}
           </Button>
         </div>
       </div>

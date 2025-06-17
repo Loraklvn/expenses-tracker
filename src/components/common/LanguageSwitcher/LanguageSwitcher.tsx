@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
 
   return (
     <button onClick={switchLanguage}>
-      {locale === "en" ? "Español" : "English"}
+      {locale === "en" ? "🇬🇧 English" : "🇪🇸 Español"}
     </button>
   );
 }

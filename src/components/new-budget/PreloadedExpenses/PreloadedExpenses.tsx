@@ -1,6 +1,7 @@
 import { Category, PreloadedExpenseTemplate } from "@/types";
 import { ReactElement } from "react";
 import PreloadedExpenseRow from "../PreloadedExpenseRow";
+import { useTranslations } from "next-intl";
 
 const PreloadedExpenses = ({
   expenseTemplates,
@@ -13,9 +14,10 @@ const PreloadedExpenses = ({
   toggleExpenseTemplate: (templateId: string) => void;
   updateExpenseTemplateAmount: (templateId: string, amount: string) => void;
 }): ReactElement => {
+  const t = useTranslations("new_budget");
   return (
     <div>
-      <h3 className="text-lg font-semibold mb-3">Select Expenses</h3>
+      <h3 className="text-lg font-semibold mb-3">{t("select_expenses")}</h3>
       <div className="space-y-1">
         {/* sort by select, unselected last */}
         {expenseTemplates

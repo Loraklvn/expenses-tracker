@@ -1,14 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react";
-import React, { ReactElement } from "react";
+import { useTranslations } from "next-intl";
+import { ReactElement } from "react";
 
 const NewBudgetHeader = (): ReactElement => {
+  const t = useTranslations("new_budget");
+
   return (
     <div className="flex items-center gap-3 mb-6">
-      <Button variant="ghost" size="icon">
-        <ArrowLeftIcon className="h-5 w-5" />
-      </Button>
-      <h1 className="text-2xl font-bold">Create Budget</h1>
+      <h1 className="text-2xl font-bold">{t("title")}</h1>
     </div>
   );
 };

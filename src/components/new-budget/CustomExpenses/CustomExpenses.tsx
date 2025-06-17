@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Category, CustomExpense } from "@/types";
 import { Plus, XIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
 
 const CustomExpenses = ({
@@ -30,14 +31,16 @@ const CustomExpenses = ({
   ) => void;
   removeCustomExpense: (id: string) => void;
 }): ReactElement => {
+  const t = useTranslations("new_budget");
+
   return (
     <div>
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold">Custom Expenses</h3>
+          <h3 className="text-lg font-semibold">{t("custom_expenses")}</h3>
           <Button variant="outline" size="sm" onClick={addCustomExpense}>
             <Plus className="h-4 w-4 mr-1" />
-            Add
+            {t("add")}
           </Button>
         </div>
 
@@ -56,7 +59,7 @@ const CustomExpenses = ({
                     <XIcon className="h-3 w-3 text-red-500" />
                   </button>
                   <Input
-                    placeholder="Name"
+                    placeholder={t("name")}
                     value={expense.name}
                     onChange={(e) =>
                       updateCustomExpense(expense.id, "name", e.target.value)
@@ -72,16 +75,14 @@ const CustomExpenses = ({
                   >
                     <SelectTrigger className="w-[120px] truncate">
                       <SelectValue
-                        placeholder="Select a category"
+                        placeholder={t("select_category")}
                         className="truncate"
                       />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Categories</SelectLabel>
-                        <SelectItem value="long">
-                          Uncategorised very long
-                        </SelectItem>
+                        <SelectLabel>{t("select_category")}</SelectLabel>
+
                         {categories.map((category) => (
                           <SelectItem
                             key={category.id}
@@ -95,7 +96,7 @@ const CustomExpenses = ({
                   </Select>
 
                   <Input
-                    placeholder="Amount"
+                    placeholder={t("amount")}
                     type="number"
                     value={expense.amount}
                     onChange={(e) =>

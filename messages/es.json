@@ -16,7 +16,11 @@
     "search": "Buscar",
     "next": "Siguiente",
     "previous": "Anterior",
-    "budget": "Presupuesto"
+    "budget": "Presupuesto",
+    "logout": "Cerrar sesión",
+    "home": "Inicio",
+    "budgets": "Presupuestos",
+    "new": "Nuevo"
   },
   "budget_list": {
     "title": "Lista de Presupuesto",
@@ -28,6 +32,21 @@
     "add_transaction": "Agregar Transacción",
     "add_new_transaction_to": "Agregar nueva transacción a {expenseName}",
     "error_adding_transaction": "Error al agregar transacción: {error}",
+    "amount": "Cantidad"
+  },
+  "new_budget": {
+    "title": "Crear Presupuesto",
+    "budget_name": "Nombre del Presupuesto",
+    "budget_name_placeholder": "Ejemplo: Marzo 2024",
+    "budget_amount": "Cantidad del Presupuesto",
+    "select_expenses": "Seleccionar Gastos",
+    "select_category": "Categoría",
+    "create_budget": "Crear Presupuesto",
+    "error_creating_budget": "Error al crear presupuesto: {error}",
+    "success_creating_budget": "Presupuesto creado con éxito",
+    "custom_expenses": "Otros gastos",
+    "add": "Agregar",
+    "name": "Nombre",
     "amount": "Cantidad"
   }
 }
