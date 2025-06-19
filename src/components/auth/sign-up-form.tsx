@@ -43,9 +43,6 @@ export function SignUpForm({
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}`,
-        },
       });
       if (error) throw error;
       router.push("/auth/sign-up-success");

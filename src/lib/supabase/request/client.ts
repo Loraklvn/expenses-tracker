@@ -1,6 +1,12 @@
 // lib/supabase/requests.ts
 import { Category, ExpenseTemplate } from "@/types";
 import { createClient } from "../client";
+import type {
+  BudgetWithCurrent,
+  CustomExpense,
+  ExpenseWithCurrent,
+  PreloadedExpenseTemplate,
+} from "@/types";
 
 /** Client-side: fetch budgets (you can wrap this in React-Query if you like) */
 export async function fetchBudgetsClient(): Promise<BudgetWithCurrent[]> {
@@ -61,6 +67,7 @@ export const fetchExpensesTemplateClient = async (): Promise<
   const { data, error } = await supabase
     .from("expense_template")
     .select("*")
+    .eq("archived", false) // filter out archived templates
     .order("name", { ascending: true });
   if (error) throw error;
   return data || [];
@@ -75,14 +82,6 @@ export const fetchCategoriesClient = async (): Promise<Category[]> => {
   if (error) throw error;
   return data || [];
 };
-
-// lib/supabase/requests.ts
-import type {
-  BudgetWithCurrent,
-  CustomExpense,
-  ExpenseWithCurrent,
-  PreloadedExpenseTemplate,
-} from "@/types";
 
 export interface CreateBudgetArgs {
   name: string;
@@ -142,5 +141,37 @@ export async function createBudgetWithLinesClient({
 
   return data as string; // new_budget_id
 }
+export type PostExpenseTemplateArgs = {
+  name: string;
+  category_id: number;
+  default_amount: number;
+};
+export const postExpenseTemplateClient = async (
+  args: PostExpenseTemplateArgs
+): Promise<void> => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
 
-// Server-side: fetch budgets
+  const { error } = await supabase.from("expense_template").insert([
+    {
+      ...args,
+      user_id: user.id,
+    },
+  ]);
+  if (error) throw error;
+};
+
+export const archiveExpenseTemplateClient = async (
+  templateId: string
+): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("expense_template")
+    .update({ archived: true })
+    .eq("id", templateId);
+  if (error) throw error;
+};

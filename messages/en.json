@@ -20,7 +20,8 @@
     "logout": "Logout",
     "home": "Home",
     "budgets": "Budgets",
-    "new": "New"
+    "new": "New",
+    "expenses": "Expenses"
   },
   "budget_list": {
     "title": "Budget List",

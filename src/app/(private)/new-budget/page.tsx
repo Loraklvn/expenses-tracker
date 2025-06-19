@@ -65,7 +65,7 @@ export default function CreateBudget() {
     const templates = defaultExpensesTemplate.map((template) => ({
       ...template,
       selected: true, // Default to selected
-      amount: "", // Default amount
+      amount: template.default_amount.toString(), // Use default amount as string
     }));
     setSelectedExpenseTemplates(templates);
   }, [defaultExpensesTemplate]);

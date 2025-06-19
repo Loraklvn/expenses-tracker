@@ -1,4 +1,8 @@
-import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
+import {
+  BudgetWithCurrent,
+  ExpenseTemplate,
+  ExpenseWithCurrent,
+} from "@/types";
 import { createServer } from "../server";
 
 export async function fetchBudgetsServer(): Promise<BudgetWithCurrent[]> {
@@ -52,3 +56,12 @@ export async function addTransactionServer(
   ]);
   if (error) throw error;
 }
+
+export const fetchExpensesTemplateServer = async (): Promise<
+  ExpenseTemplate[]
+> => {
+  const supabase = await createServer();
+  const { data, error } = await supabase.from("expense_template").select("*");
+  if (error) throw error;
+  return data || [];
+};

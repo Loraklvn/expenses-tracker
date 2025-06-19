@@ -13,6 +13,10 @@ export type ExpenseTemplate = {
   description: string;
   user_id: string;
   category_id: number;
+  default_amount: number;
+  archived: boolean;
+  created_at: string;
+  updated_at: string;
 };
 
 export interface Expense {

@@ -1,5 +1,5 @@
 import { LogoutButton } from "@/components/auth/logout-button";
-import { HomeIcon, PieChartIcon, PlusCircleIcon } from "lucide-react";
+import { HomeIcon, PlusCircleIcon, ReceiptIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ReactElement } from "react";
@@ -12,9 +12,9 @@ const Navbar = (): ReactElement => {
         <HomeIcon className="w-6 h-6" />
         {t("home")}
       </Link>
-      <Link href="/" className="flex flex-col items-center text-sm">
-        <PieChartIcon className="w-6 h-6" />
-        {t("budgets")}
+      <Link href="/expenses" className="flex flex-col items-center text-sm">
+        <ReceiptIcon className="w-6 h-6" />
+        {t("expenses")}
       </Link>
       <Link href="/new-budget" className="flex flex-col items-center text-sm">
         <PlusCircleIcon className="w-6 h-6" />

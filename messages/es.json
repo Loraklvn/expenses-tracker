@@ -20,7 +20,8 @@
     "logout": "Cerrar sesión",
     "home": "Inicio",
     "budgets": "Presupuestos",
-    "new": "Nuevo"
+    "new": "Nuevo",
+    "expenses": "Gastos"
   },
   "budget_list": {
     "title": "Lista de Presupuesto",
