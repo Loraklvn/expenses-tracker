@@ -67,7 +67,9 @@
     "title": "Lista de Presupuesto",
     "spent": "Gastado",
     "remaining": "restante",
-    "budget": "Presupuesto"
+    "budget": "Presupuesto",
+    "no_budgets": "No hay presupuestos aún",
+    "add_your_first_budget": "Agrega tu primer presupuesto"
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",

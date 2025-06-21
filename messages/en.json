@@ -67,7 +67,9 @@
     "title": "Budget List",
     "spent": "Spent",
     "remaining": "remaining",
-    "budget": "Budget"
+    "budget": "Budget",
+    "no_budgets": "No budgets yet",
+    "add_your_first_budget": "Add your first budget"
   },
   "expenses": {
     "add_transaction": "Add Transaction",

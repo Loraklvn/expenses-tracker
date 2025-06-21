@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { BudgetWithCurrent } from "@/types";
@@ -23,6 +24,27 @@ const BudgetsList = ({
       percentage: (totalSpent / budget.expected_amount) * 100,
     };
   };
+
+  if (!budgets || budgets.length === 0) {
+    return (
+      <div className="min-h-screen bg-background p-4 pb-20">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center gap-3 mb-6">
+            <DollarSign className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+          </div>
+
+          <div className="space-y-6 text-center pt-[200px]">
+            <p>{t("no_budgets")}</p>
+
+            <Link href="/budget/create" className="block">
+              <Button>{t("add_your_first_budget")}</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-4 pb-20">
