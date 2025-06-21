@@ -165,6 +165,21 @@ export const postExpenseTemplateClient = async (
   if (error) throw error;
 };
 
+export const updateExpenseTemplateClient = async ({
+  templateId,
+  args,
+}: {
+  templateId: string;
+  args: Partial<PostExpenseTemplateArgs>;
+}): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("expense_template")
+    .update(args)
+    .eq("id", templateId);
+  if (error) throw error;
+};
+
 export const archiveExpenseTemplateClient = async (
   templateId: string
 ): Promise<void> => {
