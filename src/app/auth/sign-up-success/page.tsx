@@ -6,41 +6,39 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export default function Page() {
+export default async function Page() {
+  const t = await getTranslations("auth");
+
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <div className="flex flex-col gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">
-                Thank you for signing up!
-              </CardTitle>
-              <CardDescription>Check your email to confirm</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                You&apos;ve successfully signed up. Please check your email to
-                confirm your account before signing in.
-              </p>
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-2xl">
+          {t("thank_you_for_signing_up")}
+        </CardTitle>
+        <CardDescription>{t("check_your_email_to_confirm")}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">
+          {t("youve_successfully_signed_up")}.{" "}
+          {t("please_check_your_email_to_confirm")}
+        </p>
 
-              {/* Go to sign in page after confirming email */}
-              <p className="text-sm text-muted-foreground">
-                After confirming your email, you can sign in to your account.
-              </p>
+        {/* Go to sign in page after confirming email */}
+        <p className="text-sm text-muted-foreground">
+          {t("after_confirming_your_email")}{" "}
+          {t("you_can_sign_in_to_your_account")}
+        </p>
 
-              <Link
-                href="/auth/login"
-                className="mt-4 text-center block text-sm text-muted-foreground underline underline-offset-4"
-              >
-                <Button>Go to sign in</Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+        <Link
+          href="/auth/login"
+          className="mt-4 text-center block text-sm text-muted-foreground underline underline-offset-4"
+        >
+          <Button>{t("go_to_sign_in")}</Button>
+        </Link>
+      </CardContent>
+    </Card>
   );
 }
