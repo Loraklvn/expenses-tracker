@@ -9,6 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTranslations } from "next-intl";
 
 type AlertDialogArchiveExpenseProps = {
   isVisible: boolean;
@@ -23,23 +24,25 @@ const AlertDialogArchiveExpense = ({
   expenseName,
   onArchive,
 }: AlertDialogArchiveExpenseProps): ReactElement => {
+  const t = useTranslations("manage_expenses");
   return (
     <AlertDialog open={isVisible} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Archive Expense Template</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t("archive_expense", { expenseName })}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to archive &quot;{expenseName}
-            &quot;? This action cannot be undone.
+            {t("archive_expense_confirmation", { expenseName })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction
             onClick={onArchive}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
-            Archive
+            {t("archive")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

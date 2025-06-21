@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Category, ExpenseTemplate } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
 import { ArchiveIcon, PencilLineIcon, PlusIcon } from "lucide-react";
-import React, { ReactElement } from "react";
+import { useTranslations } from "next-intl";
+import { ReactElement } from "react";
 
 type ExpensesTemplateListProps = {
   expenses: ExpenseTemplate[];
@@ -22,6 +23,7 @@ const ExpensesTemplateList = ({
   onArchive,
   onAddExpense,
 }: ExpensesTemplateListProps): ReactElement => {
+  const t = useTranslations("manage_expenses");
   return (
     <div className="space-y-4">
       {Object.entries(groupedExpenses).map(([categoryId, expenses]) => (
@@ -41,7 +43,7 @@ const ExpensesTemplateList = ({
                     <div>
                       <p className="font-medium text-base">{expense.name}</p>
                       <p className="text-sm text-muted-foreground">
-                        Default: {formatCurrency(expense.default_amount)}
+                        {t("default")}: {formatCurrency(expense.default_amount)}
                       </p>
                     </div>
                   </div>
@@ -74,10 +76,12 @@ const ExpensesTemplateList = ({
 
       {isEmpty && (
         <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">No expense templates yet</p>
+          <p className="text-muted-foreground mb-4">
+            {t("no_expense_templates")}
+          </p>
           <Button onClick={onAddExpense}>
             <PlusIcon className="h-4 w-4 mr-2" />
-            Add Your First Expense
+            {t("add_your_first_expense")}
           </Button>
         </div>
       )}

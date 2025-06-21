@@ -1,8 +1,7 @@
-import React, { ReactElement } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -11,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Category } from "@/types";
-import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+import { ReactElement } from "react";
 
 type ExpenseForm = {
   id: string;
@@ -40,6 +40,8 @@ const ExpenseTemplateFormModal = ({
   onAddExpense,
   onChangeExpense,
 }: ExpenseTemplateFormModalProps): ReactElement => {
+  const t = useTranslations("manage_expenses");
+
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent
@@ -50,33 +52,28 @@ const ExpenseTemplateFormModal = ({
       >
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Edit Expense" : "Add New Expense"}
+            {isEditing ? t("edit_expense") : t("add_expense")}
           </DialogTitle>
-          <DialogDescription>
-            {isEditing
-              ? "Edit the expense template for your budgets"
-              : "Create a new expense template for your budgets"}
-          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="expense-name">Expense Name</Label>
+            <Label htmlFor="expense-name">{t("expense_name")}</Label>
             <Input
               id="expense-name"
-              placeholder="e.g., Car Insurance"
+              placeholder={t("expense_name_placeholder")}
               value={expense.name}
               onChange={(e) => onChangeExpense("name", e.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="expense-category">Category</Label>
+            <Label htmlFor="expense-category">{t("category")}</Label>
             <select
               id="expense-category"
               value={expense.category}
               onChange={(e) => onChangeExpense("category", e.target.value)}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <option value="">Select a category</option>
+              <option value="">{t("select_category")}</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -85,7 +82,7 @@ const ExpenseTemplateFormModal = ({
             </select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="expense-amount">Default Amount</Label>
+            <Label htmlFor="expense-amount">{t("default_amount")}</Label>
             <div className="relative">
               <span className="absolute left-3 top-3 text-sm text-muted-foreground">
                 $
@@ -112,7 +109,7 @@ const ExpenseTemplateFormModal = ({
               !expense.name || !expense.category || !expense.defaultAmount
             }
           >
-            Add Expense
+            {isEditing ? t("edit_expense") : t("add_expense")}
           </Button>
         </DialogFooter>
       </DialogContent>

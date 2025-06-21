@@ -49,5 +49,23 @@
     "add": "Agregar",
     "name": "Nombre",
     "amount": "Cantidad"
+  },
+  "manage_expenses": {
+    "title": "Administrar Gastos",
+    "add_new_expense": "Agregar Nuevo Gasto",
+    "add_expense": "Agregar Gasto",
+    "edit_expense": "Editar Gasto",
+    "expense_name": "Nombre del Gasto",
+    "category": "Categoría",
+    "default_amount": "Cantidad Predeterminada",
+    "select_category": "Seleccionar Categoría",
+    "expense_name_placeholder": "Ejemplo: Alquiler, Comida",
+    "archive_expense": "Archivar {expenseName}",
+    "archive_expense_confirmation": "¿Estás seguro de que deseas archivar {expenseName}?",
+    "archive": "Archivar",
+    "cancel": "Cancelar",
+    "default": "Monto",
+    "no_expense_templates": "No hay plantillas de gastos aún",
+    "add_your_first_expense": "Agrega tu primer gasto"
   }
 }

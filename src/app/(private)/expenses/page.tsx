@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { ExpenseTemplate } from "@/types";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const emptyForm = {
   id: "",
@@ -22,6 +23,8 @@ const emptyForm = {
 export default function ManageExpenses() {
   const { expenseTemplates, categories, add, edit, archive, isLoading } =
     useManageExpensesTemplate();
+
+  const t = useTranslations("manage_expenses");
 
   // UI state management
   const [formVisible, setFormVisible] = useState(false);
@@ -90,7 +93,7 @@ export default function ManageExpenses() {
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-2xl font-bold">Manage Expenses</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
         </div>
 
         <div className="space-y-6">
@@ -101,7 +104,7 @@ export default function ManageExpenses() {
             onClick={() => setFormVisible(true)}
           >
             <Plus className="h-4 w-4 mr-2" />
-            Add New Expense
+            {t("add_new_expense")}
           </Button>
 
           {/* Expenses List */}

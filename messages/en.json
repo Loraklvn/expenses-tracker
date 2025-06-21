@@ -49,5 +49,23 @@
     "add": "Add",
     "name": "Name",
     "amount": "Amount"
+  },
+  "manage_expenses": {
+    "title": "Manage Expenses",
+    "add_new_expense": "Add New Expense",
+    "add_expense": "Add Expense",
+    "edit_expense": "Edit Expense",
+    "expense_name": "Expense Name",
+    "category": "Category",
+    "default_amount": "Default Amount",
+    "select_category": "Select Category",
+    "expense_name_placeholder": "e.g., Rent, Food",
+    "archive_expense": "Archive {expenseName}'",
+    "archive_expense_confirmation": "Are you sure you want to archive {expenseName}?",
+    "archive": "Archive",
+    "cancel": "Cancel",
+    "default": "Default",
+    "no_expense_templates": "No expense templates yet",
+    "add_your_first_expense": "Add your first expense"
   }
 }
