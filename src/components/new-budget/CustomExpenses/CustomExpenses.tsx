@@ -97,7 +97,9 @@ const CustomExpenses = ({
 
                   <Input
                     placeholder={t("amount")}
-                    type="number"
+                    type="tel"
+                    pattern="[0-9]*"
+                    inputMode="numeric"
                     value={expense.amount}
                     onChange={(e) =>
                       updateCustomExpense(expense.id, "amount", e.target.value)

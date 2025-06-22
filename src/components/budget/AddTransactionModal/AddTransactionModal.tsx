@@ -73,8 +73,9 @@ const AddTransactionModal = ({
               <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 id="amount"
-                type="number"
-                step="0.01"
+                type="tel"
+                pattern="[0-9]*"
+                inputMode="numeric"
                 placeholder="0.00"
                 value={transactionAmount}
                 onChange={(e) => setTransactionAmount(e.target.value)}

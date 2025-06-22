@@ -31,7 +31,9 @@ const PreloadedExpenseRow = ({
         <div className="relative w-24">
           <DollarSignIcon className="absolute left-2 top-2.5 h-3 w-3 text-muted-foreground" />
           <Input
-            type="number"
+            type="tel"
+            pattern="[0-9]*"
+            inputMode="numeric"
             value={template.amount}
             onChange={(e) =>
               updateExpenseTemplateAmount(template.id, e.target.value)

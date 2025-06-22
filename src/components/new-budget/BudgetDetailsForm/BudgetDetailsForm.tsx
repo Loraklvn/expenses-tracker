@@ -33,7 +33,9 @@ const BudgetDetailsForm = ({
           <DollarSignIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="budget-amount"
-            type="number"
+            type="tel"
+            pattern="[0-9]*"
+            inputMode="numeric"
             placeholder="0.00"
             value={newBudgetAmount}
             onChange={(e) => setNewBudgetAmount(e.target.value)}

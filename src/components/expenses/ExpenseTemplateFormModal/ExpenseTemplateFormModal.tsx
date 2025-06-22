@@ -89,8 +89,9 @@ const ExpenseTemplateFormModal = ({
               </span>
               <Input
                 id="expense-amount"
-                type="number"
-                step="0.01"
+                type="tel"
+                pattern="[0-9]*"
+                inputMode="numeric"
                 placeholder="0.00"
                 value={expense.defaultAmount}
                 onChange={(e) =>
