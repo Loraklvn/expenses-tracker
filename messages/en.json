@@ -63,6 +63,25 @@
     "new": "New",
     "expenses": "Expenses"
   },
+  "side_drawer": {
+    "title": "Spendiee",
+    "my_budgets": "My Budgets",
+    "my_budgets_description": "View and manage your budgets",
+    "create_budget": "Create Budget",
+    "create_budget_description": "Create a new budget",
+    "manage_expenses": "Manage Expenses",
+    "manage_expenses_description": "Add and manage your expenses",
+    "categories": "Categories",
+    "categories_description": "View and manage your expense categories",
+    "transactions": "Transactions",
+    "transactions_description": "View and manage your transactions",
+    "analytics": "Analytics",
+    "analytics_description": "Coming soon...",
+    "settings": "Settings",
+    "settings_description": "Coming soon...",
+    "footer": "Spendiee Version 1.0",
+    "footer_description": "Manage your budgets with ease"
+  },
   "budget_list": {
     "title": "Budget List",
     "spent": "Spent",

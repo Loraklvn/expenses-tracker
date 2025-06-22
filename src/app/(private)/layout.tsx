@@ -1,6 +1,5 @@
-import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import Navbar from "@/components/common/Navbar";
-import { ThemeSwitcher } from "@/components/common/ThemeSwitcher";
+import SideDrawerWrapper from "@/components/common/SideDrawerWrapper";
 import React, { ReactElement } from "react";
 
 const PrivateLayout = ({
@@ -10,10 +9,7 @@ const PrivateLayout = ({
 }): ReactElement => {
   return (
     <div className="max-h-dvh h-full flex-1 flex flex-col overflow-hidden">
-      <div className="flex justify-between p-3 border-b border-border">
-        <ThemeSwitcher />
-        <LanguageSwitcher />
-      </div>
+      <SideDrawerWrapper />
       <main className="flex-1 overflow-y-auto">{children}</main>
 
       <Navbar />
