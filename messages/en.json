@@ -121,7 +121,7 @@
     "default_amount": "Default Amount",
     "select_category": "Select Category",
     "expense_name_placeholder": "e.g., Rent, Food",
-    "archive_expense": "Archive {expenseName}'",
+    "archive_expense": "Archive {expenseName}",
     "archive_expense_confirmation": "Are you sure you want to archive {expenseName}?",
     "archive": "Archive",
     "cancel": "Cancel",

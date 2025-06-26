@@ -37,7 +37,7 @@ const BudgetsList = ({
           <div className="space-y-6 text-center pt-[200px]">
             <p>{t("no_budgets")}</p>
 
-            <Link href="/budget/create" className="block">
+            <Link href="/new-budget" className="block">
               <Button>{t("add_your_first_budget")}</Button>
             </Link>
           </div>

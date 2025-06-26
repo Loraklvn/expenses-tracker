@@ -1,5 +1,6 @@
 import {
   BudgetWithCurrent,
+  Category,
   ExpenseTemplate,
   ExpenseWithCurrent,
 } from "@/types";
@@ -62,6 +63,16 @@ export const fetchExpensesTemplateServer = async (): Promise<
 > => {
   const supabase = await createServer();
   const { data, error } = await supabase.from("expense_template").select("*");
+  if (error) throw error;
+  return data || [];
+};
+
+export const fetchCategoriesServer = async (): Promise<Category[]> => {
+  const supabase = await createServer();
+  const { data, error } = await supabase
+    .from("category")
+    .select("*")
+    .eq("archived", false);
   if (error) throw error;
   return data || [];
 };

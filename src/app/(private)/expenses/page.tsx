@@ -1,17 +1,17 @@
 "use client";
 
-import ExpenseTemplateFormModal from "@/components/expenses";
+import ExpenseTemplateFormModal from "@/components/expenses/ExpenseTemplateFormModal";
 import ExpensesTemplateList from "@/components/expenses/ExpensesTemplateList";
 
 import { Button } from "@/components/ui/button";
 
-import AlertDialogArchiveExpense from "@/components/expenses/AlertDialogArchiveExpense/AlertDialogArchiveExpense";
+import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
 import useManageExpensesTemplate from "@/hooks/useManageExpensesTemplate";
 import { cn } from "@/lib/utils";
 import { ExpenseTemplate } from "@/types";
 import { ArrowLeft, Plus } from "lucide-react";
-import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 const emptyForm = {
   id: "",
@@ -133,11 +133,19 @@ export default function ManageExpenses() {
           }
         />
         {/* Delete Confirmation Dialog */}
-        <AlertDialogArchiveExpense
-          isVisible={archiveVisible}
+
+        <ConfirmationModal
+          visible={archiveVisible}
           onClose={() => setArchiveVisible(false)}
-          expenseName={expenseToArchive?.name || ""}
-          onArchive={onConfirmArchive}
+          onConfirm={onConfirmArchive}
+          title={t("archive_expense", {
+            expenseName: expenseToArchive?.name || "",
+          })}
+          description={t("archive_expense_confirmation", {
+            expenseName: expenseToArchive?.name || "",
+          })}
+          cancelButtonText={t("cancel")}
+          confirmButtonText={t("archive")}
         />
       </div>
     </div>

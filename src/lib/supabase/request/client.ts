@@ -73,16 +73,6 @@ export const fetchExpensesTemplateClient = async (): Promise<
   return data || [];
 };
 
-export const fetchCategoriesClient = async (): Promise<Category[]> => {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("category")
-    .select("*")
-    .order("name", { ascending: true });
-  if (error) throw error;
-  return data || [];
-};
-
 export interface CreateBudgetArgs {
   name: string;
   expectedAmount: number;
@@ -188,5 +178,71 @@ export const archiveExpenseTemplateClient = async (
     .from("expense_template")
     .update({ archived: true })
     .eq("id", templateId);
+  if (error) throw error;
+};
+
+// Categories helper functions
+export const fetchCategoriesClient = async (): Promise<Category[]> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("category")
+    .select("*")
+    .order("name", { ascending: true })
+    .eq("archived", false);
+  if (error) throw error;
+  return data || [];
+};
+
+type CategoryPayload = {
+  name: string;
+  description?: string;
+  color: string;
+};
+export const createCategoryClient = async ({
+  name,
+  description,
+  color,
+}: CategoryPayload): Promise<void> => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { error } = await supabase.from("category").insert([
+    {
+      name,
+      description,
+      color,
+      user_id: user.id, // associate with the current user
+    },
+  ]);
+  if (error) throw error;
+};
+
+export const updateCategoryClient = async ({
+  categoryId,
+  updates,
+}: {
+  categoryId: number;
+  updates: Partial<CategoryPayload>;
+}): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("category")
+    .update(updates)
+    .eq("id", categoryId);
+  if (error) throw error;
+};
+
+export const archiveCategoryClient = async (
+  categoryId: number
+): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("category")
+    .update({ archived: true })
+    .eq("id", categoryId);
   if (error) throw error;
 };
