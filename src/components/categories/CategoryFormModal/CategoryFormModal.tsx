@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 const colors = [
   "#f87171", // red
@@ -47,40 +47,36 @@ const CategoryFormModal = ({
   onClose,
   onSubmit,
 }: CategoryFormModalProps): ReactElement => {
+  const t = useTranslations("categories");
   return (
     <Dialog open={visible} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Edit Category" : "Add New Category"}
+            {isEditing ? t("edit_category") : t("add_category")}
           </DialogTitle>
-          <DialogDescription>
-            {isEditing
-              ? "Edit the category details"
-              : "Create a new category for organizing your expenses"}
-          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="category-name">Category Name *</Label>
+            <Label htmlFor="category-name">{t("category_name")} *</Label>
             <Input
               id="category-name"
-              placeholder="e.g., Transportation"
+              placeholder={t("category_name_placeholder")}
               value={formData.name}
               onChange={(e) => onChange("name", e.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="category-description">Description </Label>
+            <Label htmlFor="category-description">{t("description")}</Label>
             <Input
               id="category-description"
-              placeholder="e.g., Gas, public transport, car maintenance"
+              placeholder={t("description_placeholder")}
               value={formData.description}
               onChange={(e) => onChange("description", e.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <Label>Color</Label>
+            <Label>{t("color")}</Label>
             <div className="flex flex-wrap gap-2">
               {colors.map((color) => (
                 <button
@@ -100,10 +96,10 @@ const CategoryFormModal = ({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button type="submit" onClick={onSubmit} disabled={!formData.name}>
-            {isEditing ? "Save Changes" : "Add Category"}
+            {t("save")}
           </Button>
         </DialogFooter>
       </DialogContent>

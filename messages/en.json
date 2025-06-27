@@ -61,7 +61,10 @@
     "home": "Home",
     "budgets": "Budgets",
     "new": "New",
-    "expenses": "Expenses"
+    "expenses": "Expenses",
+    "operation_successful": "Operation successful!",
+    "operation_failed": "Operation failed!",
+    "something_went_wrong": "Something went wrong!"
   },
   "side_drawer": {
     "title": "Spendiee",
@@ -128,5 +131,27 @@
     "default": "Default",
     "no_expense_templates": "No expense templates yet",
     "add_your_first_expense": "Add your first expense"
+  },
+  "categories": {
+    "title": "Categories",
+    "add_category": "Add Category",
+    "edit_category": "Edit Category",
+    "category_name": "Category Name",
+    "description": "Description (optional)",
+    "color": "Color",
+    "category_name_placeholder": "e.g., Food, Transportation",
+    "description_placeholder": "e.g., Food and drink expenses",
+    "save": "Save",
+    "cancel": "Cancel",
+    "total_categories": "{count} total Categories",
+    "search_placeholder": "Search Categories",
+    "not_matching": "No categories matching your search",
+    "clear_search": "Clear Search",
+    "no_categories": "No categories yet",
+    "add_your_first_category": "Add your first category",
+    "archive_category": "Archive Category",
+    "archive_category_confirmation": "Are you sure you want to archive this category?",
+    "archive": "Archive",
+    "created_on": "Created on: {date}"
   }
 }

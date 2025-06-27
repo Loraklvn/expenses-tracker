@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Category } from "@/types";
 import { ArchiveIcon, EditIcon, PlusIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React, { ReactElement } from "react";
 
 type CategoriesListProps = {
@@ -20,6 +21,7 @@ const CategoriesList = ({
   onArchiveCategory,
   onClearSearch,
 }: CategoriesListProps): ReactElement => {
+  const t = useTranslations("categories");
   return (
     <div className="space-y-1">
       {categories.length > 0 ? (
@@ -40,8 +42,9 @@ const CategoriesList = ({
                     {category.description}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    4 expenses • Created{" "}
-                    {new Date(category.created_at).toLocaleDateString()}
+                    {t("created_on", {
+                      date: new Date(category.created_at).toLocaleDateString(),
+                    })}
                   </p>
                 </div>
               </div>
@@ -69,18 +72,18 @@ const CategoriesList = ({
       ) : searchTerm ? (
         <div className="text-center py-12">
           <p className="text-muted-foreground mb-4">
-            No categories found matching &quot;{searchTerm}&quot;
+            {t("not_matching")} &quot;{searchTerm}&quot;
           </p>
           <Button variant="outline" onClick={onClearSearch}>
-            Clear search
+            {t("clear_search")}
           </Button>
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">No categories yet</p>
+          <p className="text-muted-foreground mb-4">{t("no_categories")}</p>
           <Button onClick={onAddCategory}>
             <PlusIcon className="h-4 w-4 mr-2" />
-            Add Your First Category
+            {t("add_your_first_category")}
           </Button>
         </div>
       )}

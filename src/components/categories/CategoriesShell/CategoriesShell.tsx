@@ -3,19 +3,13 @@
 import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  archiveCategoryClient,
-  createCategoryClient,
-  fetchCategoriesClient,
-  updateCategoryClient,
-} from "@/lib/supabase/request/client";
+import useManageCategories from "@/hooks/useManageCategories";
 import { Category } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import CategoriesList from "../CategoriesList/CategoriesList";
 import CategoryFormModal from "../CategoryFormModal/CategoryFormModal";
+import { useTranslations } from "next-intl";
 
 type CategoriesShellProps = {
   defaultCategories: Category[];
@@ -31,31 +25,9 @@ const emptyFormData = {
 export default function CategoriesShell({
   defaultCategories,
 }: CategoriesShellProps) {
-  const { data: categories, refetch } = useQuery({
-    queryKey: ["categories"],
-    queryFn: fetchCategoriesClient,
-    initialData: defaultCategories,
-  });
-  const { mutate: createCategory } = useMutation({
-    mutationFn: createCategoryClient,
-    onSuccess: () => {
-      refetch();
-      toast.success("Category created successfully!");
-    },
-  });
-  const { mutate: updateCategory } = useMutation({
-    mutationFn: updateCategoryClient,
-    onSuccess: () => {
-      refetch();
-      toast.success("Category updated successfully!");
-    },
-  });
-  const { mutate: archiveCategory } = useMutation({
-    mutationFn: archiveCategoryClient,
-    onSuccess: () => {
-      refetch();
-      toast.success("Category archived successfully!");
-    },
+  const t = useTranslations("categories");
+  const { categories, add, edit, archive } = useManageCategories({
+    defaultCategories,
   });
 
   const [formData, setFormData] = useState(emptyFormData);
@@ -67,26 +39,20 @@ export default function CategoriesShell({
     null
   );
 
-  const resetForm = () => {
+  const resetStates = () => {
+    setFormVisible(false);
     setFormData(emptyFormData);
-  };
 
-  const addCategory = () => {
-    createCategory(formData);
-    resetForm();
-    setFormVisible(false);
-  };
-
-  const editCategory = () => {
-    updateCategory({ categoryId: formData.id, updates: formData });
-    resetForm();
     setIsEditing(false);
-    setFormVisible(false);
+    setCategoryToArchive(null);
+    setIsConfirmingArchive(false);
   };
 
-  const handleSubmit = () => {
-    if (isEditing) editCategory();
-    else addCategory();
+  const handleSubmit = async () => {
+    if (isEditing)
+      await edit.mutateAsync({ categoryId: formData.id, updates: formData });
+    else await add.mutateAsync(formData);
+    resetStates();
   };
 
   const confirmArchive = (category: Category) => {
@@ -94,13 +60,10 @@ export default function CategoriesShell({
     setIsConfirmingArchive(true);
   };
 
-  const handleArchive = () => {
+  const handleArchive = async () => {
     if (!categoryToArchive) return;
-
-    archiveCategory(categoryToArchive.id);
-
-    setCategoryToArchive(null);
-    setIsConfirmingArchive(false);
+    await archive.mutateAsync(categoryToArchive.id);
+    resetStates();
   };
 
   const openEditDialog = (category: Category) => {
@@ -110,8 +73,12 @@ export default function CategoriesShell({
   };
 
   const openAddDialog = () => {
-    resetForm();
+    setFormData(emptyFormData);
     setFormVisible(true);
+  };
+
+  const handleCloseForm = () => {
+    resetStates();
   };
 
   const filteredCategories = categories.filter(
@@ -124,21 +91,21 @@ export default function CategoriesShell({
     <div className="min-h-screen bg-background p-4 pb-20">
       <div className="max-w-md mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl font-bold">Categories</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
         </div>
 
         <div className="space-y-6">
           {/* Add New Category Button */}
           <Button className="w-full" size="lg" onClick={openAddDialog}>
             <PlusIcon className="h-4 w-4 mr-2" />
-            Add New Category
+            {t("add_category")}
           </Button>
 
           {/* Search Bar */}
           <div className="relative">
             <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search categories..."
+              placeholder={t("search_placeholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -157,7 +124,7 @@ export default function CategoriesShell({
 
           {categories.length > 0 && (
             <div className="text-center text-sm text-muted-foreground">
-              {categories.length} total categories
+              {t("total_categories", { count: categories.length })}
             </div>
           )}
         </div>
@@ -170,17 +137,17 @@ export default function CategoriesShell({
           onChange={(field, value) =>
             setFormData((prev) => ({ ...prev, [field]: value }))
           }
-          onClose={() => setFormVisible(false)}
+          onClose={handleCloseForm}
           onSubmit={handleSubmit}
         />
 
         {/* Archive Confirmation Dialog */}
         <ConfirmationModal
           visible={isConfirmingArchive}
-          title="Archive Category"
-          description={`Are you sure you want to archive "${categoryToArchive?.name}"?`}
-          confirmButtonText="Archive"
-          cancelButtonText="Cancel"
+          title={t("archive_category") + " " + `"${categoryToArchive?.name}"`}
+          description={t("archive_category_confirmation")}
+          confirmButtonText={t("archive")}
+          cancelButtonText={t("cancel")}
           onClose={() => setIsConfirmingArchive(false)}
           onConfirm={handleArchive}
         />

@@ -61,7 +61,10 @@
     "home": "Inicio",
     "budgets": "Presupuestos",
     "new": "Nuevo",
-    "expenses": "Gastos"
+    "expenses": "Gastos",
+    "operation_successful": "Operación exitosa!",
+    "operation_failed": "Operación fallida!",
+    "something_went_wrong": "Algo salió mal!"
   },
   "side_drawer": {
     "title": "Spendiee",
@@ -128,5 +131,27 @@
     "default": "Monto",
     "no_expense_templates": "No hay plantillas de gastos aún",
     "add_your_first_expense": "Agrega tu primer gasto"
+  },
+  "categories": {
+    "title": "Categorías",
+    "add_category": "Agregar Categoría",
+    "edit_category": "Editar Categoría",
+    "category_name": "Nombre de la Categoría",
+    "description": "Descripción (opcional)",
+    "color": "Color",
+    "category_name_placeholder": "Ejemplo: Comida, Transporte",
+    "description_placeholder": "Ejemplo: Gastos de comida y bebida",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "total_categories": "{count} total de Categorías",
+    "search_placeholder": "Buscar Categorías",
+    "not_matching": "No hay categorías que coincidan con tu búsqueda",
+    "clear_search": "Limpiar Búsqueda",
+    "no_categories": "No hay categorías aún",
+    "add_your_first_category": "Agrega tu primera categoría",
+    "archive_category": "Archivar Categoría",
+    "archive_category_confirmation": "¿Estás seguro de que deseas archivar esta categoría?",
+    "archive": "Archivar",
+    "created_on": "Creado el: {date}"
   }
 }
