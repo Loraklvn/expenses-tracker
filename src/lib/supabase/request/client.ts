@@ -6,6 +6,7 @@ import type {
   CustomExpense,
   ExpenseWithCurrent,
   PreloadedExpenseTemplate,
+  TransactionWithDetails,
 } from "@/types";
 
 /** Client-side: fetch budgets (you can wrap this in React-Query if you like) */
@@ -244,5 +245,103 @@ export const archiveCategoryClient = async (
     .from("category")
     .update({ archived: true })
     .eq("id", categoryId);
+  if (error) throw error;
+};
+
+export type FetchTransactionsResult = {
+  transactions: TransactionWithDetails[];
+  total: number;
+};
+
+/**
+ * Fetch one page of the user's transactions, plus the exact total count.
+ * @param page 1-based page number
+ * @param pageSize number of rows per page
+ * @param searchTerm optional search term to filter by budget_name or expense_name
+ */
+export const fetchTransactionsClient = async (
+  page: number = 1,
+  pageSize: number = 10,
+  searchTerm?: string
+): Promise<FetchTransactionsResult> => {
+  const supabase = createClient();
+
+  // 1) Get current user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  // 2) Compute range
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  // 3) Build query
+  let query = supabase
+    .from("transactions_with_details")
+    .select("*", { count: "exact" })
+    .eq("user_id", user.id)
+    .order("transaction_date", { ascending: false });
+
+  // 4) Add search filter if searchTerm is provided
+  if (searchTerm && searchTerm.trim()) {
+    query = query.or(
+      `expense_name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,budget_name.ilike.%${searchTerm}%`
+    );
+  }
+
+  // 5) Apply pagination
+  const { data, error, count } = await query.range(from, to);
+
+  if (error) throw error;
+
+  return {
+    transactions: data ?? [],
+    total: count ?? 0,
+  };
+};
+
+/**
+ * Update a transaction's details
+ * @param params Object containing transactionId and updates
+ * @param updates Object containing the fields to update
+ * @returns void
+ */
+export const updateTransactionClient = async (params: {
+  transactionId: number;
+  updates: {
+    amount?: number;
+    description?: string;
+    transaction_date?: string;
+  };
+}): Promise<void> => {
+  const { transactionId, updates } = params;
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("transaction")
+    .update(updates)
+    .eq("id", transactionId);
+
+  if (error) throw error;
+};
+
+/**
+ * Delete a transaction
+ * @param params Object containing transactionId
+ * @returns void
+ */
+export const deleteTransactionClient = async (params: {
+  transactionId: number;
+}): Promise<void> => {
+  const { transactionId } = params;
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("transaction")
+    .delete()
+    .eq("id", transactionId);
+
   if (error) throw error;
 };

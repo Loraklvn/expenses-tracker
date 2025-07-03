@@ -153,5 +153,11 @@
     "archive_category_confirmation": "¿Estás seguro de que deseas archivar esta categoría?",
     "archive": "Archivar",
     "created_on": "Creado el: {date}"
+  },
+  "transactions": {
+    "delete_transaction": "Eliminar Transacción",
+    "delete_transaction_confirmation": "¿Estás seguro de que deseas eliminar esta transacción?",
+    "delete": "Eliminar",
+    "cancel": "Cancelar"
   }
 }

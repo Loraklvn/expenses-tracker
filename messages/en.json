@@ -153,5 +153,11 @@
     "archive_category_confirmation": "Are you sure you want to archive this category?",
     "archive": "Archive",
     "created_on": "Created on: {date}"
+  },
+  "transactions": {
+    "delete_transaction": "Delete Transaction",
+    "delete_transaction_confirmation": "Are you sure you want to delete this transaction?",
+    "delete": "Delete",
+    "cancel": "Cancel"
   }
 }
