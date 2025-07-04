@@ -158,6 +158,23 @@
     "delete_transaction": "Eliminar Transacción",
     "delete_transaction_confirmation": "¿Estás seguro de que deseas eliminar esta transacción?",
     "delete": "Eliminar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "transaction_deleted_successfully": "Transacción eliminada con éxito",
+    "failed_to_delete_transaction": "Error al eliminar transacción",
+    "edit_transaction": "Editar Transacción",
+    "update_transaction_details": "Actualiza los detalles de la transacción",
+    "description": "Descripción",
+    "description_placeholder": "Ejemplo: Gasolinera",
+    "amount": "Cantidad",
+    "date": "Fecha",
+    "expense": "Gasto",
+    "category": "Categoría",
+    "budget": "Presupuesto",
+    "update_transaction": "Actualizar Transacción",
+    "no_transactions_found_matching_your_filters": "No se encontraron transacciones que coincidan con tus filtros",
+    "no_transactions_yet": "No hay transacciones aún",
+    "clear_filters": "Limpiar filtros",
+    "search_transactions": "Buscar transacciones...",
+    "total_transactions": "{total} transacción en total"
   }
 }

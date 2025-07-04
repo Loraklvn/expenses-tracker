@@ -158,6 +158,23 @@
     "delete_transaction": "Delete Transaction",
     "delete_transaction_confirmation": "Are you sure you want to delete this transaction?",
     "delete": "Delete",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "transaction_deleted_successfully": "Transaction deleted successfully",
+    "failed_to_delete_transaction": "Failed to delete transaction",
+    "edit_transaction": "Edit Transaction",
+    "update_transaction_details": "Update the transaction details",
+    "description": "Description",
+    "description_placeholder": "e.g., Gas station fill-up",
+    "amount": "Amount",
+    "date": "Date",
+    "expense": "Expense",
+    "category": "Category",
+    "budget": "Budget",
+    "update_transaction": "Update Transaction",
+    "no_transactions_found_matching_your_filters": "No transactions found matching your filters",
+    "no_transactions_yet": "No transactions yet",
+    "clear_filters": "Clear filters",
+    "search_transactions": "Search transactions...",
+    "total_transactions": "{total} transaction in total"
   }
 }

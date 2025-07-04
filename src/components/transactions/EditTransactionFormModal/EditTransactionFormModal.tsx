@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TransactionWithDetails } from "@/types";
-import { CalendarIcon, DollarSignIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type EditTransactionFormModalProps = {
   visible: boolean;
@@ -35,27 +33,29 @@ const EditTransactionFormModal = ({
   onChange,
   onSubmit,
 }: EditTransactionFormModalProps) => {
+  const t = useTranslations("transactions");
   return (
     <Dialog open={visible} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit TransactionWithDetails</DialogTitle>
-          <DialogDescription>Update the transaction details</DialogDescription>
+          <DialogTitle>{t("edit_transaction")}</DialogTitle>
+          <DialogDescription>
+            {t("update_transaction_details")}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="edit-description">Description</Label>
+            <Label htmlFor="edit-description">{t("description")}</Label>
             <Input
               id="edit-description"
-              placeholder="e.g., Gas station fill-up"
+              placeholder={t("description_placeholder")}
               value={formData.description}
               onChange={(e) => onChange("description", e.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="edit-amount">Amount</Label>
+            <Label htmlFor="edit-amount">{t("amount")}</Label>
             <div className="relative">
-              <DollarSignIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 id="edit-amount"
                 type="number"
@@ -67,9 +67,8 @@ const EditTransactionFormModal = ({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="edit-date">Date *</Label>
+            <Label htmlFor="edit-date">{t("date")} *</Label>
             <div className="relative">
-              <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 id="edit-date"
                 type="date"
@@ -80,22 +79,28 @@ const EditTransactionFormModal = ({
           </div>
           {transactionToEdit && (
             <div className="text-sm text-muted-foreground">
-              <p>Expense: {transactionToEdit.expense_name}</p>
-              <p>Category: {transactionToEdit.category_name}</p>
-              <p>Budget: {transactionToEdit.budget_name}</p>
+              <p>
+                {t("expense")}: {transactionToEdit.expense_name}
+              </p>
+              <p>
+                {t("category")}: {transactionToEdit.category_name}
+              </p>
+              <p>
+                {t("budget")}: {transactionToEdit.budget_name}
+              </p>
             </div>
           )}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             type="submit"
             onClick={onSubmit}
             disabled={!formData.amount || !formData.transaction_date}
           >
-            Update Transaction
+            {t("update_transaction")}
           </Button>
         </DialogFooter>
       </DialogContent>

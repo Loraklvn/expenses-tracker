@@ -1,18 +1,10 @@
 "use client";
 
 import ConfirmationModal from "@/components/common/ConfirmationModal";
-import {
-  deleteTransactionClient,
-  fetchTransactionsClient,
-  FetchTransactionsResult,
-  updateTransactionClient,
-} from "@/lib/supabase/request/client";
+import useManageTransactions from "@/hooks/useManageTransactions";
 import { TransactionWithDetails } from "@/types";
-import debounce from "@/utils/debounce";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useState } from "react";
 import EditTransactionFormModal from "../EditTransactionFormModal";
 import TransactionsHeader from "../TransactionsHeader";
 import TransactionsList from "../TransactionsList";
@@ -35,51 +27,20 @@ export default function Transactions({
   defaultTotal,
 }: TransactionsProps) {
   const t = useTranslations("transactions");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchTermDebounced, setSearchTermDebounced] = useState("");
-
-  const pageSize = 10;
-  const [page, setPage] = useState(1);
-  const { data, refetch } = useQuery<FetchTransactionsResult>({
-    queryKey: ["transactions", page, pageSize, searchTermDebounced],
-    queryFn: () => fetchTransactionsClient(page, pageSize, searchTermDebounced),
-    initialData: {
-      transactions: defaultTransactions,
-      total: defaultTotal,
-    },
+  const {
+    transactions,
+    total,
+    totalPages,
+    onSearchChange,
+    searchTerm,
+    page,
+    setPage,
+    updateMutation,
+    deleteMutation,
+  } = useManageTransactions({
+    defaultTransactions,
+    defaultTotal,
   });
-
-  const { mutate: updateTransaction } = useMutation({
-    mutationFn: updateTransactionClient,
-    onSuccess: () => {
-      toast.success("Transaction updated successfully!");
-      refetch();
-      resetForm();
-      setTransactionToEdit(null);
-      setShowEditTransaction(false);
-    },
-    onError: () => {
-      toast.error("Failed to update transaction");
-    },
-  });
-
-  const { mutate: deleteTransaction } = useMutation({
-    mutationFn: deleteTransactionClient,
-    onSuccess: () => {
-      toast.success("Transaction deleted successfully!");
-      refetch();
-      setTransactionToDelete(null);
-      setShowDeleteConfirm(false);
-    },
-    onError: () => {
-      toast.error("Failed to delete transaction");
-      refetch();
-    },
-  });
-
-  const transactions = data?.transactions ?? [];
-  const total = data?.total ?? 0;
-  const totalPages = Math.ceil(total / pageSize);
 
   const [showEditTransaction, setShowEditTransaction] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -89,17 +50,8 @@ export default function Transactions({
     useState<TransactionWithDetails | null>(null);
   const [formData, setFormData] = useState(emptyFormData);
 
-  // Reset to first page when filters, sort or pageSize change
-  useEffect(() => {
-    setPage(1);
-  }, [searchTermDebounced, pageSize]);
-
-  const resetForm = () => {
-    setFormData(emptyFormData);
-  };
-
-  const editTransaction = () => {
-    updateTransaction({
+  const editTransaction = async () => {
+    await updateMutation.mutateAsync({
       transactionId: formData.id,
       updates: {
         description: formData.description,
@@ -107,6 +59,9 @@ export default function Transactions({
         transaction_date: formData.transaction_date,
       },
     });
+    setShowEditTransaction(false);
+    setFormData(emptyFormData);
+    setTransactionToEdit(null);
   };
 
   const confirmDelete = (transaction: TransactionWithDetails) => {
@@ -114,12 +69,13 @@ export default function Transactions({
     setShowDeleteConfirm(true);
   };
 
-  const handleDeleteTransaction = () => {
+  const handleDeleteTransaction = async () => {
     if (!transactionToDelete) return;
-
-    deleteTransaction({
+    await deleteMutation.mutateAsync({
       transactionId: transactionToDelete.id,
     });
+    setShowDeleteConfirm(false);
+    setTransactionToDelete(null);
   };
 
   const openEditDialog = (transaction: TransactionWithDetails) => {
@@ -157,10 +113,7 @@ export default function Transactions({
           {/* Search Bar */}
           <TransactionsHeader
             searchTerm={searchTerm}
-            onSearchChange={(value) => {
-              setSearchTerm(value);
-              debounce(() => setSearchTermDebounced(value), 500);
-            }}
+            onSearchChange={onSearchChange}
             total={total}
           />
 
@@ -168,7 +121,9 @@ export default function Transactions({
           <TransactionsList
             groupedTransactions={groupedTransactions}
             searchTerm={searchTerm}
-            onClearSearch={() => setSearchTerm("")}
+            onClearSearch={() => {
+              onSearchChange("");
+            }}
             onEditTransaction={openEditDialog}
             onDeleteTransaction={confirmDelete}
           />

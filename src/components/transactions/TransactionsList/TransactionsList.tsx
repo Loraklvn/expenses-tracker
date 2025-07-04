@@ -5,6 +5,7 @@ import React from "react";
 import { TransactionWithDetails } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
 import { formatDateToReadable } from "@/utils/date";
+import { useTranslations } from "next-intl";
 
 type TransactionsListProps = {
   groupedTransactions: [string, TransactionWithDetails[]][];
@@ -21,6 +22,7 @@ const TransactionsList = ({
   onEditTransaction,
   onDeleteTransaction,
 }: TransactionsListProps) => {
+  const t = useTranslations("transactions");
   return (
     <div className="space-y-4">
       {groupedTransactions.length > 0 ? (
@@ -89,8 +91,8 @@ const TransactionsList = ({
         <div className="text-center py-12">
           <p className="text-muted-foreground mb-4">
             {searchTerm
-              ? "No transactions found matching your filters"
-              : "No transactions yet"}
+              ? t("no_transactions_found_matching_your_filters")
+              : t("no_transactions_yet")}
           </p>
           {searchTerm ? (
             <Button
@@ -99,7 +101,7 @@ const TransactionsList = ({
                 onClearSearch();
               }}
             >
-              Clear filters
+              {t("clear_filters")}
             </Button>
           ) : null}
         </div>
