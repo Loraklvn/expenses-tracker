@@ -390,16 +390,22 @@ export const fetchBudgetTemplatesClient = async (): Promise<
 
 type UpdateBudgetTemplateArgs = {
   templateId: number;
+  name: string;
+  description: string;
   expenseTemplateIds: number[];
 };
 
 export async function updateBudgetTemplateClient({
+  name,
+  description,
   templateId,
   expenseTemplateIds,
 }: UpdateBudgetTemplateArgs): Promise<void> {
   const supabase = createClient();
   const { error } = await supabase.rpc("update_budget_template", {
     p_template_id: templateId,
+    p_name: name,
+    p_description: description,
     p_expense_ids: expenseTemplateIds,
   });
   if (error) throw error;

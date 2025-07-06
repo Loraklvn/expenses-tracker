@@ -3,6 +3,7 @@ import {
   Category,
   ExpenseTemplate,
   ExpenseWithCurrent,
+  BudgetTemplateWithStats,
   TransactionWithDetails,
 } from "@/types";
 import { createServer } from "../server";
@@ -114,4 +115,23 @@ export const fetchTransactionsServer = async (
     transactions: data || [],
     total: count || 0,
   };
+};
+
+export const fetchBudgetTemplatesServer = async (): Promise<
+  BudgetTemplateWithStats[]
+> => {
+  const supabase = await createServer();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { data, error } = await supabase
+    .from("budget_templates_with_stats")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return data || [];
 };
