@@ -72,6 +72,8 @@
     "my_budgets_description": "View and manage your budgets",
     "create_budget": "Create Budget",
     "create_budget_description": "Create a new budget",
+    "budget_templates": "Budget Templates",
+    "budget_templates_description": "Create and manage budget templates",
     "manage_expenses": "Manage Expenses",
     "manage_expenses_description": "Add and manage your expenses",
     "categories": "Categories",

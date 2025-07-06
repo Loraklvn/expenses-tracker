@@ -72,6 +72,8 @@
     "my_budgets_description": "Ver y administrar tus presupuestos",
     "create_budget": "Crear Presupuesto",
     "create_budget_description": "Crear un nuevo presupuesto",
+    "budget_templates": "Plantillas de Presupuesto",
+    "budget_templates_description": "Crear y administrar plantillas de presupuesto",
     "manage_expenses": "Administrar Gastos",
     "manage_expenses_description": "Agregar y administrar tus gastos",
     "categories": "Categorías",

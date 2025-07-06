@@ -17,7 +17,7 @@ export type TransactionWithDetails = Transaction & {
 };
 
 export type ExpenseTemplate = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   user_id: string;
@@ -71,3 +71,18 @@ export interface Category {
   updated_at: string;
   archived: boolean;
 }
+
+export type BudgetTemplate = {
+  id: number;
+  user_id: string;
+  name: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type BudgetTemplateWithStats = BudgetTemplate & {
+  expense_count: number;
+  total_default_amount: number;
+  expense_template_ids: number[];
+};

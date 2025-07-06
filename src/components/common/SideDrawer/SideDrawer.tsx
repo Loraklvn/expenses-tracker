@@ -11,6 +11,7 @@ import {
   BarChart3Icon,
   CalendarIcon,
   DollarSignIcon,
+  FileTextIcon,
   ListIcon,
   SettingsIcon,
   TagIcon,
@@ -44,6 +45,13 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
       icon: CalendarIcon,
       description: t("create_budget_description"),
       href: "/new-budget",
+    },
+    {
+      id: "budget-templates",
+      label: t("budget_templates"),
+      icon: FileTextIcon,
+      description: t("budget_templates_description"),
+      href: "/budget_templates",
     },
     {
       id: "manage-expenses",
