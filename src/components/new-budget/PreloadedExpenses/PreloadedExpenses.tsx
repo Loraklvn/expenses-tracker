@@ -11,8 +11,8 @@ const PreloadedExpenses = ({
 }: {
   expenseTemplates: PreloadedExpenseTemplate[];
   categories: Category[];
-  toggleExpenseTemplate: (templateId: string) => void;
-  updateExpenseTemplateAmount: (templateId: string, amount: string) => void;
+  toggleExpenseTemplate: (templateId: number) => void;
+  updateExpenseTemplateAmount: (templateId: number, amount: string) => void;
 }): ReactElement => {
   const t = useTranslations("new_budget");
   return (

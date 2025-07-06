@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
 
 type ExpenseForm = {
-  id: string;
+  id: number;
   name: string;
   category: string;
   defaultAmount: string;

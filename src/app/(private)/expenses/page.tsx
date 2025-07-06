@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const emptyForm = {
-  id: "",
+  id: 0,
   name: "",
   category: "",
   defaultAmount: "",

@@ -160,7 +160,7 @@ export const updateExpenseTemplateClient = async ({
   templateId,
   args,
 }: {
-  templateId: string;
+  templateId: number;
   args: Partial<PostExpenseTemplateArgs>;
 }): Promise<void> => {
   const supabase = createClient();
@@ -172,7 +172,7 @@ export const updateExpenseTemplateClient = async ({
 };
 
 export const archiveExpenseTemplateClient = async (
-  templateId: string
+  templateId: number
 ): Promise<void> => {
   const supabase = createClient();
   const { error } = await supabase

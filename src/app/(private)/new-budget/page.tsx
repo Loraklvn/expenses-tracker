@@ -70,7 +70,7 @@ export default function CreateBudget() {
     setSelectedExpenseTemplates(templates);
   }, [defaultExpensesTemplate]);
 
-  const toggleExpenseTemplate = (templateId: string) => {
+  const toggleExpenseTemplate = (templateId: number) => {
     setSelectedExpenseTemplates((prev) => {
       const updatedTemplates = prev.map((template) =>
         template.id === templateId
@@ -82,7 +82,7 @@ export default function CreateBudget() {
   };
 
   //  Update the amount for a specific expense template
-  const updateExpenseTemplateAmount = (templateId: string, amount: string) => {
+  const updateExpenseTemplateAmount = (templateId: number, amount: string) => {
     setSelectedExpenseTemplates((prev) => {
       const updatedTemplates = prev.map((template) =>
         template.id === templateId ? { ...template, amount } : template

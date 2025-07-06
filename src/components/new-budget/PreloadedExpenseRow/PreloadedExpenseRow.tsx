@@ -12,8 +12,8 @@ const PreloadedExpenseRow = ({
 }: {
   template: PreloadedExpenseTemplate;
   category: string;
-  toggleExpenseTemplate: (templateId: string) => void;
-  updateExpenseTemplateAmount: (templateId: string, amount: string) => void;
+  toggleExpenseTemplate: (templateId: number) => void;
+  updateExpenseTemplateAmount: (templateId: number, amount: string) => void;
 }): ReactElement => {
   return (
     <div className="flex items-center justify-between py-2 border-b transition-colors">
