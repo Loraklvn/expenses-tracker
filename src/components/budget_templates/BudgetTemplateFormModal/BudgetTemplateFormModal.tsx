@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import React, { ReactElement } from "react";
 import { formatCurrency } from "@/utils/numbers";
 import { Category, ExpenseTemplate } from "@/types";
+import { useTranslations } from "next-intl";
 
 type BudgetTemplateFormModalProps = {
   visible: boolean;
@@ -43,21 +44,24 @@ const BudgetTemplateFormModal = ({
   categories,
   isEditing,
 }: BudgetTemplateFormModalProps): ReactElement => {
+  const t = useTranslations("budget_templates");
+
   return (
     <Dialog open={visible} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[85vh] flex flex-col px-2">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Edit" : "Create"} Budget Template
+            {isEditing ? t("edit_template") : t("create_template")}
           </DialogTitle>
           <DialogDescription>
-            {isEditing ? "Edit" : "Create"} a reusable template with your
-            preferred expenses
+            {isEditing
+              ? t("edit_template_description")
+              : t("create_template_description")}
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-4 overflow-y-auto flex-1 px-4 scrollbar-hide">
           <div className="space-y-2">
-            <Label htmlFor="template-name">Template Name *</Label>
+            <Label htmlFor="template-name">{t("template_name")} *</Label>
             <Input
               id="template-name"
               placeholder="e.g., Monthly Essentials"
@@ -66,7 +70,7 @@ const BudgetTemplateFormModal = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="template-description">Description (optional)</Label>
+            <Label htmlFor="template-description">{t("description")} </Label>
             <Textarea
               id="template-description"
               placeholder="e.g., Essential expenses for a typical month"
@@ -78,7 +82,7 @@ const BudgetTemplateFormModal = ({
           </div>
 
           <div className="space-y-3">
-            <Label>Select Expenses</Label>
+            <Label>{t("select_expenses")}</Label>
             {Object.entries(groupedExpenses).map(([category, expenses]) => (
               <div key={category}>
                 <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
@@ -118,11 +122,9 @@ const BudgetTemplateFormModal = ({
                           </span>
                         </div>
                         {isSelected && (
-                          <div className="relative w-20">
-                            <span className="absolute left-2 top-1.5 text-xs text-muted-foreground">
-                              $ {expense.default_amount}
-                            </span>
-                          </div>
+                          <span className="text-xs font-semibold">
+                            {formatCurrency(expense.default_amount)}
+                          </span>
                         )}
                       </div>
                     );
@@ -131,36 +133,42 @@ const BudgetTemplateFormModal = ({
               </div>
             ))}
           </div>
-
-          {selectedExpenses.length > 0 && (
-            <div className="bg-muted/50 rounded-lg p-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">
-                  {selectedExpenses.length} expenses selected
-                </span>
-                <span className="font-semibold">
-                  {formatCurrency(
-                    selectedExpenses.reduce(
-                      (sum, expense) => sum + expense.default_amount,
-                      0
-                    )
-                  )}
-                </span>
-              </div>
-            </div>
-          )}
         </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            onClick={onSubmit}
-            disabled={!formData.name.trim() || selectedExpenses.length === 0}
-          >
-            {isEditing ? "Update" : "Create"} Template
-          </Button>
+        <DialogFooter className="-mt-2 ">
+          <div className="w-full flex flex-col gap-2">
+            {selectedExpenses.length > 0 && (
+              <div className="bg-muted/50 rounded-lg p-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">
+                    {t("expenses_selected", { count: selectedExpenses.length })}
+                  </span>
+                  <span className="font-semibold">
+                    {formatCurrency(
+                      selectedExpenses.reduce(
+                        (sum, expense) => sum + expense.default_amount,
+                        0
+                      )
+                    )}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="w-full flex justify-end gap-2">
+              <Button variant="outline" onClick={onClose}>
+                {t("delete_template_cancel")}
+              </Button>
+              <Button
+                type="submit"
+                onClick={onSubmit}
+                disabled={
+                  !formData.name.trim() || selectedExpenses.length === 0
+                }
+              >
+                {isEditing ? t("update_template") : t("create_template")}
+              </Button>
+            </div>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

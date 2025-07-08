@@ -8,6 +8,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import BudgetTemplateFormModal from "../BudgetTemplateFormModal/BudgetTemplateFormModal";
 import BudgetTemplatesList from "../BudgetTemplatesList";
+import { useTranslations } from "next-intl";
 
 interface BudgetTemplatesProps {
   defaultBudgetTemplates: BudgetTemplateWithStats[];
@@ -23,6 +24,7 @@ export default function BudgetTemplatesShell({
   expenseTemplates,
   categories,
 }: BudgetTemplatesProps) {
+  const t = useTranslations("budget_templates");
   const { budgetTemplates, add, update, remove } = useManageBudgetTemplates({
     defaultBudgetTemplates,
   });
@@ -144,14 +146,14 @@ export default function BudgetTemplatesShell({
     <div className="min-h-screen bg-background p-4 pb-20">
       <div className="max-w-md mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl font-bold">Budget Templates</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
         </div>
 
         <div className="space-y-6">
           {/* Create Template Button */}
           <Button className="w-full" size="lg" onClick={openCreateDialog}>
             <Plus className="h-4 w-4 mr-2" />
-            Create New Template
+            {t("create_template")}
           </Button>
 
           {/* Templates List */}
@@ -165,7 +167,7 @@ export default function BudgetTemplatesShell({
 
           {budgetTemplates.length > 0 && (
             <div className="text-center text-sm text-muted-foreground">
-              {budgetTemplates.length} templates
+              {t("templates_count", { count: budgetTemplates.length })}
             </div>
           )}
         </div>
@@ -191,10 +193,12 @@ export default function BudgetTemplatesShell({
           visible={showDeleteConfirm}
           onClose={() => setShowDeleteConfirm(false)}
           onConfirm={() => deleteTemplate()}
-          title="Delete Budget Template"
-          description={`Are you sure you want to delete "${templateToDelete?.name}"? This action cannot be undone.`}
-          confirmButtonText="Delete"
-          cancelButtonText="Cancel"
+          title={t("delete_template_title")}
+          description={t("delete_template_description", {
+            name: templateToDelete?.name ?? "",
+          })}
+          confirmButtonText={t("delete_template_confirm")}
+          cancelButtonText={t("delete_template_cancel")}
         />
       </div>
     </div>

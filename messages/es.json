@@ -178,5 +178,28 @@
     "clear_filters": "Limpiar filtros",
     "search_transactions": "Buscar transacciones...",
     "total_transactions": "{total} transacción en total"
+  },
+  "budget_templates": {
+    "title": "Plantillas de Presupuesto",
+    "create_template": "Crear Plantilla",
+    "templates_count": "{count} plantillas",
+    "delete_template_title": "Eliminar Plantilla",
+    "delete_template_description": "¿Estás seguro de que deseas eliminar la plantilla {name}?",
+    "delete_template_confirm": "Eliminar",
+    "delete_template_cancel": "Cancelar",
+    "created_at": "Creado el {date}",
+    "used_count": "Usado {count} veces",
+    "expenses_included": "{count} gastos incluidos",
+    "edit": "Editar",
+    "duplicate": "Duplicar",
+    "no_templates_yet": "No hay plantillas aún",
+    "edit_template": "Editar Plantilla",
+    "edit_template_description": "Edita una plantilla reutilizable con tus gastos preferidos",
+    "create_template_description": "Crea una plantilla reutilizable con tus gastos preferidos",
+    "template_name": "Nombre de la plantilla",
+    "description": "Descripción",
+    "select_expenses": "Seleccionar gastos",
+    "expenses_selected": "{count} gastos seleccionados",
+    "update_template": "Actualizar Plantilla"
   }
 }

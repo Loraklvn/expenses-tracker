@@ -7,6 +7,7 @@ import { Calendar, Copy, Edit, Plus, Trash2 } from "lucide-react";
 import { BudgetTemplateWithStats } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
 import { formatDateToReadable } from "@/utils/date";
+import { useTranslations } from "next-intl";
 
 type BudgetTemplatesListProps = {
   budgetTemplates: BudgetTemplateWithStats[];
@@ -23,6 +24,8 @@ const BudgetTemplatesList = ({
   onDelete,
   onCreate,
 }: BudgetTemplatesListProps): ReactElement => {
+  const t = useTranslations("budget_templates");
+
   return (
     <div className="space-y-4">
       {budgetTemplates.length > 0 ? (
@@ -42,16 +45,24 @@ const BudgetTemplatesList = ({
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Calendar className="h-4 w-4" />
-                <span>Created {formatDateToReadable(template.created_at)}</span>
+                <span>
+                  {t("created_at", {
+                    date: formatDateToReadable(template.created_at),
+                  })}
+                </span>
                 <span>•</span>
-                <span>Used {template.expense_count} times</span>
+                <span>
+                  {t("used_count", { count: template.expense_count })}
+                </span>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div>
                   <p className="text-sm font-medium mb-2">
-                    {template.expense_count} expenses included
+                    {t("expenses_included", {
+                      count: template.expense_count,
+                    })}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -62,7 +73,7 @@ const BudgetTemplatesList = ({
                     className="flex-1"
                   >
                     <Edit className="h-4 w-4 mr-1" />
-                    Edit
+                    {t("edit")}
                   </Button>
                   <Button
                     size="sm"
@@ -70,7 +81,7 @@ const BudgetTemplatesList = ({
                     onClick={() => onDuplicate(template)}
                   >
                     <Copy className="h-4 w-4 mr-1" />
-                    Duplicate
+                    {t("duplicate")}
                   </Button>
                   <Button
                     size="sm"
@@ -87,10 +98,10 @@ const BudgetTemplatesList = ({
         ))
       ) : (
         <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">No budget templates yet</p>
+          <p className="text-muted-foreground mb-4">{t("no_templates_yet")}</p>
           <Button onClick={onCreate}>
             <Plus className="h-4 w-4 mr-2" />
-            Create Your First Template
+            {t("create_template")}
           </Button>
         </div>
       )}

@@ -178,5 +178,28 @@
     "clear_filters": "Clear filters",
     "search_transactions": "Search transactions...",
     "total_transactions": "{total} transaction in total"
+  },
+  "budget_templates": {
+    "title": "Budget Templates",
+    "create_template": "Create Template",
+    "templates_count": "{count} templates",
+    "delete_template_title": "Delete Template",
+    "delete_template_description": "Are you sure you want to delete the template {name}?",
+    "delete_template_confirm": "Delete",
+    "delete_template_cancel": "Cancel",
+    "created_at": "Created on {date}",
+    "used_count": "Used {count} times",
+    "expenses_included": "{count} expenses included",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "no_templates_yet": "No templates yet",
+    "edit_template": "Edit Template",
+    "edit_template_description": "Edit a reusable template with your preferred expenses",
+    "create_template_description": "Create a reusable template with your preferred expenses",
+    "template_name": "Template Name",
+    "description": "Description",
+    "select_expenses": "Select Expenses",
+    "expenses_selected": "{count} expenses selected",
+    "update_template": "Update Template"
   }
 }
