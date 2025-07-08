@@ -32,6 +32,12 @@ export const fetchBudgetClient = async (
   return data || null;
 };
 
+export const deleteBudgetClient = async (budgetId: number): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase.from("budget").delete().eq("id", budgetId);
+  if (error) throw error;
+};
+
 export async function fetchExpensesClient(
   budgetId: number
 ): Promise<ExpenseWithCurrent[]> {

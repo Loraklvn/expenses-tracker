@@ -1,21 +1,28 @@
+"use client";
+
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import useManageBudgets from "@/hooks/useManageBudgets";
 import { BudgetWithCurrent } from "@/types";
 import { formatCurrency } from "@/utils/numbers";
-import { Calendar, DollarSign } from "lucide-react";
+import { Calendar, DollarSign, Trash2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 const BudgetsList = ({
-  budgets,
+  budgets: defaultBudgets,
 }: {
   budgets: BudgetWithCurrent[];
 }): ReactElement => {
   const t = useTranslations("budget_list");
+  const { budgets, remove } = useManageBudgets({ defaultBudgets });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [budgetToDelete, setBudgetToDelete] =
+    useState<BudgetWithCurrent | null>(null);
 
   const getBudgetProgress = (budget: BudgetWithCurrent) => {
     const totalSpent = budget.current_amount;
@@ -23,6 +30,18 @@ const BudgetsList = ({
       spent: totalSpent,
       percentage: (totalSpent / budget.expected_amount) * 100,
     };
+  };
+
+  const confirmDelete = (budget: BudgetWithCurrent) => {
+    setBudgetToDelete(budget);
+    setShowDeleteConfirm(true);
+  };
+
+  const deleteBudget = async () => {
+    if (!budgetToDelete) return;
+    await remove.mutateAsync(budgetToDelete.id);
+    setShowDeleteConfirm(false);
+    setBudgetToDelete(null);
   };
 
   if (!budgets || budgets.length === 0) {
@@ -58,61 +77,84 @@ const BudgetsList = ({
           {budgets.map((budget) => {
             const progress = getBudgetProgress(budget);
             return (
-              <Link
-                href={`/budget/${budget.id}`}
-                key={budget.id}
-                className="block"
-              >
-                <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{budget.name}</CardTitle>
-                      <Badge
-                        variant={
-                          progress.percentage > 100
-                            ? "destructive"
-                            : "secondary"
-                        }
-                      >
-                        {progress.percentage.toFixed(0)}%
-                      </Badge>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Calendar className="h-4 w-4" />
-                      <span>
-                        {new Date(budget.start_date).toLocaleDateString()} -{" "}
-                        {new Date(budget.end_date).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex justify-between text-sm">
+              <div key={budget.id} className="relative group">
+                <Link href={`/budget/${budget.id}`} className="block">
+                  <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">{budget.name}</CardTitle>
+                        <Badge
+                          variant={
+                            progress.percentage > 100
+                              ? "destructive"
+                              : "secondary"
+                          }
+                        >
+                          {progress.percentage.toFixed(0)}%
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Calendar className="h-4 w-4" />
                         <span>
-                          {t("spent")}: {formatCurrency(progress.spent)}
-                        </span>
-                        <span>
-                          {t("budget")}:{" "}
-                          {formatCurrency(budget.expected_amount)}
+                          {new Date(budget.start_date).toLocaleDateString()} -{" "}
+                          {new Date(budget.end_date).toLocaleDateString()}
                         </span>
                       </div>
-                      <Progress
-                        value={Math.min(progress.percentage, 100)}
-                        className="h-2"
-                      />
-                      <div className="text-xs text-muted-foreground text-center">
-                        {formatCurrency(
-                          budget.expected_amount - progress.spent
-                        )}{" "}
-                        {t("remaining")}
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="flex justify-between text-sm">
+                          <span>
+                            {t("spent")}: {formatCurrency(progress.spent)}
+                          </span>
+                          <span>
+                            {t("budget")}:{" "}
+                            {formatCurrency(budget.expected_amount)}
+                          </span>
+                        </div>
+                        <Progress
+                          value={Math.min(progress.percentage, 100)}
+                          className="h-2"
+                        />
+                        <div className="text-xs text-muted-foreground text-center">
+                          {formatCurrency(
+                            budget.expected_amount - progress.spent
+                          )}{" "}
+                          {t("remaining")}
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                    </CardContent>
+                  </Card>
+                </Link>
+
+                {/* Delete Button - positioned absolutely over the card */}
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    confirmDelete(budget);
+                  }}
+                  className="absolute bottom-2 right-2 text-destructive hover:text-destructive"
+                >
+                  <Trash2Icon className="h-4 w-4" />
+                </Button>
+              </div>
             );
           })}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        <ConfirmationModal
+          visible={showDeleteConfirm}
+          onClose={() => setShowDeleteConfirm(false)}
+          onConfirm={deleteBudget}
+          title={t("delete_budget")}
+          description={t("delete_budget_confirmation")}
+          confirmButtonText={t("delete")}
+          cancelButtonText={t("cancel")}
+        />
       </div>
     </div>
   );

@@ -93,7 +93,13 @@
     "remaining": "remaining",
     "budget": "Budget",
     "no_budgets": "No budgets yet",
-    "add_your_first_budget": "Add your first budget"
+    "add_your_first_budget": "Add your first budget",
+    "budget_deleted_successfully": "Budget deleted successfully",
+    "failed_to_delete_budget": "Failed to delete budget",
+    "delete_budget": "Delete Budget",
+    "delete_budget_confirmation": "Are you sure you want to delete this budget? This action cannot be undone.",
+    "delete": "Delete",
+    "cancel": "Cancel"
   },
   "expenses": {
     "add_transaction": "Add Transaction",
