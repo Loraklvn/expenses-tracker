@@ -98,8 +98,7 @@
     "failed_to_delete_budget": "Error al eliminar presupuesto",
     "delete_budget": "Eliminar Presupuesto",
     "delete_budget_confirmation": "¿Estás seguro de que deseas eliminar este presupuesto? Esta acción no se puede deshacer.",
-    "delete": "Eliminar",
-    "cancel": "Cancelar"
+    "delete": "Eliminar"
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",
@@ -120,7 +119,14 @@
     "custom_expenses": "Otros gastos",
     "add": "Agregar",
     "name": "Nombre",
-    "amount": "Cantidad"
+    "amount": "Cantidad",
+    "using_template": "Usando plantilla: {name}",
+    "no_template_selected": "No hay plantilla seleccionada",
+    "change": "Cambiar",
+    "budget_created": "Presupuesto creado con éxito",
+    "failed_to_create_budget": "Error al crear presupuesto",
+    "validate_expense_templates": "Por favor, asegúrate de que todos los gastos seleccionados tengan una cantidad.",
+    "validate_custom_expenses": "Por favor, asegúrate de que todos los gastos personalizados tengan un nombre, una categoría y una cantidad."
   },
   "manage_expenses": {
     "title": "Administrar Gastos",
@@ -206,6 +212,16 @@
     "description": "Descripción",
     "select_expenses": "Seleccionar gastos",
     "expenses_selected": "{count} gastos seleccionados",
-    "update_template": "Actualizar Plantilla"
+    "update_template": "Actualizar Plantilla",
+    "apply": "Aplicar"
+  },
+  "select_template": {
+    "choose_how_to_start": "Elige cómo empezar",
+    "select_template_description": "Selecciona una plantilla para empezar rápidamente, o crea desde cero",
+    "start_from_scratch": "Crear desde cero",
+    "start_from_scratch_description": "Crea un presupuesto personalizado manualmente",
+    "or_choose_a_template": "O elige una plantilla",
+    "new_template": "Nueva plantilla",
+    "expenses_included": "{count} gastos incluidos"
   }
 }

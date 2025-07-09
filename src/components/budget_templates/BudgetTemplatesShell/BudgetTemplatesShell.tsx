@@ -9,6 +9,7 @@ import { useState } from "react";
 import BudgetTemplateFormModal from "../BudgetTemplateFormModal/BudgetTemplateFormModal";
 import BudgetTemplatesList from "../BudgetTemplatesList";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface BudgetTemplatesProps {
   defaultBudgetTemplates: BudgetTemplateWithStats[];
@@ -39,7 +40,7 @@ export default function BudgetTemplatesShell({
     []
   );
   const [formData, setFormData] = useState(emptyFormData);
-
+  const router = useRouter();
   const resetForm = () => {
     setFormData(emptyFormData);
     setSelectedExpenses([]);
@@ -117,13 +118,8 @@ export default function BudgetTemplatesShell({
     setFormVisibility(true);
   };
 
-  const duplicateTemplate = async (template: BudgetTemplateWithStats) => {
-    await add.mutateAsync({
-      name: template.name + " (Copy)",
-      description: template.description,
-      expenseTemplateIds: template.expense_template_ids,
-    });
-    clearState();
+  const applyTemplate = async (template: BudgetTemplateWithStats) => {
+    router.push(`/new-budget?templateId=${template.id}`);
   };
 
   const handleOnSubmit = () => {
@@ -160,7 +156,7 @@ export default function BudgetTemplatesShell({
           <BudgetTemplatesList
             budgetTemplates={budgetTemplates}
             onEdit={openEditDialog}
-            onDuplicate={duplicateTemplate}
+            onApply={applyTemplate}
             onDelete={confirmDelete}
             onCreate={openCreateDialog}
           />

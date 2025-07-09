@@ -3,16 +3,16 @@ import { ReactElement } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Copy, Edit, Plus, Trash2 } from "lucide-react";
 import { BudgetTemplateWithStats } from "@/types";
-import { formatCurrency } from "@/utils/numbers";
 import { formatDateToReadable } from "@/utils/date";
+import { formatCurrency } from "@/utils/numbers";
+import { Calendar, EditIcon, FileUpIcon, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type BudgetTemplatesListProps = {
   budgetTemplates: BudgetTemplateWithStats[];
   onEdit: (template: BudgetTemplateWithStats) => void;
-  onDuplicate: (template: BudgetTemplateWithStats) => void;
+  onApply: (template: BudgetTemplateWithStats) => void;
   onDelete: (template: BudgetTemplateWithStats) => void;
   onCreate: () => void;
 };
@@ -20,7 +20,7 @@ type BudgetTemplatesListProps = {
 const BudgetTemplatesList = ({
   budgetTemplates,
   onEdit,
-  onDuplicate,
+  onApply,
   onDelete,
   onCreate,
 }: BudgetTemplatesListProps): ReactElement => {
@@ -72,16 +72,16 @@ const BudgetTemplatesList = ({
                     onClick={() => onEdit(template)}
                     className="flex-1"
                   >
-                    <Edit className="h-4 w-4 mr-1" />
+                    <EditIcon className="h-4 w-4 mr-1" />
                     {t("edit")}
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => onDuplicate(template)}
+                    onClick={() => onApply(template)}
                   >
-                    <Copy className="h-4 w-4 mr-1" />
-                    {t("duplicate")}
+                    <FileUpIcon className="h-4 w-4 mr-1" />
+                    {t("apply")}
                   </Button>
                   <Button
                     size="sm"

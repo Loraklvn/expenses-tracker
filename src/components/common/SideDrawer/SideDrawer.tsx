@@ -44,7 +44,7 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
       label: t("create_budget"),
       icon: CalendarIcon,
       description: t("create_budget_description"),
-      href: "/new-budget",
+      href: "/select-template",
     },
     {
       id: "budget-templates",

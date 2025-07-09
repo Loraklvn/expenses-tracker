@@ -16,7 +16,10 @@ const Navbar = (): ReactElement => {
         <ReceiptIcon className="w-6 h-6" />
         {t("expenses")}
       </Link>
-      <Link href="/new-budget" className="flex flex-col items-center text-sm">
+      <Link
+        href="/select-template"
+        className="flex flex-col items-center text-sm"
+      >
         <PlusCircleIcon className="w-6 h-6" />
         {t("new")}
       </Link>

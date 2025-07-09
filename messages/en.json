@@ -98,8 +98,7 @@
     "failed_to_delete_budget": "Failed to delete budget",
     "delete_budget": "Delete Budget",
     "delete_budget_confirmation": "Are you sure you want to delete this budget? This action cannot be undone.",
-    "delete": "Delete",
-    "cancel": "Cancel"
+    "delete": "Delete"
   },
   "expenses": {
     "add_transaction": "Add Transaction",
@@ -120,7 +119,13 @@
     "custom_expenses": "Other Expenses",
     "add": "Add",
     "name": "Name",
-    "amount": "Amount"
+    "amount": "Amount",
+    "cancel": "Cancel",
+    "using_template": "Using template: {name}",
+    "no_template_selected": "No template selected",
+    "change": "Change",
+    "validate_expense_templates": "Please ensure all selected expense templates have an amount.",
+    "validate_custom_expenses": "Please ensure all custom expenses have a name, category, and amount."
   },
   "manage_expenses": {
     "title": "Manage Expenses",
@@ -206,6 +211,16 @@
     "description": "Description",
     "select_expenses": "Select Expenses",
     "expenses_selected": "{count} expenses selected",
-    "update_template": "Update Template"
+    "update_template": "Update Template",
+    "apply": "Apply"
+  },
+  "select_template": {
+    "choose_how_to_start": "Choose how to start",
+    "select_template_description": "Select a template to get started quickly, or create from scratch",
+    "start_from_scratch": "Create from scratch",
+    "start_from_scratch_description": "Create a custom budget manually",
+    "or_choose_a_template": "Or choose a template",
+    "new_template": "New Template",
+    "expenses_included": "{count} expenses included"
   }
 }
