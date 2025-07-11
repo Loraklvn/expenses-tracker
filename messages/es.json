@@ -99,7 +99,21 @@
     "delete_budget": "Eliminar Presupuesto",
     "delete_budget_confirmation": "¿Estás seguro de que deseas eliminar este presupuesto? Esta acción no se puede deshacer.",
     "delete": "Eliminar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "templated_expenses": "Gastos de plantilla",
+    "custom_expenses": "Otros gastos",
+    "add_expense_to_budget": "Agregar gasto al presupuesto",
+    "add_expense_to_budget_description": "Agrega un gasto de plantilla o crea un gasto único para este presupuesto",
+    "template_expense": "Gasto de plantilla",
+    "custom_expense": "Gasto único",
+    "select_from_available_templates": "Selecciona de las plantillas disponibles:",
+    "all_template_expenses_have_been_added_to_this_budget": "Todos los gastos de plantilla han sido agregados a este presupuesto",
+    "expense_name": "Nombre del gasto",
+    "category": "Categoría",
+    "budgeted_amount": "Cantidad presupuestada",
+    "select_category": "Seleccionar categoría",
+    "add_expense": "Agregar gasto",
+    "expense_name_placeholder": "Ejemplo: Alquiler, Comida"
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",

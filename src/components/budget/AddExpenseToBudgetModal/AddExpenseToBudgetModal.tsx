@@ -11,17 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   addCustomExpenseToBudgetClient,
   addExpenseToBudgetClient,
@@ -30,9 +19,10 @@ import {
 } from "@/lib/supabase/request/client";
 import { cn } from "@/lib/utils";
 import { ExpenseTemplate, ExpenseWithCurrent } from "@/types";
-import { formatCurrency } from "@/utils/numbers";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DollarSign } from "lucide-react";
+import { useTranslations } from "next-intl";
+import TemplateExpenseSelection from "../TemplateExpenseSelection/TemplateExpenseSelection";
+import UniqueExpenseTobudget from "../UniqueExpenseTobudget/UniqueExpenseTobudget";
 
 type AddExpenseToBudgetModalProps = {
   visible: boolean;
@@ -49,6 +39,7 @@ const AddExpenseToBudgetModal = ({
   budgetId,
   onSuccess,
 }: AddExpenseToBudgetModalProps): ReactElement => {
+  const t = useTranslations("budget_list");
   const { data: expenseTemplates = [] } = useQuery({
     queryKey: ["expenseTemplates"],
     queryFn: () => fetchExpensesTemplateClient(),
@@ -114,9 +105,9 @@ const AddExpenseToBudgetModal = ({
         )}
       >
         <DialogHeader>
-          <DialogTitle>Add Expense to Budget</DialogTitle>
+          <DialogTitle>{t("add_expense_to_budget")}</DialogTitle>
           <DialogDescription>
-            Add a template expense or create a custom expense for this budget
+            {t("add_expense_to_budget_description")}
           </DialogDescription>
         </DialogHeader>
 
@@ -129,7 +120,7 @@ const AddExpenseToBudgetModal = ({
               onClick={() => setExpenseType("template")}
               className="flex-1"
             >
-              Template Expense
+              {t("template_expense")}
             </Button>
             <Button
               variant={expenseType === "custom" ? "default" : "outline"}
@@ -137,136 +128,38 @@ const AddExpenseToBudgetModal = ({
               onClick={() => setExpenseType("custom")}
               className="flex-1"
             >
-              Custom Expense
+              {t("custom_expense")}
             </Button>
           </div>
 
           {/* Template Expense Selection */}
           {expenseType === "template" && (
-            <div className="space-y-3">
-              <Label>Select from available templates:</Label>
-              {unusedTemplateExpenses.length > 0 ? (
-                <div className="space-y-2 max-h-60 overflow-y-auto">
-                  {unusedTemplateExpenses.map((template) => (
-                    <div
-                      key={template.id}
-                      className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
-                        selectedTemplateExpense?.id === template.id
-                          ? "bg-primary/5 border-primary/20"
-                          : "bg-background border-border hover:bg-muted/50"
-                      }`}
-                      onClick={() => setSelectedTemplateExpense(template)}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                            selectedTemplateExpense?.id === template.id
-                              ? "bg-primary border-primary"
-                              : "border-muted-foreground/30"
-                          }`}
-                        >
-                          {selectedTemplateExpense?.id === template.id && (
-                            <div className="w-2 h-2 bg-white rounded-full" />
-                          )}
-                        </div>
-                        <div>
-                          <p className="font-medium">{template.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {
-                              categories.find(
-                                (category) =>
-                                  category.id === template.category_id
-                              )?.name
-                            }
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-sm font-medium">
-                        {formatCurrency(template.default_amount)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  <p>All template expenses have been added to this budget</p>
-                </div>
-              )}
-            </div>
+            <TemplateExpenseSelection
+              unusedTemplateExpenses={unusedTemplateExpenses}
+              selectedTemplateExpense={selectedTemplateExpense}
+              setSelectedTemplateExpense={setSelectedTemplateExpense}
+              categories={categories}
+            />
           )}
 
           {/* Custom Expense Form */}
           {expenseType === "custom" && (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="custom-expense-name">Expense Name *</Label>
-                <Input
-                  id="custom-expense-name"
-                  placeholder="e.g., Car Insurance"
-                  value={customExpenseForm.name}
-                  onChange={(e) =>
-                    setCustomExpenseForm((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Select
-                  value={customExpenseForm.category}
-                  onValueChange={(value) =>
-                    setCustomExpenseForm((prev) => ({
-                      ...prev,
-                      category: value,
-                    }))
-                  }
-                >
-                  <Label htmlFor="custom-expense-category">Category *</Label>
-
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select Category</SelectLabel>
-
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={`${category.id}`}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="custom-expense-amount">Budgeted Amount *</Label>
-                <div className="relative">
-                  <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="custom-expense-amount"
-                    type="number"
-                    step="0.01"
-                    placeholder="0.00"
-                    value={customExpenseForm.amount}
-                    onChange={(e) =>
-                      setCustomExpenseForm((prev) => ({
-                        ...prev,
-                        amount: e.target.value,
-                      }))
-                    }
-                    className="pl-10"
-                  />
-                </div>
-              </div>
-            </div>
+            <UniqueExpenseTobudget
+              customExpenseForm={customExpenseForm}
+              onChange={(field, value) =>
+                setCustomExpenseForm((prev) => ({
+                  ...prev,
+                  [field]: value,
+                }))
+              }
+              categories={categories}
+            />
           )}
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             onClick={handleAddExpense}
@@ -278,7 +171,7 @@ const AddExpenseToBudgetModal = ({
                   !customExpenseForm.category
             }
           >
-            Add Expense
+            {t("add_expense")}
           </Button>
         </DialogFooter>
       </DialogContent>
