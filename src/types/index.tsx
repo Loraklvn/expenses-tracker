@@ -40,7 +40,10 @@ export interface Expense {
 
 export type BudgetWithCurrent = Budget & { current_amount: number };
 
-export type ExpenseWithCurrent = Expense & { current_amount: number };
+export type ExpenseWithCurrent = Expense & {
+  current_amount: number;
+  template_id: number;
+};
 
 export type PreloadedExpenseTemplate = ExpenseTemplate & {
   selected: boolean;

@@ -98,13 +98,16 @@
     "failed_to_delete_budget": "Failed to delete budget",
     "delete_budget": "Delete Budget",
     "delete_budget_confirmation": "Are you sure you want to delete this budget? This action cannot be undone.",
-    "delete": "Delete"
+    "delete": "Delete",
+    "cancel": "Cancel"
   },
   "expenses": {
     "add_transaction": "Add Transaction",
     "add_new_transaction_to": "Add new transaction to {expenseName}",
     "error_adding_transaction": "Error adding transaction: {error}",
-    "amount": "Amount"
+    "amount": "Amount",
+    "budget_expenses": "Budget Expenses",
+    "add_expense": "Add Expense"
   },
   "new_budget": {
     "title": "Create Budget",
@@ -212,7 +215,8 @@
     "select_expenses": "Select Expenses",
     "expenses_selected": "{count} expenses selected",
     "update_template": "Update Template",
-    "apply": "Apply"
+    "apply": "Apply",
+    "cancel": "Cancel"
   },
   "select_template": {
     "choose_how_to_start": "Choose how to start",

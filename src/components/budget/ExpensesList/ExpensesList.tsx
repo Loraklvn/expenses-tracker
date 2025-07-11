@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { ExpenseWithCurrent } from "@/types";
-import { formatCurrency } from "@/utils/numbers";
-import { Plus } from "lucide-react";
 import { ReactElement } from "react";
+import BudgetExpenseRow from "../BudgetExpenseRow";
 
 const ExpensesList = ({
   expenses,
@@ -11,37 +9,36 @@ const ExpensesList = ({
   expenses: ExpenseWithCurrent[];
   onAddTransaction: (expense: ExpenseWithCurrent) => void;
 }): ReactElement => {
+  const templatedExpenses = expenses.filter(
+    (expense) => expense.template_id !== null
+  );
+  const customExpenses = expenses.filter(
+    (expense) => expense.template_id === null
+  );
+
   return (
-    <div className="space-y-1">
-      {expenses?.map((expense) => (
-        <div
-          key={expense.id}
-          className="flex items-center justify-between py-3 px-1 border-b border-border/50 last:border-b-0"
-        >
-          <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-              <div>
-                <p className="font-medium text-base">{expense.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {formatCurrency(expense.current_amount)} /{" "}
-                  {formatCurrency(expense.budgeted_amount)}
-                </p>
-              </div>
-            </div>
-          </div>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              onAddTransaction(expense);
-            }}
-            className="ml-2"
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-        </div>
-      ))}
+    <div className="space-y-2">
+      <div className="space-y-1">
+        <h3 className="text-sm font-medium">Templated Expenses</h3>
+        {templatedExpenses?.map((expense) => (
+          <BudgetExpenseRow
+            key={expense.id}
+            expense={expense}
+            onAddTransaction={onAddTransaction}
+          />
+        ))}
+      </div>
+
+      <div className="space-y-1 border-t border-border/50 pt-2">
+        <h3 className="font-medium">Custom Expenses</h3>
+        {customExpenses?.map((expense) => (
+          <BudgetExpenseRow
+            key={expense.id}
+            expense={expense}
+            onAddTransaction={onAddTransaction}
+          />
+        ))}
+      </div>
     </div>
   );
 };

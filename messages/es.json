@@ -98,13 +98,16 @@
     "failed_to_delete_budget": "Error al eliminar presupuesto",
     "delete_budget": "Eliminar Presupuesto",
     "delete_budget_confirmation": "¿Estás seguro de que deseas eliminar este presupuesto? Esta acción no se puede deshacer.",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "cancel": "Cancelar"
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",
     "add_new_transaction_to": "Agregar nueva transacción a {expenseName}",
     "error_adding_transaction": "Error al agregar transacción: {error}",
-    "amount": "Cantidad"
+    "amount": "Cantidad",
+    "budget_expenses": "Gastos del Presupuesto",
+    "add_expense": "Agregar Gasto"
   },
   "new_budget": {
     "title": "Crear Presupuesto",

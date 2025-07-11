@@ -32,6 +32,52 @@ export const fetchBudgetClient = async (
   return data || null;
 };
 
+type AddExpenseToBudgetArgs = {
+  expenseTemplate: ExpenseTemplate;
+  budgetId: number;
+};
+
+export const addExpenseToBudgetClient = async ({
+  expenseTemplate,
+  budgetId,
+}: AddExpenseToBudgetArgs): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase.from("budget_expense").insert([
+    {
+      template_id: expenseTemplate.id,
+      budget_id: budgetId,
+      budgeted_amount: expenseTemplate.default_amount,
+      category_id: expenseTemplate.category_id,
+    },
+  ]);
+  if (error) throw error;
+};
+
+type AddCustomExpenseToBudgetArgs = {
+  name: string;
+  categoryId: number;
+  amount: number;
+  budgetId: number;
+};
+
+export const addCustomExpenseToBudgetClient = async ({
+  name,
+  categoryId,
+  amount,
+  budgetId,
+}: AddCustomExpenseToBudgetArgs): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase.from("budget_expense").insert([
+    {
+      name,
+      category_id: categoryId,
+      budget_id: budgetId,
+      budgeted_amount: amount,
+    },
+  ]);
+  if (error) throw error;
+};
+
 export const deleteBudgetClient = async (budgetId: number): Promise<void> => {
   const supabase = createClient();
   const { error } = await supabase.from("budget").delete().eq("id", budgetId);
@@ -71,10 +117,17 @@ export const fetchExpensesTemplateClient = async (): Promise<
   ExpenseTemplate[]
 > => {
   const supabase = createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
   const { data, error } = await supabase
     .from("expense_template")
     .select("*")
     .eq("archived", false) // filter out archived templates
+    .eq("user_id", user.id) // filter by user id
     .order("name", { ascending: true });
   if (error) throw error;
   return data || [];

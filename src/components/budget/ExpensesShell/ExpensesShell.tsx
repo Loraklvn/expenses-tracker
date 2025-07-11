@@ -3,12 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { fetchExpensesClient } from "@/lib/supabase/request/client";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
 import AddTransactionModal from "../AddTransactionModal";
 import ExpensesList from "../ExpensesList/ExpensesList";
 import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
+import { useTranslations } from "next-intl";
+import AddExpenseToBudgetModal from "../AddExpenseToBudgetModal/AddExpenseToBudgetModal";
 
 const ExpensesShell = ({
   budget,
@@ -17,6 +19,8 @@ const ExpensesShell = ({
   budget: BudgetWithCurrent | null;
   initialExpenses: ExpenseWithCurrent[];
 }): ReactElement => {
+  const t = useTranslations("expenses");
+
   const { data: expenses = [], refetch } = useQuery({
     queryKey: ["expenses", budget?.id],
     queryFn: async () => fetchExpensesClient(budget?.id || 0),
@@ -27,10 +31,13 @@ const ExpensesShell = ({
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [selectedExpense, setSelectedExpense] =
     useState<ExpenseWithCurrent | null>(null);
-
+  const [showAddExpenseToBudget, setShowAddExpenseToBudget] = useState(false);
   const handleCloseModal = () => {
     setShowAddTransaction(false);
     setSelectedExpense(null);
+  };
+  const handleCloseAddExpenseToBudget = () => {
+    setShowAddExpenseToBudget(false);
   };
 
   return (
@@ -43,6 +50,18 @@ const ExpensesShell = ({
             </Button>
           </Link>
           <h1 className="text-2xl font-bold">{budget?.name}</h1>
+        </div>
+
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-semibold">{t("budget_expenses")}</h2>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowAddExpenseToBudget(true)}
+          >
+            <PlusIcon className="h-4 w-4 mr-1" />
+            {t("add_expense")}
+          </Button>
         </div>
 
         <ExpensesList
@@ -58,6 +77,17 @@ const ExpensesShell = ({
           onClose={handleCloseModal}
           selectedExpense={selectedExpense}
           refetch={refetch}
+        />
+
+        <AddExpenseToBudgetModal
+          visible={showAddExpenseToBudget}
+          onClose={handleCloseAddExpenseToBudget}
+          expenses={expenses}
+          budgetId={budget?.id || 0}
+          onSuccess={() => {
+            setShowAddExpenseToBudget(false);
+            refetch();
+          }}
         />
       </div>
     </div>
