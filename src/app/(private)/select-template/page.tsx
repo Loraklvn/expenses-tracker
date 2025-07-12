@@ -1,4 +1,4 @@
-import SelectTemplateShell from "@/components/SelectTemplateShell/page";
+import SelectTemplateShell from "@/components/select-template/SelectTemplateShell";
 import { fetchBudgetTemplatesServer } from "@/lib/supabase/request/server";
 
 const SelectTemplatePage = async () => {

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BudgetTemplateWithStats } from "@/types";
 import { FileIcon as FileTemplate, Plus } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { formatCurrency } from "@/utils/numbers";
 import { getTranslations } from "next-intl/server";
 

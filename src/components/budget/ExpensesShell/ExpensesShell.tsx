@@ -1,16 +1,29 @@
 "use client";
 
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { Button } from "@/components/ui/button";
-import { fetchExpensesClient } from "@/lib/supabase/request/client";
+import {
+  deleteBudgetExpenseClient,
+  fetchExpensesClient,
+  updateBudgetExpenseClient,
+} from "@/lib/supabase/request/client";
+import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, PlusIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
-import AddTransactionModal from "../AddTransactionModal";
-import ExpensesList from "../ExpensesList/ExpensesList";
-import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
-import { useTranslations } from "next-intl";
+import { toast } from "react-toastify";
 import AddExpenseToBudgetModal from "../AddExpenseToBudgetModal/AddExpenseToBudgetModal";
+import AddTransactionModal from "../AddTransactionModal";
+import EditBudgetExpenseFormModal from "../EditBudgetExpenseFormModal";
+import ExpensesList from "../ExpensesList/ExpensesList";
+
+const emptyFormData = {
+  name: "",
+  description: "",
+  amount: "",
+};
 
 const ExpensesShell = ({
   budget,
@@ -32,12 +45,78 @@ const ExpensesShell = ({
   const [selectedExpense, setSelectedExpense] =
     useState<ExpenseWithCurrent | null>(null);
   const [showAddExpenseToBudget, setShowAddExpenseToBudget] = useState(false);
+  const [showEditExpense, setShowEditExpense] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [expenseToEdit, setExpenseToEdit] = useState<ExpenseWithCurrent | null>(
+    null
+  );
+  const [editForm, setEditForm] = useState(emptyFormData);
+
+  const isUpdateDisabled =
+    !editForm.amount ||
+    !editForm.name ||
+    (editForm.name === expenseToEdit?.name &&
+      editForm.amount === expenseToEdit?.budgeted_amount.toString());
+
   const handleCloseModal = () => {
     setShowAddTransaction(false);
     setSelectedExpense(null);
   };
+
   const handleCloseAddExpenseToBudget = () => {
     setShowAddExpenseToBudget(false);
+  };
+
+  const handleEditExpense = (expense: ExpenseWithCurrent) => {
+    setExpenseToEdit(expense);
+    setEditForm({
+      name: expense.name,
+      description: expense.description || "",
+      amount: expense.budgeted_amount.toString(),
+    });
+    setShowEditExpense(true);
+  };
+
+  const handleDeleteConfirmation = (expense: ExpenseWithCurrent) => {
+    setShowDeleteConfirmation(true);
+    setSelectedExpense(expense);
+  };
+  const handleCloseEditModal = () => {
+    setShowEditExpense(false);
+    setExpenseToEdit(null);
+    setEditForm(emptyFormData);
+  };
+
+  const handleEditConfirm = async () => {
+    try {
+      const updates = {
+        expenseId: expenseToEdit?.id || 0,
+        name: editForm.name || undefined,
+        description: editForm.description || undefined,
+        amount: Number(editForm.amount),
+      };
+
+      if (expenseToEdit?.template_id) delete updates.name;
+
+      await updateBudgetExpenseClient(updates);
+      refetch();
+      handleCloseEditModal();
+    } catch (err) {
+      console.log({ err });
+      toast.error(t("error_updating_expense"));
+    }
+  };
+
+  const handleDeleteExpense = async () => {
+    try {
+      await deleteBudgetExpenseClient(selectedExpense?.id || 0);
+      refetch();
+      setShowDeleteConfirmation(false);
+      setSelectedExpense(null);
+    } catch (err) {
+      console.log({ err });
+      toast.error(t("error_deleting_expense"));
+    }
   };
 
   return (
@@ -70,6 +149,8 @@ const ExpensesShell = ({
             setSelectedExpense(expense);
             setShowAddTransaction(true);
           }}
+          onEditExpense={handleEditExpense}
+          onDeleteExpense={handleDeleteConfirmation}
         />
 
         <AddTransactionModal
@@ -88,6 +169,27 @@ const ExpensesShell = ({
             setShowAddExpenseToBudget(false);
             refetch();
           }}
+        />
+
+        <ConfirmationModal
+          visible={showDeleteConfirmation}
+          onClose={() => setShowDeleteConfirmation(false)}
+          onConfirm={handleDeleteExpense}
+          title={t("delete_expense")}
+          description={t("delete_expense_description")}
+          confirmButtonText={t("delete")}
+          cancelButtonText={t("cancel")}
+        />
+
+        {/* Edit Expense Modal */}
+        <EditBudgetExpenseFormModal
+          visible={showEditExpense}
+          onClose={handleCloseEditModal}
+          onSubmit={handleEditConfirm}
+          formData={editForm}
+          onChange={(key, value) => setEditForm({ ...editForm, [key]: value })}
+          disabledUpdate={isUpdateDisabled}
+          disabledName={!!expenseToEdit?.template_id}
         />
       </div>
     </div>

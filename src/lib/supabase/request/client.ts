@@ -78,6 +78,44 @@ export const addCustomExpenseToBudgetClient = async ({
   if (error) throw error;
 };
 
+type UpdateBudgetExpenseArgs = {
+  expenseId: number;
+  name?: string;
+  description?: string;
+  amount: number;
+};
+
+export const updateBudgetExpenseClient = async ({
+  expenseId,
+  name,
+  description,
+  amount,
+}: UpdateBudgetExpenseArgs): Promise<void> => {
+  const updates: Record<string, unknown> = {
+    budgeted_amount: amount,
+  };
+  if (name) updates.name = name;
+  if (description) updates.description = description;
+
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("budget_expense")
+    .update(updates)
+    .eq("id", expenseId);
+  if (error) throw error;
+};
+
+export const deleteBudgetExpenseClient = async (
+  expenseId: number
+): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("budget_expense")
+    .delete()
+    .eq("id", expenseId);
+  if (error) throw error;
+};
+
 export const deleteBudgetClient = async (budgetId: number): Promise<void> => {
   const supabase = createClient();
   const { error } = await supabase.from("budget").delete().eq("id", budgetId);

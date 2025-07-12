@@ -6,9 +6,13 @@ import { useTranslations } from "next-intl";
 const ExpensesList = ({
   expenses,
   onAddTransaction,
+  onEditExpense,
+  onDeleteExpense,
 }: {
   expenses: ExpenseWithCurrent[];
   onAddTransaction: (expense: ExpenseWithCurrent) => void;
+  onEditExpense: (expense: ExpenseWithCurrent) => void;
+  onDeleteExpense: (expense: ExpenseWithCurrent) => void;
 }): ReactElement => {
   const t = useTranslations("budget_list");
   const templatedExpenses = expenses.filter(
@@ -27,6 +31,8 @@ const ExpensesList = ({
             key={expense.id}
             expense={expense}
             onAddTransaction={onAddTransaction}
+            onEditExpense={onEditExpense}
+            onDeleteExpense={onDeleteExpense}
           />
         ))}
       </div>
@@ -38,6 +44,8 @@ const ExpensesList = ({
             key={expense.id}
             expense={expense}
             onAddTransaction={onAddTransaction}
+            onEditExpense={onEditExpense}
+            onDeleteExpense={onDeleteExpense}
           />
         ))}
       </div>

@@ -112,8 +112,7 @@
     "category": "Categoría",
     "budgeted_amount": "Cantidad presupuestada",
     "select_category": "Seleccionar categoría",
-    "add_expense": "Agregar gasto",
-    "expense_name_placeholder": "Ejemplo: Alquiler, Comida"
+    "add_expense": "Agregar gasto"
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",
@@ -121,7 +120,24 @@
     "error_adding_transaction": "Error al agregar transacción: {error}",
     "amount": "Cantidad",
     "budget_expenses": "Gastos del Presupuesto",
-    "add_expense": "Agregar Gasto"
+    "add_expense": "Agregar Gasto",
+    "expense_name_placeholder": "Ejemplo: Alquiler, Comida",
+    "edit_expense": "Editar gasto",
+    "enter_expense_name": "Ingresa el nombre del gasto",
+    "enter_description": "Ingresa la descripción del gasto",
+    "enter_amount": "Ingresa la cantidad del gasto",
+    "update": "Actualizar",
+    "delete_expense": "Eliminar gasto",
+    "delete_expense_confirmation": "¿Estás seguro de que deseas eliminar este gasto?",
+    "delete_expense_confirm": "Eliminar",
+    "delete_expense_cancel": "Cancelar",
+    "delete_expense_description": "¿Estás seguro de que deseas eliminar este gasto? Esta acción no se puede deshacer.",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "name": "Nombre",
+    "description": "Descripción",
+    "error_updating_expense": "Error al actualizar gasto",
+    "error_deleting_expense": "Error al eliminar gasto"
   },
   "new_budget": {
     "title": "Crear Presupuesto",
