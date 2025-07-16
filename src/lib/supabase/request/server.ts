@@ -44,20 +44,91 @@ export async function fetchExpensesServer(
   return data || [];
 }
 
-export async function addTransactionServer(
+// Helper functions for different transaction types
+export async function addBudgetedTransactionServer(
   expenseId: number,
   amount: number,
   description?: string
 ): Promise<void> {
   const supabase = await createServer();
+
   const { error } = await supabase.from("transaction").insert([
     {
       expense_id: expenseId,
       amount,
       description,
+      type: "expense",
     },
   ]);
+
   if (error) throw error;
+}
+
+export async function addUnbudgetedTransactionWithTemplateServer(
+  templateId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = await createServer();
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      template_id: templateId,
+      amount,
+      description,
+      type: "expense",
+    },
+  ]);
+
+  if (error) throw error;
+}
+
+export async function addUnbudgetedTransactionWithCategoryServer(
+  categoryId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = await createServer();
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      category_id: categoryId,
+      amount,
+      description,
+      type: "expense",
+    },
+  ]);
+
+  if (error) throw error;
+}
+
+export async function addIncomeTransactionServer(
+  categoryId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = await createServer();
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      category_id: categoryId,
+      amount,
+      description,
+      type: "income",
+    },
+  ]);
+
+  if (error) throw error;
+}
+
+// Legacy function for backward compatibility
+export async function addTransactionServer(
+  expenseId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  // For backward compatibility, we assume it's a budgeted expense
+  return addBudgetedTransactionServer(expenseId, amount, description);
 }
 
 export const fetchExpensesTemplateServer = async (): Promise<
@@ -73,12 +144,15 @@ export const fetchExpensesTemplateServer = async (): Promise<
   return data || [];
 };
 
-export const fetchCategoriesServer = async (): Promise<Category[]> => {
+export const fetchCategoriesServer = async (
+  type: "income" | "expense" = "expense"
+): Promise<Category[]> => {
   const supabase = await createServer();
   const { data, error } = await supabase
     .from("category")
     .select("*")
     .eq("archived", false)
+    .eq("type", type) // filter by type
     .order("name", { ascending: true });
   if (error) throw error;
   return data || [];
@@ -87,7 +161,8 @@ export const fetchCategoriesServer = async (): Promise<Category[]> => {
 export const fetchTransactionsServer = async (
   page: number = 1,
   pageSize: number = 10,
-  searchTerm?: string
+  searchTerm?: string,
+  type: "income" | "expense" = "expense"
 ): Promise<{ transactions: TransactionWithDetails[]; total: number }> => {
   const supabase = await createServer();
   const {
@@ -101,6 +176,7 @@ export const fetchTransactionsServer = async (
     .from("transactions_with_details")
     .select("*", { count: "exact" })
     .eq("user_id", user.id)
+    .eq("type", type) // filter by type
     .order("transaction_date", { ascending: false });
 
   if (searchTerm) {

@@ -21,7 +21,7 @@ const useManageCategories = ({
     refetch,
   } = useQuery({
     queryKey: ["categories"],
-    queryFn: fetchCategoriesClient,
+    queryFn: () => fetchCategoriesClient(),
     initialData: defaultCategories,
   });
 

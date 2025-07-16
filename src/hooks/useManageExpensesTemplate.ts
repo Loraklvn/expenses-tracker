@@ -15,7 +15,7 @@ const useManageExpensesTemplate = () => {
   });
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
-    queryFn: fetchCategoriesClient,
+    queryFn: () => fetchCategoriesClient(),
   });
 
   const onSuccess = () => {

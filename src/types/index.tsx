@@ -73,6 +73,7 @@ export interface Category {
   created_at: string;
   updated_at: string;
   archived: boolean;
+  type: "income" | "expense";
 }
 
 export type BudgetTemplate = {

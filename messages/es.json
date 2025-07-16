@@ -112,7 +112,8 @@
     "category": "Categoría",
     "budgeted_amount": "Cantidad presupuestada",
     "select_category": "Seleccionar categoría",
-    "add_expense": "Agregar gasto"
+    "add_expense": "Agregar gasto",
+    "expense_name_placeholder": "Ejemplo: Alquiler, Comida"
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",
@@ -121,7 +122,6 @@
     "amount": "Cantidad",
     "budget_expenses": "Gastos del Presupuesto",
     "add_expense": "Agregar Gasto",
-    "expense_name_placeholder": "Ejemplo: Alquiler, Comida",
     "edit_expense": "Editar gasto",
     "enter_expense_name": "Ingresa el nombre del gasto",
     "enter_description": "Ingresa la descripción del gasto",
@@ -199,7 +199,11 @@
     "archive_category": "Archivar Categoría",
     "archive_category_confirmation": "¿Estás seguro de que deseas archivar esta categoría?",
     "archive": "Archivar",
-    "created_on": "Creado el: {date}"
+    "created_on": "Creado el: {date}",
+    "type": "Tipo",
+    "select_type": "Selecciona el tipo de categoría",
+    "income": "Ingreso",
+    "expense": "Gasto"
   },
   "transactions": {
     "delete_transaction": "Eliminar Transacción",

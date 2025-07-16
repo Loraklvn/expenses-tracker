@@ -198,7 +198,11 @@
     "archive_category": "Archive Category",
     "archive_category_confirmation": "Are you sure you want to archive this category?",
     "archive": "Archive",
-    "created_on": "Created on: {date}"
+    "created_on": "Created on: {date}",
+    "type": "Type",
+    "select_type": "Select category type",
+    "income": "Income",
+    "expense": "Expense"
   },
   "transactions": {
     "delete_transaction": "Delete Transaction",

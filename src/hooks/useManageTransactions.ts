@@ -30,7 +30,12 @@ const useManageTransactions = ({
     refetch,
   } = useQuery<FetchTransactionsResult>({
     queryKey: ["transactions", page, pageSize, searchTermDebounced],
-    queryFn: () => fetchTransactionsClient(page, pageSize, searchTermDebounced),
+    queryFn: () =>
+      fetchTransactionsClient({
+        page,
+        pageSize,
+        searchTerm: searchTermDebounced,
+      }),
     initialData: {
       transactions: defaultTransactions,
       total: defaultTotal,

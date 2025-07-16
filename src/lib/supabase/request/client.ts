@@ -135,20 +135,91 @@ export async function fetchExpensesClient(
   return data || [];
 }
 
-export async function addTransactionClient(
+// Helper functions for different transaction types
+export async function addBudgetedTransaction(
   expenseId: number,
   amount: number,
   description?: string
 ): Promise<void> {
   const supabase = createClient();
+
   const { error } = await supabase.from("transaction").insert([
     {
       expense_id: expenseId,
       amount,
       description,
+      type: "expense",
     },
   ]);
+
   if (error) throw error;
+}
+
+export async function addUnbudgetedTransactionWithTemplate(
+  templateId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      template_id: templateId,
+      amount,
+      description,
+      type: "expense",
+    },
+  ]);
+
+  if (error) throw error;
+}
+
+export async function addUnbudgetedTransactionWithCategory(
+  categoryId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      category_id: categoryId,
+      amount,
+      description,
+      type: "expense",
+    },
+  ]);
+
+  if (error) throw error;
+}
+
+export async function addIncomeTransaction(
+  categoryId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      category_id: categoryId,
+      amount,
+      description,
+      type: "income",
+    },
+  ]);
+
+  if (error) throw error;
+}
+
+// Legacy function for backward compatibility
+export async function addTransactionClient(
+  expenseId: number,
+  amount: number,
+  description?: string
+): Promise<void> {
+  // For backward compatibility, we assume it's a budgeted expense
+  return addBudgetedTransaction(expenseId, amount, description);
 }
 
 export const fetchExpensesTemplateClient = async (): Promise<
@@ -279,14 +350,22 @@ export const archiveExpenseTemplateClient = async (
   if (error) throw error;
 };
 
-// Categories helper functions
-export const fetchCategoriesClient = async (): Promise<Category[]> => {
+type FetchCategoriesArgs = {
+  archived?: boolean;
+  type?: "income" | "expense";
+};
+
+export const fetchCategoriesClient = async ({
+  archived = false,
+  type = "expense",
+}: FetchCategoriesArgs = {}): Promise<Category[]> => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("category")
     .select("*")
     .order("name", { ascending: true })
-    .eq("archived", false);
+    .eq("archived", archived ?? false)
+    .eq("type", type ?? "expense");
   if (error) throw error;
   return data || [];
 };
@@ -295,11 +374,13 @@ type CategoryPayload = {
   name: string;
   description?: string;
   color: string;
+  type?: "income" | "expense";
 };
 export const createCategoryClient = async ({
   name,
   description,
   color,
+  type = "expense",
 }: CategoryPayload): Promise<void> => {
   const supabase = createClient();
   const {
@@ -313,6 +394,7 @@ export const createCategoryClient = async ({
       name,
       description,
       color,
+      type,
       user_id: user.id, // associate with the current user
     },
   ]);
@@ -350,17 +432,18 @@ export type FetchTransactionsResult = {
   total: number;
 };
 
-/**
- * Fetch one page of the user's transactions, plus the exact total count.
- * @param page 1-based page number
- * @param pageSize number of rows per page
- * @param searchTerm optional search term to filter by budget_name or expense_name
- */
-export const fetchTransactionsClient = async (
-  page: number = 1,
-  pageSize: number = 10,
-  searchTerm?: string
-): Promise<FetchTransactionsResult> => {
+type FetchTransactionsArgs = {
+  page: number;
+  pageSize: number;
+  searchTerm?: string;
+  type?: "income" | "expense";
+};
+export const fetchTransactionsClient = async ({
+  page = 1,
+  pageSize = 10,
+  searchTerm,
+  type = "expense",
+}: FetchTransactionsArgs): Promise<FetchTransactionsResult> => {
   const supabase = createClient();
 
   // 1) Get current user
@@ -379,6 +462,7 @@ export const fetchTransactionsClient = async (
     .from("transactions_with_details")
     .select("*", { count: "exact" })
     .eq("user_id", user.id)
+    .eq("type", type)
     .order("transaction_date", { ascending: false });
 
   // 4) Add search filter if searchTerm is provided
