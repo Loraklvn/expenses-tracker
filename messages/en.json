@@ -1,7 +1,7 @@
 {
   "Home": {
-    "welcome": "Welcome!",
-    "description": "This is the English version of the site."
+    "my_budgets": "My Budgets",
+    "income": "Income"
   },
   "auth": {
     "login": "Login",
@@ -260,5 +260,33 @@
     "or_choose_a_template": "Or choose a template",
     "new_template": "New Template",
     "expenses_included": "{count} expenses included"
+  },
+  "income": {
+    "title": "Income Management",
+    "this_months_income": "This Month's Income",
+    "income_entries_this_month": "income entries this month",
+    "add_income": "Add Income",
+    "description": "Description",
+    "description_placeholder": "e.g., Monthly Salary",
+    "amount": "Amount",
+    "amount_placeholder": "0.00",
+    "income_source": "Income Source",
+    "select_income_source": "Select income source",
+    "add_income_button": "Add Income",
+    "adding": "Adding...",
+    "recent_income": "Recent Income",
+    "manage_income_sources": "Manage Income Sources",
+    "no_income_recorded": "No income recorded yet",
+    "add_first_income": "Add your first income entry above",
+    "income_added_successfully": "Income added successfully!",
+    "failed_to_add_income": "Failed to add income. Please try again.",
+    "please_fill_required_fields": "Please fill in all required fields.",
+    "unknown_source": "Unknown Source",
+    "delete_income": "Delete Income",
+    "delete_income_confirmation": "Are you sure you want to delete this income transaction?",
+    "income_deleted_successfully": "Income transaction deleted successfully",
+    "failed_to_delete_income": "Failed to delete income transaction",
+    "delete": "Delete",
+    "cancel": "Cancel"
   }
 }

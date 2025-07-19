@@ -1,5 +1,10 @@
 // lib/supabase/requests.ts
-import { BudgetTemplateWithStats, Category, ExpenseTemplate } from "@/types";
+import {
+  BudgetTemplateWithStats,
+  Category,
+  ExpenseTemplate,
+  IncomeSource,
+} from "@/types";
 import { createClient } from "../client";
 import type {
   BudgetWithCurrent,
@@ -194,7 +199,7 @@ export async function addUnbudgetedTransactionWithCategory(
 }
 
 export async function addIncomeTransaction(
-  categoryId: number,
+  incomeSourceId: number,
   amount: number,
   description?: string
 ): Promise<void> {
@@ -202,7 +207,7 @@ export async function addIncomeTransaction(
 
   const { error } = await supabase.from("transaction").insert([
     {
-      category_id: categoryId,
+      income_source_id: incomeSourceId,
       amount,
       description,
       type: "income",
@@ -602,3 +607,123 @@ export async function deleteBudgetTemplateClient(
     .eq("id", templateId);
   if (error) throw error;
 }
+
+// Income Source Management Functions
+export const fetchIncomeSourcesClient = async (): Promise<IncomeSource[]> => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { data, error } = await supabase
+    .from("income_source")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("active", true)
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return data || [];
+};
+
+type IncomeSourcePayload = {
+  name: string;
+  description?: string;
+  category_id: number;
+};
+
+export const createIncomeSourceClient = async (
+  args: IncomeSourcePayload
+): Promise<void> => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { error } = await supabase.from("income_source").insert([
+    {
+      ...args,
+      user_id: user.id,
+    },
+  ]);
+  if (error) throw error;
+};
+
+export const updateIncomeSourceClient = async ({
+  incomeSourceId,
+  updates,
+}: {
+  incomeSourceId: number;
+  updates: Partial<IncomeSourcePayload>;
+}): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("income_source")
+    .update(updates)
+    .eq("id", incomeSourceId);
+  if (error) throw error;
+};
+
+export const archiveIncomeSourceClient = async (
+  incomeSourceId: number
+): Promise<void> => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("income_source")
+    .update({ active: false })
+    .eq("id", incomeSourceId);
+  if (error) throw error;
+};
+
+// Income Transaction Management Functions
+export const fetchIncomeTransactionsClient = async ({
+  page = 1,
+  pageSize = 10,
+  searchTerm,
+}: {
+  page?: number;
+  pageSize?: number;
+  searchTerm?: string;
+}): Promise<FetchTransactionsResult> => {
+  return fetchTransactionsClient({
+    page,
+    pageSize,
+    searchTerm,
+    type: "income",
+  });
+};
+
+export const createIncomeTransactionClient = async ({
+  incomeSourceId,
+  amount,
+  description,
+  transactionDate,
+}: {
+  incomeSourceId: number;
+  amount: number;
+  description?: string;
+  transactionDate?: string;
+}): Promise<void> => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { error } = await supabase.from("transaction").insert([
+    {
+      income_source_id: incomeSourceId,
+      amount,
+      description,
+      type: "income",
+      transaction_date:
+        transactionDate || new Date().toISOString().split("T")[0],
+    },
+  ]);
+
+  if (error) throw error;
+};

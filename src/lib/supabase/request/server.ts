@@ -5,6 +5,7 @@ import {
   ExpenseWithCurrent,
   BudgetTemplateWithStats,
   TransactionWithDetails,
+  IncomeSource,
 } from "@/types";
 import { createServer } from "../server";
 
@@ -103,7 +104,7 @@ export async function addUnbudgetedTransactionWithCategoryServer(
 }
 
 export async function addIncomeTransactionServer(
-  categoryId: number,
+  incomeSourceId: number,
   amount: number,
   description?: string
 ): Promise<void> {
@@ -111,7 +112,7 @@ export async function addIncomeTransactionServer(
 
   const { error } = await supabase.from("transaction").insert([
     {
-      category_id: categoryId,
+      income_source_id: incomeSourceId,
       amount,
       description,
       type: "income",
@@ -228,4 +229,74 @@ export const fetchBudgetTemplateServer = async (
     .single();
   if (error) return null;
   return data || null;
+};
+
+// Income Source Management Functions
+export const fetchIncomeSourcesServer = async (): Promise<IncomeSource[]> => {
+  const supabase = await createServer();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { data, error } = await supabase
+    .from("income_source")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("active", true)
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return data || [];
+};
+
+type IncomeSourcePayload = {
+  name: string;
+  description?: string;
+  category_id: number;
+};
+
+export const createIncomeSourceServer = async (
+  args: IncomeSourcePayload
+): Promise<void> => {
+  const supabase = await createServer();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw userError || new Error("Not authenticated");
+
+  const { error } = await supabase.from("income_source").insert([
+    {
+      ...args,
+      user_id: user.id,
+    },
+  ]);
+  if (error) throw error;
+};
+
+export const updateIncomeSourceServer = async ({
+  incomeSourceId,
+  updates,
+}: {
+  incomeSourceId: number;
+  updates: Partial<IncomeSourcePayload>;
+}): Promise<void> => {
+  const supabase = await createServer();
+  const { error } = await supabase
+    .from("income_source")
+    .update(updates)
+    .eq("id", incomeSourceId);
+  if (error) throw error;
+};
+
+export const archiveIncomeSourceServer = async (
+  incomeSourceId: number
+): Promise<void> => {
+  const supabase = await createServer();
+  const { error } = await supabase
+    .from("income_source")
+    .update({ active: false })
+    .eq("id", incomeSourceId);
+  if (error) throw error;
 };

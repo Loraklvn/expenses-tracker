@@ -1,8 +1,8 @@
-import BudgetsList from "@/components/home/BudgetsList";
+import HomeShell from "@/components/home/HomeShell";
 import { fetchBudgetsServer } from "@/lib/supabase/request/server";
 
-export default async function BudgetTracker() {
+export default async function HomePage() {
   const budgets = await fetchBudgetsServer();
 
-  return <BudgetsList budgets={budgets || []} />;
+  return <HomeShell budgets={budgets || []} />;
 }

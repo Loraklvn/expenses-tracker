@@ -1,7 +1,7 @@
 {
   "Home": {
-    "welcome": "¡Bienvenido!",
-    "description": "Esta es la versión en español del sitio."
+    "my_budgets": "Mis Presupuestos",
+    "income": "Ingresos"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -260,5 +260,33 @@
     "or_choose_a_template": "O elige una plantilla",
     "new_template": "Nueva plantilla",
     "expenses_included": "{count} gastos incluidos"
+  },
+  "income": {
+    "title": "Gestión de Ingresos",
+    "this_months_income": "Ingresos de Este Mes",
+    "income_entries_this_month": "entradas de ingresos este mes",
+    "add_income": "Agregar Ingreso",
+    "description": "Descripción",
+    "description_placeholder": "Ejemplo: Salario Mensual",
+    "amount": "Cantidad",
+    "amount_placeholder": "0.00",
+    "income_source": "Fuente de Ingreso",
+    "select_income_source": "Seleccionar fuente de ingreso",
+    "add_income_button": "Agregar Ingreso",
+    "adding": "Agregando...",
+    "recent_income": "Ingresos Recientes",
+    "manage_income_sources": "Administrar Fuentes de Ingreso",
+    "no_income_recorded": "No hay ingresos registrados aún",
+    "add_first_income": "Agrega tu primera entrada de ingreso arriba",
+    "income_added_successfully": "¡Ingreso agregado con éxito!",
+    "failed_to_add_income": "Error al agregar ingreso. Por favor, inténtalo de nuevo.",
+    "please_fill_required_fields": "Por favor, completa todos los campos requeridos.",
+    "unknown_source": "Fuente Desconocida",
+    "delete_income": "Eliminar Ingreso",
+    "delete_income_confirmation": "¿Estás seguro de que deseas eliminar esta transacción de ingreso?",
+    "income_deleted_successfully": "Transacción de ingreso eliminada con éxito",
+    "failed_to_delete_income": "Error al eliminar transacción de ingreso",
+    "delete": "Eliminar",
+    "cancel": "Cancelar"
   }
 }

@@ -4,16 +4,21 @@ export interface Transaction {
   amount: number;
   type: "expense" | "income";
   transaction_date: string;
-  expense_id: number;
+  expense_id: number | null;
+  template_id: number | null;
+  category_id: number | null;
+  income_source_id: number | null;
 }
 
 export type TransactionWithDetails = Transaction & {
-  expense_name: string;
-  budget_name: string;
+  expense_name: string | null;
+  budget_name: string | null;
   user_id: string;
-  category_id: number;
-  category_name: string;
-  category_color: string;
+  category_name: string | null;
+  category_color: string | null;
+  category_type: "income" | "expense" | null;
+  income_source_name: string | null;
+  income_source_description: string | null;
 };
 
 export type ExpenseTemplate = {
@@ -90,3 +95,14 @@ export type BudgetTemplateWithStats = BudgetTemplate & {
   total_default_amount: number;
   expense_template_ids: number[];
 };
+
+export interface IncomeSource {
+  id: number;
+  name: string;
+  description: string | null;
+  category_id: number;
+  user_id: string;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
