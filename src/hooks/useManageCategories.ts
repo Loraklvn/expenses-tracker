@@ -26,7 +26,6 @@ const useManageCategories = ({
   });
 
   const onSuccess = () => {
-    toast.success(t("operation_successful"));
     refetch();
   };
   const onError = () => toast.error(t("something_went_wrong"));

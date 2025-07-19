@@ -48,7 +48,6 @@ const useManageTransactions = ({
   }, [searchTermDebounced]);
 
   const onSuccess = () => {
-    toast.success(t("operation_successful"));
     refetch();
   };
 

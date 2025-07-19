@@ -19,7 +19,6 @@ const useManageExpensesTemplate = () => {
   });
 
   const onSuccess = () => {
-    toast.success("Operation successful!");
     refetch();
   };
   const onError = () => toast.error("Something went wrong");

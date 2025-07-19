@@ -21,7 +21,6 @@ const useManageIncomeTransactions = () => {
   });
 
   const onSuccess = () => {
-    toast.success(t("operation_successful"));
     refetch();
   };
 

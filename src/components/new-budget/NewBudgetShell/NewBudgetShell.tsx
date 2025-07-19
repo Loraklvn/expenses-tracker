@@ -40,7 +40,6 @@ export default function NewBudgetShell({
   const { mutate, isPending } = useMutation({
     mutationFn: createBudgetWithLinesClient,
     onSuccess: (newId) => {
-      toast.success(t("budget_created"));
       router.push(`/budget/${newId}`);
     },
     onError: (error) => {

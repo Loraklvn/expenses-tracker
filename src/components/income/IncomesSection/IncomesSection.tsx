@@ -68,8 +68,6 @@ export default function IncomesSection() {
         amount: "",
         incomeSourceId: "",
       });
-
-      toast.success(t("income_added_successfully"));
     } catch (error) {
       console.error("Error adding income:", error);
       toast.error(t("failed_to_add_income"));

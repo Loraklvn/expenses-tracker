@@ -20,7 +20,6 @@ const useManageBudgetTemplates = ({
   });
 
   const onSuccess = () => {
-    toast.success("Operation succeeded");
     refetch();
   };
   const onError = () => {

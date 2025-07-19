@@ -21,7 +21,6 @@ const useManageBudgets = ({
   });
 
   const onSuccess = () => {
-    toast.success(t("budget_deleted_successfully"));
     refetch();
   };
 
