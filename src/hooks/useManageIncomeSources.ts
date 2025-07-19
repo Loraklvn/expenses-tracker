@@ -4,11 +4,18 @@ import {
   updateIncomeSourceClient,
   archiveIncomeSourceClient,
 } from "@/lib/supabase/request/client";
+import { IncomeSource } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 
-const useManageIncomeSources = () => {
+const useManageIncomeSources = (
+  {
+    defaultIncomeSources,
+  }: {
+    defaultIncomeSources: IncomeSource[];
+  } = { defaultIncomeSources: [] }
+) => {
   const t = useTranslations("common");
   const {
     data: incomeSources,
@@ -17,6 +24,7 @@ const useManageIncomeSources = () => {
   } = useQuery({
     queryKey: ["income-sources"],
     queryFn: () => fetchIncomeSourcesClient(),
+    initialData: defaultIncomeSources,
   });
 
   const onSuccess = () => {

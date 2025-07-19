@@ -15,6 +15,7 @@ import {
   ListIcon,
   SettingsIcon,
   TagIcon,
+  TrendingUpIcon,
   XIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -66,6 +67,13 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
       icon: TagIcon,
       description: t("categories_description"),
       href: "/categories",
+    },
+    {
+      id: "income-sources",
+      label: t("income_sources"),
+      icon: TrendingUpIcon,
+      description: t("income_sources_description"),
+      href: "/income-sources",
     },
     {
       id: "transactions",

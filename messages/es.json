@@ -78,6 +78,8 @@
     "manage_expenses_description": "Agregar y administrar tus gastos",
     "categories": "Categorías",
     "categories_description": "Ver y administrar tus categorías de gastos",
+    "income_sources": "Fuentes de Ingreso",
+    "income_sources_description": "Ver y administrar tus fuentes de ingreso",
     "transactions": "Transacciones",
     "transactions_description": "Ver y administrar tus transacciones",
     "analytics": "Analíticas",
@@ -203,7 +205,9 @@
     "type": "Tipo",
     "select_type": "Selecciona el tipo de categoría",
     "income": "Ingreso",
-    "expense": "Gasto"
+    "expense": "Gasto",
+    "expense_categories": "Categorías de Gastos",
+    "income_categories": "Categorías de Ingresos"
   },
   "transactions": {
     "delete_transaction": "Eliminar Transacción",
@@ -288,5 +292,28 @@
     "failed_to_delete_income": "Error al eliminar transacción de ingreso",
     "delete": "Eliminar",
     "cancel": "Cancelar"
+  },
+  "income_sources": {
+    "title": "Fuentes de Ingreso",
+    "add_income_source": "Agregar Fuente de Ingreso",
+    "edit_income_source": "Editar Fuente de Ingreso",
+    "income_source_name": "Nombre de la Fuente de Ingreso",
+    "income_source_name_placeholder": "Ejemplo: Trabajo Principal, Freelance",
+    "description": "Descripción",
+    "description_placeholder": "Ejemplo: Ingreso de empleo principal",
+    "category": "Categoría",
+    "select_category": "Seleccionar Categoría",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "total_income_sources": "{count} total de Fuentes de Ingreso",
+    "search_placeholder": "Buscar Fuentes de Ingreso",
+    "not_matching": "No hay fuentes de ingreso que coincidan con tu búsqueda",
+    "clear_search": "Limpiar Búsqueda",
+    "no_income_sources": "No hay fuentes de ingreso aún",
+    "add_your_first_income_source": "Agrega tu primera fuente de ingreso",
+    "archive_income_source": "Archivar Fuente de Ingreso",
+    "archive_income_source_confirmation": "¿Estás seguro de que deseas archivar esta fuente de ingreso?",
+    "archive": "Archivar",
+    "created_on": "Creado el: {date}"
   }
 }

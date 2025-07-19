@@ -357,7 +357,7 @@ export const archiveExpenseTemplateClient = async (
 
 type FetchCategoriesArgs = {
   archived?: boolean;
-  type?: "income" | "expense";
+  type?: "income" | "expense" | "all";
 };
 
 export const fetchCategoriesClient = async ({
@@ -365,12 +365,17 @@ export const fetchCategoriesClient = async ({
   type = "expense",
 }: FetchCategoriesArgs = {}): Promise<Category[]> => {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const query = supabase
     .from("category")
     .select("*")
-    .order("name", { ascending: true })
     .eq("archived", archived ?? false)
-    .eq("type", type ?? "expense");
+    .order("name", { ascending: true });
+
+  if (type !== "all") {
+    query.eq("type", type);
+  }
+
+  const { data, error } = await query;
   if (error) throw error;
   return data || [];
 };

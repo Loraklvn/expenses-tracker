@@ -78,6 +78,8 @@
     "manage_expenses_description": "Add and manage your expenses",
     "categories": "Categories",
     "categories_description": "View and manage your expense categories",
+    "income_sources": "Income Sources",
+    "income_sources_description": "View and manage your income sources",
     "transactions": "Transactions",
     "transactions_description": "View and manage your transactions",
     "analytics": "Analytics",
@@ -202,7 +204,9 @@
     "type": "Type",
     "select_type": "Select category type",
     "income": "Income",
-    "expense": "Expense"
+    "expense": "Expense",
+    "expense_categories": "Expense Categories",
+    "income_categories": "Income Categories"
   },
   "transactions": {
     "delete_transaction": "Delete Transaction",
@@ -288,5 +292,28 @@
     "failed_to_delete_income": "Failed to delete income transaction",
     "delete": "Delete",
     "cancel": "Cancel"
+  },
+  "income_sources": {
+    "title": "Income Sources",
+    "add_income_source": "Add Income Source",
+    "edit_income_source": "Edit Income Source",
+    "income_source_name": "Income Source Name",
+    "income_source_name_placeholder": "e.g., Main Job, Freelance",
+    "description": "Description",
+    "description_placeholder": "e.g., Primary employment income",
+    "category": "Category",
+    "select_category": "Select Category",
+    "save": "Save",
+    "cancel": "Cancel",
+    "total_income_sources": "{count} total Income Sources",
+    "search_placeholder": "Search Income Sources",
+    "not_matching": "No income sources matching your search",
+    "clear_search": "Clear Search",
+    "no_income_sources": "No income sources yet",
+    "add_your_first_income_source": "Add your first income source",
+    "archive_income_source": "Archive Income Source",
+    "archive_income_source_confirmation": "Are you sure you want to archive this income source?",
+    "archive": "Archive",
+    "created_on": "Created on: {date}"
   }
 }

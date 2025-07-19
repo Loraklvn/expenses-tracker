@@ -146,15 +146,20 @@ export const fetchExpensesTemplateServer = async (): Promise<
 };
 
 export const fetchCategoriesServer = async (
-  type: "income" | "expense" = "expense"
+  type: "income" | "expense" | "all" = "all"
 ): Promise<Category[]> => {
   const supabase = await createServer();
-  const { data, error } = await supabase
+  const query = supabase
     .from("category")
     .select("*")
     .eq("archived", false)
-    .eq("type", type) // filter by type
     .order("name", { ascending: true });
+
+  if (type !== "all") {
+    query.eq("type", type);
+  }
+
+  const { data, error } = await query;
   if (error) throw error;
   return data || [];
 };

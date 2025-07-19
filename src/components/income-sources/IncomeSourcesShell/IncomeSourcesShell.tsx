@@ -3,34 +3,31 @@
 import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useManageCategories from "@/hooks/useManageCategories";
-import { Category } from "@/types";
+import useManageIncomeSources from "@/hooks/useManageIncomeSources";
+import { IncomeSource } from "@/types";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
-import CategoriesList from "../CategoriesList/CategoriesList";
-import CategoryFormModal from "../CategoryFormModal/CategoryFormModal";
+import IncomeSourcesList from "../IncomeSourcesList/IncomeSourcesList";
+import IncomeSourceFormModal from "../IncomeSourceFormModal/IncomeSourceFormModal";
 import { useTranslations } from "next-intl";
 
-type CategoriesShellProps = {
-  defaultCategories: Category[];
+type IncomeSourcesShellProps = {
+  defaultIncomeSources: IncomeSource[];
 };
 
 const emptyFormData = {
   id: 0,
   name: "",
   description: "",
-  color: "#6b7280", // Default gray color
-  type: "expense" as "expense" | "income",
+  category_id: 0,
 };
 
-export default function CategoriesShell({
-  defaultCategories,
-}: CategoriesShellProps) {
-  const t = useTranslations("categories");
-
-  // Use a single hook for all categories
-  const { categories, add, edit, archive } = useManageCategories({
-    defaultCategories,
+export default function IncomeSourcesShell({
+  defaultIncomeSources,
+}: IncomeSourcesShellProps) {
+  const t = useTranslations("income_sources");
+  const { incomeSources, add, edit, archive } = useManageIncomeSources({
+    defaultIncomeSources,
   });
 
   const [formData, setFormData] = useState(emptyFormData);
@@ -38,42 +35,45 @@ export default function CategoriesShell({
   const [formVisible, setFormVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmingArchive, setIsConfirmingArchive] = useState(false);
-  const [categoryToArchive, setCategoryToArchive] = useState<Category | null>(
-    null
-  );
+  const [incomeSourceToArchive, setIncomeSourceToArchive] =
+    useState<IncomeSource | null>(null);
 
   const resetStates = () => {
     setFormVisible(false);
     setFormData(emptyFormData);
-
     setIsEditing(false);
-    setCategoryToArchive(null);
+    setIncomeSourceToArchive(null);
     setIsConfirmingArchive(false);
   };
 
   const handleSubmit = async () => {
     if (isEditing)
       await edit.mutateAsync({
-        categoryId: formData.id,
+        incomeSourceId: formData.id,
         updates: formData,
       });
     else await add.mutateAsync(formData);
     resetStates();
   };
 
-  const confirmArchive = (category: Category) => {
-    setCategoryToArchive(category);
+  const confirmArchive = (incomeSource: IncomeSource) => {
+    setIncomeSourceToArchive(incomeSource);
     setIsConfirmingArchive(true);
   };
 
   const handleArchive = async () => {
-    if (!categoryToArchive) return;
-    await archive.mutateAsync(categoryToArchive.id);
+    if (!incomeSourceToArchive) return;
+    await archive.mutateAsync(incomeSourceToArchive.id);
     resetStates();
   };
 
-  const openEditDialog = (category: Category) => {
-    setFormData(category);
+  const openEditDialog = (incomeSource: IncomeSource) => {
+    setFormData({
+      id: incomeSource.id,
+      name: incomeSource.name,
+      description: incomeSource.description || "",
+      category_id: incomeSource.category_id || 0,
+    });
     setIsEditing(true);
     setFormVisible(true);
   };
@@ -87,11 +87,13 @@ export default function CategoriesShell({
     resetStates();
   };
 
-  const filteredCategories = (categories || []).filter(
-    (category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (category.description &&
-        category.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredIncomeSources = (incomeSources || []).filter(
+    (incomeSource) =>
+      incomeSource.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (incomeSource.description &&
+        incomeSource.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -102,10 +104,10 @@ export default function CategoriesShell({
         </div>
 
         <div className="space-y-6">
-          {/* Add New Category Button */}
+          {/* Add New Income Source Button */}
           <Button className="w-full" size="lg" onClick={openAddDialog}>
             <PlusIcon className="h-4 w-4 mr-2" />
-            {t("add_category")}
+            {t("add_income_source")}
           </Button>
 
           {/* Search Bar */}
@@ -119,25 +121,27 @@ export default function CategoriesShell({
             />
           </div>
 
-          {/* Categories List */}
-          <CategoriesList
-            categories={filteredCategories}
+          {/* Income Sources List */}
+          <IncomeSourcesList
+            incomeSources={filteredIncomeSources}
             searchTerm={searchTerm}
-            onAddCategory={openAddDialog}
-            onEditCategory={openEditDialog}
-            onArchiveCategory={confirmArchive}
+            onAddIncomeSource={openAddDialog}
+            onEditIncomeSource={openEditDialog}
+            onArchiveIncomeSource={confirmArchive}
             onClearSearch={() => setSearchTerm("")}
           />
 
-          {(categories || []).length > 0 && (
+          {(incomeSources || []).length > 0 && (
             <div className="text-center text-sm text-muted-foreground">
-              {t("total_categories", { count: (categories || []).length })}
+              {t("total_income_sources", {
+                count: (incomeSources || []).length,
+              })}
             </div>
           )}
         </div>
 
-        {/* Add Category Dialog */}
-        <CategoryFormModal
+        {/* Add Income Source Dialog */}
+        <IncomeSourceFormModal
           visible={formVisible}
           formData={formData}
           isEditing={isEditing}
@@ -151,8 +155,12 @@ export default function CategoriesShell({
         {/* Archive Confirmation Dialog */}
         <ConfirmationModal
           visible={isConfirmingArchive}
-          title={t("archive_category") + " " + `"${categoryToArchive?.name}"`}
-          description={t("archive_category_confirmation")}
+          title={
+            t("archive_income_source") +
+            " " +
+            `"${incomeSourceToArchive?.name}"`
+          }
+          description={t("archive_income_source_confirmation")}
           confirmButtonText={t("archive")}
           cancelButtonText={t("cancel")}
           onClose={() => setIsConfirmingArchive(false)}

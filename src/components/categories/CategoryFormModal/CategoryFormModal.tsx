@@ -10,6 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useTranslations } from "next-intl";
 
 const colors = [
@@ -32,6 +39,7 @@ type CategoryFormModalProps = {
     name: string;
     description: string;
     color: string;
+    type: "expense" | "income";
   };
   isEditing: boolean;
   onChange: (field: string, value: string) => void;
@@ -76,6 +84,31 @@ const CategoryFormModal = ({
             />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="category-type">{t("type")} *</Label>
+            <Select
+              value={formData.type}
+              onValueChange={(value) => onChange("type", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t("select_type")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="expense">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                    {t("expense")}
+                  </div>
+                </SelectItem>
+                <SelectItem value="income">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-green-500" />
+                    {t("income")}
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
             <Label>{t("color")}</Label>
             <div className="flex flex-wrap gap-2">
               {colors.map((color) => (
@@ -98,7 +131,11 @@ const CategoryFormModal = ({
           <Button variant="outline" onClick={onClose}>
             {t("cancel")}
           </Button>
-          <Button type="submit" onClick={onSubmit} disabled={!formData.name}>
+          <Button
+            type="submit"
+            onClick={onSubmit}
+            disabled={!formData.name || !formData.type}
+          >
             {t("save")}
           </Button>
         </DialogFooter>
