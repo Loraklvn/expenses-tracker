@@ -24,6 +24,11 @@ const BudgetsList = ({
   const [budgetToDelete, setBudgetToDelete] =
     useState<BudgetWithCurrent | null>(null);
 
+  // Sort budgets by date in descending order (newest first)
+  const sortedBudgets = [...budgets].sort((a, b) => {
+    return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+  });
+
   const getBudgetProgress = (budget: BudgetWithCurrent) => {
     const totalSpent = budget.current_amount;
     return {
@@ -71,7 +76,7 @@ const BudgetsList = ({
       </div>
 
       <div className="space-y-4">
-        {budgets.map((budget) => {
+        {sortedBudgets.map((budget) => {
           const progress = getBudgetProgress(budget);
           return (
             <div key={budget.id} className="relative group">

@@ -60,8 +60,21 @@ const BudgetExpenseRow = ({
           <div>
             <p className="font-medium text-base">{expense.name}</p>
             <p className="text-sm text-muted-foreground">
-              {formatCurrency(expense.current_amount)} /{" "}
-              {formatCurrency(expense.budgeted_amount)}
+              <span
+                className={`${
+                  expense.current_amount > expense.budgeted_amount
+                    ? "text-red-600 font-medium"
+                    : expense.current_amount > expense.budgeted_amount * 0.8
+                    ? "text-yellow-600 font-medium"
+                    : "text-green-600"
+                }`}
+              >
+                {formatCurrency(expense.current_amount)}
+              </span>
+              {" / "}
+              <span className="text-gray-700">
+                {formatCurrency(expense.budgeted_amount)}
+              </span>
             </p>
           </div>
         </div>

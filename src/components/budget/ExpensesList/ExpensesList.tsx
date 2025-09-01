@@ -15,11 +15,32 @@ const ExpensesList = ({
   onDeleteExpense: (expense: ExpenseWithCurrent) => void;
 }): ReactElement => {
   const t = useTranslations("budget_list");
-  const templatedExpenses = expenses.filter(
-    (expense) => expense.template_id !== null
+
+  // Helper function to check if expense is at or above limit
+  const isAtOrAboveLimit = (expense: ExpenseWithCurrent) => {
+    return expense.current_amount >= expense.budgeted_amount * 0.8;
+  };
+
+  // Sort expenses: first by limit status (below limit first), then alphabetically
+  const sortExpenses = (expenses: ExpenseWithCurrent[]) => {
+    return expenses.sort((a, b) => {
+      // First sort by limit status (below limit items first)
+      const aAtLimit = isAtOrAboveLimit(a);
+      const bAtLimit = isAtOrAboveLimit(b);
+
+      if (aAtLimit && !bAtLimit) return 1; // a goes after b
+      if (!aAtLimit && bAtLimit) return -1; // a goes before b
+
+      // If both have same limit status, sort alphabetically
+      return a.name.localeCompare(b.name);
+    });
+  };
+
+  const templatedExpenses = sortExpenses(
+    expenses.filter((expense) => expense.template_id !== null)
   );
-  const customExpenses = expenses.filter(
-    (expense) => expense.template_id === null
+  const customExpenses = sortExpenses(
+    expenses.filter((expense) => expense.template_id === null)
   );
 
   return (

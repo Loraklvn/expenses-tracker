@@ -40,6 +40,14 @@ const ExpensesShell = ({
     initialData: initialExpenses,
     enabled: !!budget?.id,
   });
+  const budgetedExpensesAmount = expenses.reduce(
+    (acc, expense) => acc + expense.budgeted_amount,
+    0
+  );
+  const spentExpensesAmount = expenses.reduce(
+    (acc, expense) => acc + expense.current_amount,
+    0
+  );
 
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [selectedExpense, setSelectedExpense] =
@@ -122,13 +130,101 @@ const ExpensesShell = ({
   return (
     <div className="min-h-screen bg-background p-4 pb-20">
       <div className="max-w-md mx-auto">
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-2 mb-3">
           <Link href="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold">{budget?.name}</h1>
+          <h1 className="text-lg font-bold">{budget?.name}</h1>
+        </div>
+
+        {/* Budget Summary */}
+        <div className="bg-card border rounded-lg p-3 mb-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-4">
+              <div>
+                <span className="text-sm text-muted-foreground">
+                  {t("spent")}:{" "}
+                </span>
+                <span
+                  className={`text-sm font-semibold ${
+                    spentExpensesAmount > (budget?.expected_amount || 0)
+                      ? "text-red-600"
+                      : spentExpensesAmount >
+                        (budget?.expected_amount || 0) * 0.8
+                      ? "text-yellow-600"
+                      : "text-green-600"
+                  }`}
+                >
+                  ${spentExpensesAmount.toFixed(2)}
+                </span>
+              </div>
+              <div>
+                <span className="text-sm text-muted-foreground">
+                  {t("budget")}:{" "}
+                </span>
+                <span className="text-sm font-semibold text-gray-700">
+                  ${(budget?.expected_amount || 0).toFixed(2)}
+                </span>
+              </div>
+            </div>
+            <div
+              className={`text-xs px-2 py-1 rounded-full font-medium ${
+                spentExpensesAmount > (budget?.expected_amount || 0)
+                  ? "bg-red-100 text-red-800"
+                  : spentExpensesAmount > (budget?.expected_amount || 0) * 0.8
+                  ? "bg-yellow-100 text-yellow-800"
+                  : "bg-green-100 text-green-800"
+              }`}
+            >
+              {Math.round(
+                (spentExpensesAmount / (budget?.expected_amount || 1)) * 100
+              )}
+              %
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-300 rounded-full h-2 mb-2">
+            <div
+              className={`h-2 rounded-full ${
+                spentExpensesAmount > (budget?.expected_amount || 0)
+                  ? "bg-red-500"
+                  : spentExpensesAmount > (budget?.expected_amount || 0) * 0.8
+                  ? "bg-yellow-500"
+                  : "bg-green-500"
+              }`}
+              style={{
+                width: `${Math.min(
+                  (spentExpensesAmount / (budget?.expected_amount || 1)) * 100,
+                  100
+                )}%`,
+              }}
+            ></div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span
+              className={`text-xs ${
+                (budget?.expected_amount || 0) - spentExpensesAmount >= 0
+                  ? "text-gray-600"
+                  : "text-red-600"
+              }`}
+            >
+              {(budget?.expected_amount || 0) - spentExpensesAmount >= 0
+                ? "+"
+                : ""}
+              $
+              {((budget?.expected_amount || 0) - spentExpensesAmount).toFixed(
+                2
+              )}{" "}
+              {t("available")}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {t("budgeted")}: ${budgetedExpensesAmount.toFixed(2)}
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center justify-between mb-3">
