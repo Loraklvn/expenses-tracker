@@ -18,7 +18,7 @@ const ExpensesList = ({
 
   // Helper function to check if expense is at or above limit
   const isAtOrAboveLimit = (expense: ExpenseWithCurrent) => {
-    return expense.current_amount >= expense.budgeted_amount * 0.8;
+    return expense.current_amount >= expense.budgeted_amount;
   };
 
   // Sort expenses: first by limit status (below limit first), then alphabetically

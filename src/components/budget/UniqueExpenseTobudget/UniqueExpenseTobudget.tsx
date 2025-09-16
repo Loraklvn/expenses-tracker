@@ -45,7 +45,7 @@ const UniqueExpenseTobudget = ({
           <SelectTrigger className="w-full">
             <SelectValue placeholder={t("select_category")} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <SelectGroup>
               <SelectLabel>{t("select_category")}</SelectLabel>
 
