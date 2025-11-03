@@ -241,7 +241,7 @@ The application is currently deployed and available at: **[https://spendiee.verc
 
 ### Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/expenses-tracker)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Loraklvn/expenses-tracker)
 
 1. Click the deploy button above or push your code to GitHub
 2. Import the project to Vercel
@@ -269,7 +269,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/expenses-tracker/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Loraklvn/expenses-tracker/issues).
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
