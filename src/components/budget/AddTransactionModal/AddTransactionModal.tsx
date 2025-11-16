@@ -32,6 +32,8 @@ const AddTransactionModal = ({
 }: AddTransactionModalProps): ReactElement => {
   const t = useTranslations("expenses");
   const [transactionAmount, setTransactionAmount] = React.useState("");
+  const [transactionDescription, setTransactionDescription] =
+    React.useState("");
 
   const handleAddTransaction = async () => {
     if (!selectedExpense || !transactionAmount) return;
@@ -40,7 +42,7 @@ const AddTransactionModal = ({
       await addTransactionClient(
         selectedExpense.id,
         parseFloat(transactionAmount),
-        undefined // You can add a description if needed
+        transactionDescription
       );
       refetch(); // Refetch expenses to update the list
       setTransactionAmount("");
@@ -82,6 +84,15 @@ const AddTransactionModal = ({
                 className="pl-10"
               />
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="description">{t("description")}</Label>
+            <Input
+              id="description"
+              placeholder={t("description_placeholder")}
+              value={transactionDescription}
+              onChange={(e) => setTransactionDescription(e.target.value)}
+            />
           </div>
         </div>
         <DialogFooter>

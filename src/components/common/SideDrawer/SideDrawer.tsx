@@ -31,7 +31,6 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
   const pathname = usePathname();
   const t = useTranslations("side_drawer");
 
-  console.log({ pathname });
   const menuItems = [
     {
       id: "budgets",

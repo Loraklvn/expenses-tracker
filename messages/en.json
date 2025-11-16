@@ -5,6 +5,7 @@
   },
   "auth": {
     "login": "Login",
+    "logging_in": "Logging in...",
     "register": "Register",
     "email": "Email",
     "password": "Password",
@@ -142,6 +143,7 @@
     "cancel": "Cancel",
     "name": "Name",
     "description": "Description",
+    "description_placeholder": "Description (optional)",
     "error_updating_expense": "Error updating expense",
     "error_deleting_expense": "Error deleting expense"
   },
