@@ -46,7 +46,8 @@ const AddTransactionModal = ({
       );
       refetch(); // Refetch expenses to update the list
       setTransactionAmount("");
-      onClose(); // Close the modal
+      setTransactionDescription("");
+      onClose();
     } catch (error) {
       console.error("Error adding transaction:", error);
       toast.error(
