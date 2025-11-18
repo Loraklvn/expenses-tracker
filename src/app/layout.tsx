@@ -16,10 +16,9 @@ const APP_TITLE_TEMPLATE = "%s | Spendiee - PWA App";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://http://192.168.1.105:3000";
+  : "http://192.168.18.40:3000";
 
 export const metadata: Metadata = {
-  manifest: "/manifest.json",
   metadataBase: new URL(defaultUrl),
   title: APP_DEFAULT_TITLE,
   description: APP_DESCRIPTION,
