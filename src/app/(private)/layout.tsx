@@ -8,9 +8,9 @@ const PrivateLayout = ({
   children: React.ReactNode;
 }): ReactElement => {
   return (
-    <div className="max-h-dvh h-full flex-1 flex flex-col overflow-hidden">
+    <div className="max-h-lvh h-full flex-1 flex flex-col overflow-hidden">
       <SideDrawerWrapper />
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto pb-20">{children}</main>
 
       <Navbar />
     </div>

@@ -7,7 +7,7 @@ import { ReactElement } from "react";
 const Navbar = (): ReactElement => {
   const t = useTranslations("common");
   return (
-    <nav className="h-24 border-t bg-background flex pt-2 justify-around">
+    <nav className="fixed bottom-0 left-0 right-0 h-20 border-t bg-background flex pt-2 justify-around z-50">
       <Link href="/" className="flex flex-col items-center text-sm">
         <HomeIcon className="w-6 h-6" />
         {t("home")}
