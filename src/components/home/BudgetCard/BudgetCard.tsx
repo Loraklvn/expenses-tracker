@@ -27,7 +27,7 @@ const BudgetCard = ({
   return (
     <div className="relative group">
       <Link href={`/budget/${budget.id}`} className="block">
-        <Card className="cursor-pointer hover:shadow-md shadow-sm border-none transition-shadow">
+        <Card className="cursor-pointer hover:shadow-md border-none transition-shadow">
           <BudgetComponentHeader budget={budget} progress={progress} />
 
           <BudgetCardContent budget={budget} progress={progress} t={t} />
