@@ -18,7 +18,7 @@ const HomeShell = ({ budgets }: HomeShellProps) => {
   const homeTab = searchParams.get("tab") || "budgets";
 
   return (
-    <div className="bg-background p-4">
+    <div className="min-h-dvh bg-gray-50 p-4">
       <div className="max-w-md mx-auto">
         <div className="flex bg-muted rounded-lg p-1 mb-6">
           <Link
