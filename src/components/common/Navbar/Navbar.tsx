@@ -1,8 +1,8 @@
-import { LogoutButton } from "@/components/auth/logout-button";
 import { HomeIcon, PlusCircleIcon, ReceiptIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ReactElement } from "react";
+import SideDrawerWrapper from "../SideDrawerWrapper";
 
 const Navbar = (): ReactElement => {
   const t = useTranslations("common");
@@ -23,7 +23,7 @@ const Navbar = (): ReactElement => {
         <PlusCircleIcon className="w-6 h-6" />
         {t("new")}
       </Link>
-      <LogoutButton />
+      <SideDrawerWrapper />
     </nav>
   );
 };

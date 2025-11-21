@@ -59,6 +59,7 @@
     "previous": "Anterior",
     "budget": "Presupuesto",
     "logout": "Cerrar sesión",
+    "menu": "Menú",
     "home": "Inicio",
     "budgets": "Presupuestos",
     "new": "Nuevo",
@@ -69,6 +70,8 @@
   },
   "side_drawer": {
     "title": "Spendiee",
+    "preferences": "Preferencias",
+    "logout": "Cerrar sesión",
     "my_budgets": "Mis Presupuestos",
     "my_budgets_description": "Ver y administrar tus presupuestos",
     "create_budget": "Crear Presupuesto",
@@ -88,7 +91,8 @@
     "settings": "Configuración",
     "settings_description": "Próximamente...",
     "footer": "Spendiee Version 1.0",
-    "footer_description": "Maneja tus presupuestos de manera fácil"
+    "footer_description": "Maneja tus presupuestos de manera fácil",
+    "preferences_description": "Gestiona tus preferencias"
   },
   "budget_list": {
     "title": "Lista de Presupuesto",

@@ -1,26 +1,18 @@
-import { Button } from "@/components/ui/button";
+import { LogoutButton } from "@/components/auth/logout-button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import {
-  ArrowRightLeftIcon,
-  BarChart3Icon,
-  CalendarIcon,
-  DollarSignIcon,
-  FileTextIcon,
-  ListIcon,
-  SettingsIcon,
-  TagIcon,
-  TrendingUpIcon,
-  XIcon,
-} from "lucide-react";
+import { getMenuItems } from "@/utils";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LanguageSwitcher from "../LanguageSwitcher";
+import { ThemeSwitcher } from "../ThemeSwitcher";
 
 interface SideDrawerProps {
   isOpen: boolean;
@@ -31,73 +23,7 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
   const pathname = usePathname();
   const t = useTranslations("side_drawer");
 
-  const menuItems = [
-    {
-      id: "budgets",
-      label: t("my_budgets"),
-      icon: DollarSignIcon,
-      description: t("my_budgets_description"),
-      href: "/",
-    },
-    {
-      id: "create-budget",
-      label: t("create_budget"),
-      icon: CalendarIcon,
-      description: t("create_budget_description"),
-      href: "/select-template",
-    },
-    {
-      id: "budget-templates",
-      label: t("budget_templates"),
-      icon: FileTextIcon,
-      description: t("budget_templates_description"),
-      href: "/budget_templates",
-    },
-    {
-      id: "manage-expenses",
-      label: t("manage_expenses"),
-      icon: ListIcon,
-      description: t("manage_expenses_description"),
-      href: "/expenses",
-    },
-    {
-      id: "categories",
-      label: t("categories"),
-      icon: TagIcon,
-      description: t("categories_description"),
-      href: "/categories",
-    },
-    {
-      id: "income-sources",
-      label: t("income_sources"),
-      icon: TrendingUpIcon,
-      description: t("income_sources_description"),
-      href: "/income-sources",
-    },
-    {
-      id: "transactions",
-      label: t("transactions"),
-      icon: ArrowRightLeftIcon,
-      description: t("transactions_description"),
-      href: "/transactions",
-    },
-    {
-      id: "analytics",
-      label: t("analytics"),
-      icon: BarChart3Icon,
-      description: t("analytics_description"),
-      href: "#",
-      disabled: true,
-    },
-    {
-      id: "settings",
-      label: t("settings"),
-      icon: SettingsIcon,
-      description: t("settings_description"),
-      href: "#",
-      disabled: true,
-    },
-  ];
+  const menuItems = getMenuItems(t);
 
   const handleNavigation = () => {
     onClose();
@@ -105,19 +31,35 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" showCloseButton={false} className="w-80 p-0">
-        <SheetHeader className="p-6 pb-4 border-b">
+      <SheetContent
+        side="right"
+        showCloseButton={false}
+        className="w-72 p-0 flex flex-col"
+      >
+        {/* Header */}
+        <SheetHeader className="px-6 pt-6 pb-4 border-b border-border/40">
+          <SheetTitle className="sr-only">{t("title")}</SheetTitle>
+
           <div className="flex items-center justify-between">
-            <SheetTitle className="text-xl font-bold">{t("title")}</SheetTitle>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <XIcon className="h-5 w-5" />
-            </Button>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              {t("preferences")}
+            </span>
+            <div className="flex items-center gap-2">
+              <ThemeSwitcher />
+              <div className="h-4 w-px bg-border/60" />
+              <LanguageSwitcher />
+            </div>
           </div>
         </SheetHeader>
 
-        <div className="flex flex-col h-full">
-          <nav className="flex-1 p-4">
-            <div className="space-y-2">
+        <SheetDescription className="sr-only">
+          {t("preferences_description")}
+        </SheetDescription>
+
+        {/* Navigation */}
+        <div className="-mt-4 flex flex-col flex-1 overflow-hidden">
+          <nav className="flex-1 overflow-y-auto px-3 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="space-y-1">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
@@ -128,46 +70,33 @@ export default function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
                     key={item.id}
                     onClick={!item.disabled ? handleNavigation : undefined}
                     className={cn(
-                      "w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors",
+                      "group relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
                       isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-muted text-muted-foreground hover:text-foreground",
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-accent hover:text-foreground",
                       item.disabled &&
-                        "cursor-not-allowed opacity-60 hover:bg-transparent"
+                        "cursor-not-allowed opacity-50 hover:bg-transparent hover:text-muted-foreground"
                     )}
                   >
-                    <Icon className="h-5 w-5 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p
-                        className={`font-medium ${
-                          isActive
-                            ? "text-primary-foreground"
-                            : "text-foreground"
-                        }`}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className={`text-sm ${
-                          isActive
-                            ? "text-primary-foreground/80"
-                            : "text-muted-foreground"
-                        }`}
-                      >
-                        {item.description}
-                      </p>
-                    </div>
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 flex-shrink-0 transition-colors",
+                        isActive && "text-primary"
+                      )}
+                    />
+                    <span className="flex-1 truncate">{item.label}</span>
+                    {isActive && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-primary" />
+                    )}
                   </Link>
                 );
               })}
             </div>
           </nav>
 
-          <div className="p-4 border-t">
-            <div className="text-center text-sm text-muted-foreground">
-              <p>{t("footer")}</p>
-              <p className="mt-1">{t("footer_description")}</p>
-            </div>
+          {/* Footer */}
+          <div className="border-t border-border/40 px-3 py-4 space-y-3">
+            <LogoutButton />
           </div>
         </div>
       </SheetContent>

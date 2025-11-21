@@ -4,6 +4,7 @@ import { createClient } from "@/src/lib/supabase/client";
 import { LogOutIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -16,9 +17,13 @@ export function LogoutButton() {
   };
 
   return (
-    <button className="flex flex-col items-center text-sm" onClick={logout}>
-      <LogOutIcon className="w-6 h-6" />
-      {t("logout")}
-    </button>
+    <Button
+      variant="ghost"
+      onClick={logout}
+      className="w-full flex items-center gap-3 px-3 py-2.5 h-auto text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-colors rounded-md"
+    >
+      <LogOutIcon className="h-4 w-4 flex-shrink-0" />
+      <span>{t("logout")}</span>
+    </Button>
   );
 }

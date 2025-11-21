@@ -59,6 +59,7 @@
     "previous": "Previous",
     "budget": "Budget",
     "logout": "Logout",
+    "menu": "Menu",
     "home": "Home",
     "budgets": "Budgets",
     "new": "New",
@@ -69,6 +70,9 @@
   },
   "side_drawer": {
     "title": "Spendiee",
+    "preferences": "Preferences",
+    "preferences_description": "Manage your preferences",
+    "logout": "Logout",
     "my_budgets": "My Budgets",
     "my_budgets_description": "View and manage your budgets",
     "create_budget": "Create Budget",

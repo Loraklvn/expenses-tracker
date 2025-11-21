@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { Button } from "@/components/ui/button";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -17,8 +18,13 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <button onClick={switchLanguage}>
-      {locale === "en" ? "🇬🇧 English" : "🇪🇸 Español"}
-    </button>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={switchLanguage}
+      className="text-sm"
+    >
+      {locale === "en" ? "🇬🇧 EN" : "🇪🇸 ES"}
+    </Button>
   );
 }
