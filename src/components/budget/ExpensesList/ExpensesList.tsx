@@ -44,8 +44,8 @@ const ExpensesList = ({
   );
 
   return (
-    <div className="space-y-2">
-      <div className="space-y-1">
+    <div className="space-y-4">
+      <div className="space-y-1.5">
         <h3 className="text-sm font-medium">{t("templated_expenses")}</h3>
         {templatedExpenses?.map((expense) => (
           <BudgetExpenseRow
@@ -58,7 +58,7 @@ const ExpensesList = ({
         ))}
       </div>
 
-      <div className="space-y-1 border-t border-border/50 pt-2">
+      <div className="space-y-1.5">
         <h3 className="font-medium">{t("custom_expenses")}</h3>
         {customExpenses?.map((expense) => (
           <BudgetExpenseRow

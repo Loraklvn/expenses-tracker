@@ -26,7 +26,7 @@ const BudgetExpenseRow = ({
   return (
     <div
       key={expense.id}
-      className="flex items-center justify-between py-3 px-1 border-b border-border/50 last:border-b-0"
+      className="flex items-center justify-between py-2 px-1 bg-card shadow-sms border rounded-md"
     >
       <div className="flex-1">
         <div className="flex items-center gap-3">
@@ -58,8 +58,8 @@ const BudgetExpenseRow = ({
             }}
           />
           <div>
-            <p className="font-medium text-base">{expense.name}</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="font-medium text-sms">{expense.name}</p>
+            <p className="font-medium text-sm text-muted-foreground">
               <span
                 className={`${
                   expense.current_amount > expense.budgeted_amount
@@ -79,16 +79,14 @@ const BudgetExpenseRow = ({
           </div>
         </div>
       </div>
-      <Button
-        size="sm"
-        variant="ghost"
+      <button
         onClick={() => {
           onAddTransaction(expense);
         }}
-        className="ml-2"
+        className="ml-2 h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-1"
       >
-        <PlusIcon className="h-4 w-4" />
-      </Button>
+        <PlusIcon className="h-4 w-4 text-gray-500" />
+      </button>
     </div>
   );
 };
