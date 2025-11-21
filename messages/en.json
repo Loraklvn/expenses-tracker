@@ -129,6 +129,7 @@
     "budget": "Budget",
     "spent": "Spent",
     "available": "Available",
+    "search_placeholder": "Search expenses...",
     "edit_expense": "Edit Expense",
     "enter_expense_name": "Enter expense name",
     "enter_description": "Enter description",

@@ -129,6 +129,7 @@
     "budget": "Presupuesto",
     "spent": "Gastado",
     "available": "Disponible",
+    "search_placeholder": "Buscar gastos...",
     "edit_expense": "Editar gasto",
     "enter_expense_name": "Ingresa el nombre del gasto",
     "enter_description": "Ingresa la descripción del gasto",
