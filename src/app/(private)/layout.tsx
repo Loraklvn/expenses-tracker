@@ -8,7 +8,9 @@ const PrivateLayout = ({
 }): ReactElement => {
   return (
     <div className="max-h-lvh h-full flex-1 flex flex-col overflow-hidden">
-      <main className="flex-1 overflow-y-auto pb-20">{children}</main>
+      <main className="flex-1 overflow-y-auto pb-20 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        {children}
+      </main>
 
       <Navbar />
     </div>
