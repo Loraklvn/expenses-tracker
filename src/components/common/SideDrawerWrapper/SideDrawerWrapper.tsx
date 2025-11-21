@@ -17,11 +17,16 @@ const SideDrawerWrapper = (): ReactElement => {
       />
 
       <button
-        className="flex flex-col items-center text-sm"
+        className="flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 px-3 rounded-xl transition-all duration-200 active:scale-95 text-muted-foreground hover:text-foreground hover:bg-accent/30 active:bg-accent/50"
         onClick={() => setIsDrawerOpen(true)}
       >
-        <MenuIcon className="w-6 h-6" />
-        {t("menu")}
+        <MenuIcon
+          className="w-6 h-6 transition-all duration-200"
+          strokeWidth={2}
+        />
+        <span className="text-[10px] font-semibold leading-tight">
+          {t("menu")}
+        </span>
       </button>
     </>
   );
