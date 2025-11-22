@@ -2,9 +2,10 @@
 
 import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
 import Searchbar from "@/components/common/Searchbar";
+import { Button } from "@/components/ui/button";
 import useManageCategories from "@/hooks/useManageCategories";
 import { Category } from "@/types";
-import { ArrowDownCircleIcon, ArrowUpCircleIcon } from "lucide-react";
+import { ArrowDownCircleIcon, ArrowUpCircleIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import CategoriesList from "../CategoriesList/CategoriesList";
@@ -108,6 +109,15 @@ export default function CategoriesShell({
         </div>
 
         <div className="p-4 space-y-4">
+          {/* Add New Category Button */}
+          <Button
+            className="w-full rounded-xl h-11 px-6 font-semibold shadow-sm"
+            onClick={openAddDialog}
+          >
+            <PlusIcon className="h-4 w-4 mr-2" />
+            {t("add_category")}
+          </Button>
+
           <Searchbar
             searchQuery={searchTerm}
             setSearchQuery={setSearchTerm}
