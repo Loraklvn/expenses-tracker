@@ -23,33 +23,45 @@ const BudgetExpenseRow = ({
   onEditExpense,
   onDeleteExpense,
 }: BudgetExpenseRowProps): ReactElement => {
+  const isOverBudget = expense.current_amount > expense.budgeted_amount;
+  const isWarning = expense.current_amount > expense.budgeted_amount * 0.8;
+
   return (
     <div
       key={expense.id}
-      className="flex items-center justify-between py-2 px-1 bg-card shadow-sms border rounded-md"
+      className="flex items-center justify-between p-3 rounded-xl bg-card border border-border/50 hover:bg-accent/30 transition-all duration-200 active:scale-[0.98] shadow-sm"
     >
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="flex items-center gap-3">
           <CustomPopover
             trigger={
-              <EllipsisVerticalIcon className="w-4 h-4 cursor-pointer" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-lg hover:bg-accent flex-shrink-0"
+              >
+                <EllipsisVerticalIcon className="h-4 w-4" />
+              </Button>
             }
             content={
-              // remove and edit options
-              <div>
+              <div className="flex flex-col gap-1 p-1">
                 <Button
                   variant="ghost"
-                  size="icon"
+                  size="sm"
                   onClick={() => onEditExpense(expense)}
+                  className="justify-start rounded-lg"
                 >
-                  <SquarePenIcon className="w-4 h-4" />
+                  <SquarePenIcon className="h-4 w-4 mr-2" />
+                  Edit
                 </Button>
                 <Button
                   variant="ghost"
-                  size="icon"
+                  size="sm"
                   onClick={() => onDeleteExpense(expense)}
+                  className="justify-start rounded-lg text-destructive hover:text-destructive hover:bg-destructive/10"
                 >
-                  <TrashIcon className="w-4 h-4 text-red-500" />
+                  <TrashIcon className="h-4 w-4 mr-2" />
+                  Delete
                 </Button>
               </div>
             }
@@ -57,36 +69,35 @@ const BudgetExpenseRow = ({
               className: "w-fit p-0",
             }}
           />
-          <div>
-            <p className="font-medium text-sms">{expense.name}</p>
-            <p className="font-medium text-sm text-muted-foreground">
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-base truncate">{expense.name}</p>
+            <p className="text-sm mt-0.5">
               <span
-                className={`${
-                  expense.current_amount > expense.budgeted_amount
-                    ? "text-red-600 font-medium"
-                    : expense.current_amount > expense.budgeted_amount * 0.8
-                    ? "text-yellow-600 font-medium"
+                className={`font-semibold ${
+                  isOverBudget
+                    ? "text-red-600"
+                    : isWarning
+                    ? "text-yellow-600"
                     : "text-green-600"
                 }`}
               >
                 {formatCurrency(expense.current_amount)}
               </span>
-              {" / "}
-              <span className="text-gray-700">
+              <span className="text-muted-foreground">
+                {" / "}
                 {formatCurrency(expense.budgeted_amount)}
               </span>
             </p>
           </div>
         </div>
       </div>
-      <button
-        onClick={() => {
-          onAddTransaction(expense);
-        }}
-        className="ml-2 h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-1"
+      <Button
+        onClick={() => onAddTransaction(expense)}
+        size="icon"
+        className="ml-2 h-10 w-10 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary flex-shrink-0 transition-all"
       >
-        <PlusIcon className="h-4 w-4 text-gray-500" />
-      </button>
+        <PlusIcon className="h-5 w-5" />
+      </Button>
     </div>
   );
 };

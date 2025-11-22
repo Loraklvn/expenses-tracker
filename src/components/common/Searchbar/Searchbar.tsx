@@ -13,17 +13,20 @@ const Searchbar = ({
   placeholder,
 }: SearchbarProps): ReactElement => {
   return (
-    <div className="flex items-center gap-2 bg-white border shadow-none border-gray-200 rounded-lg px-4 py-3">
-      <SearchIcon className="h-5 w-5 text-gray-500" />
+    <div className="relative flex items-center">
+      <SearchIcon className="absolute left-3 h-5 w-5 text-muted-foreground pointer-events-none" />
       <input
-        className="flex-1 text-sms text-gray-900 outline-none"
+        className="w-full h-11 pl-11 pr-10 bg-background border border-border/50 rounded-xl outline-none transition-all"
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       {searchQuery.length > 0 && (
-        <button onClick={() => setSearchQuery("")} className="ml-2 p-1">
-          <XIcon className="h-4 w-4 text-gray-500" />
+        <button
+          onClick={() => setSearchQuery("")}
+          className="absolute right-3 p-1.5 rounded-lg hover:bg-accent transition-colors"
+        >
+          <XIcon className="h-4 w-4 text-muted-foreground" />
         </button>
       )}
     </div>

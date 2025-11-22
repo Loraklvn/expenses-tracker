@@ -135,90 +135,99 @@ const ExpensesShell = ({
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 pb-20">
-      <div className="max-w-md mx-auto space-y-3">
-        <div className="flex items-center gap-2">
-          <Link href="/">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <ArrowLeft className="h-4 w-4" />
+    <div className="min-h-screen bg-gray-50 pb-24">
+      <div className="max-w-md mx-auto">
+        {/* Header */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-4">
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 rounded-lg hover:bg-accent transition-colors"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
+            <h1 className="text-xl font-bold tracking-tight">{budget?.name}</h1>
+          </div>
+        </div>
+
+        <div className="p-4 space-y-4">
+          {/* Budget Summary */}
+          <BudgetSumaryCard
+            spentAmount={spentExpensesAmount}
+            currentAmount={budgetedExpensesAmount}
+            expectedAmount={budget?.expected_amount || 0}
+          />
+
+          <div className="flex items-center justify-end">
+            <Button
+              size="default"
+              className="rounded-xl h-11 px-6 font-semibold shadow-sm"
+              onClick={() => setShowAddExpenseToBudget(true)}
+            >
+              {t("add_expense")}
             </Button>
-          </Link>
-          <h1 className="text-lg font-bold">{budget?.name}</h1>
+          </div>
+
+          <Searchbar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            placeholder={t("search_placeholder")}
+          />
+
+          <ExpensesList
+            expenses={filteredExpenses}
+            onAddTransaction={(expense) => {
+              setSelectedExpense(expense);
+              setShowAddTransaction(true);
+            }}
+            onEditExpense={handleEditExpense}
+            onDeleteExpense={handleDeleteConfirmation}
+          />
+
+          <AddTransactionModal
+            visible={showAddTransaction}
+            onClose={handleCloseModal}
+            selectedExpense={selectedExpense}
+            refetch={refetch}
+          />
+
+          <AddExpenseToBudgetModal
+            visible={showAddExpenseToBudget}
+            onClose={handleCloseAddExpenseToBudget}
+            expenses={expenses}
+            budgetId={budget?.id || 0}
+            onSuccess={() => {
+              setShowAddExpenseToBudget(false);
+              refetch();
+            }}
+          />
+
+          <ConfirmationModal
+            visible={showDeleteConfirmation}
+            onClose={() => setShowDeleteConfirmation(false)}
+            onConfirm={handleDeleteExpense}
+            title={t("delete_expense")}
+            description={t("delete_expense_description")}
+            confirmButtonText={t("delete")}
+            cancelButtonText={t("cancel")}
+          />
+
+          {/* Edit Expense Modal */}
+          <EditBudgetExpenseFormModal
+            visible={showEditExpense}
+            onClose={handleCloseEditModal}
+            onSubmit={handleEditConfirm}
+            formData={editForm}
+            onChange={(key, value) =>
+              setEditForm({ ...editForm, [key]: value })
+            }
+            disabledUpdate={isUpdateDisabled}
+            disabledName={!!expenseToEdit?.template_id}
+          />
         </div>
-
-        {/* Budget Summary */}
-        <BudgetSumaryCard
-          spentAmount={spentExpensesAmount}
-          currentAmount={budgetedExpensesAmount}
-          expectedAmount={budget?.expected_amount || 0}
-        />
-
-        <div className="flex items-center justify-end">
-          {/* <h2 className="text-s font-semibold">{t("budget_expenses")}</h2> */}
-          <Button
-            size="sm"
-            variant="outline"
-            className="shadow-none"
-            onClick={() => setShowAddExpenseToBudget(true)}
-          >
-            {t("add_expense")}
-          </Button>
-        </div>
-
-        <Searchbar
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          placeholder={t("search_placeholder")}
-        />
-
-        <ExpensesList
-          expenses={filteredExpenses}
-          onAddTransaction={(expense) => {
-            setSelectedExpense(expense);
-            setShowAddTransaction(true);
-          }}
-          onEditExpense={handleEditExpense}
-          onDeleteExpense={handleDeleteConfirmation}
-        />
-
-        <AddTransactionModal
-          visible={showAddTransaction}
-          onClose={handleCloseModal}
-          selectedExpense={selectedExpense}
-          refetch={refetch}
-        />
-
-        <AddExpenseToBudgetModal
-          visible={showAddExpenseToBudget}
-          onClose={handleCloseAddExpenseToBudget}
-          expenses={expenses}
-          budgetId={budget?.id || 0}
-          onSuccess={() => {
-            setShowAddExpenseToBudget(false);
-            refetch();
-          }}
-        />
-
-        <ConfirmationModal
-          visible={showDeleteConfirmation}
-          onClose={() => setShowDeleteConfirmation(false)}
-          onConfirm={handleDeleteExpense}
-          title={t("delete_expense")}
-          description={t("delete_expense_description")}
-          confirmButtonText={t("delete")}
-          cancelButtonText={t("cancel")}
-        />
-
-        {/* Edit Expense Modal */}
-        <EditBudgetExpenseFormModal
-          visible={showEditExpense}
-          onClose={handleCloseEditModal}
-          onSubmit={handleEditConfirm}
-          formData={editForm}
-          onChange={(key, value) => setEditForm({ ...editForm, [key]: value })}
-          disabledUpdate={isUpdateDisabled}
-          disabledName={!!expenseToEdit?.template_id}
-        />
       </div>
     </div>
   );

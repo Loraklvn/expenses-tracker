@@ -44,32 +44,44 @@ const ExpensesList = ({
   );
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-1.5">
-        <h3 className="text-sm font-medium">{t("templated_expenses")}</h3>
-        {templatedExpenses?.map((expense) => (
-          <BudgetExpenseRow
-            key={expense.id}
-            expense={expense}
-            onAddTransaction={onAddTransaction}
-            onEditExpense={onEditExpense}
-            onDeleteExpense={onDeleteExpense}
-          />
-        ))}
-      </div>
+    <div className="space-y-5">
+      {templatedExpenses.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide px-1">
+            {t("templated_expenses")}
+          </h3>
+          <div className="space-y-2">
+            {templatedExpenses.map((expense) => (
+              <BudgetExpenseRow
+                key={expense.id}
+                expense={expense}
+                onAddTransaction={onAddTransaction}
+                onEditExpense={onEditExpense}
+                onDeleteExpense={onDeleteExpense}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
-      <div className="space-y-1.5">
-        <h3 className="font-medium">{t("custom_expenses")}</h3>
-        {customExpenses?.map((expense) => (
-          <BudgetExpenseRow
-            key={expense.id}
-            expense={expense}
-            onAddTransaction={onAddTransaction}
-            onEditExpense={onEditExpense}
-            onDeleteExpense={onDeleteExpense}
-          />
-        ))}
-      </div>
+      {customExpenses.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide px-1">
+            {t("custom_expenses")}
+          </h3>
+          <div className="space-y-2">
+            {customExpenses.map((expense) => (
+              <BudgetExpenseRow
+                key={expense.id}
+                expense={expense}
+                onAddTransaction={onAddTransaction}
+                onEditExpense={onEditExpense}
+                onDeleteExpense={onDeleteExpense}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
