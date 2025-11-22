@@ -217,8 +217,8 @@
     "select_type": "Selecciona el tipo de categoría",
     "income": "Ingreso",
     "expense": "Gasto",
-    "expense_categories": "Categorías de Gastos",
-    "income_categories": "Categorías de Ingresos"
+    "expenses": "Gastos",
+    "incomes": "Ingresos"
   },
   "transactions": {
     "delete_transaction": "Eliminar Transacción",

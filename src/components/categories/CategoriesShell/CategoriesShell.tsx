@@ -1,15 +1,14 @@
 "use client";
 
 import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import Searchbar from "@/components/common/Searchbar";
 import useManageCategories from "@/hooks/useManageCategories";
 import { Category } from "@/types";
-import { PlusIcon, SearchIcon } from "lucide-react";
+import { ArrowDownCircleIcon, ArrowUpCircleIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import CategoriesList from "../CategoriesList/CategoriesList";
 import CategoryFormModal from "../CategoryFormModal/CategoryFormModal";
-import { useTranslations } from "next-intl";
 
 type CategoriesShellProps = {
   defaultCategories: Category[];
@@ -41,6 +40,7 @@ export default function CategoriesShell({
   const [categoryToArchive, setCategoryToArchive] = useState<Category | null>(
     null
   );
+  const [activeTab, setActiveTab] = useState<"expense" | "income">("expense");
 
   const resetStates = () => {
     setFormVisible(false);
@@ -94,34 +94,67 @@ export default function CategoriesShell({
         category.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  // Filter by active tab
+  const tabFilteredCategories = filteredCategories.filter(
+    (category) => category.type === activeTab
+  );
+
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-24">
       <div className="max-w-md mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
+        {/* Header */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-4">
+          <h1 className="text-xl font-bold tracking-tight">{t("title")}</h1>
         </div>
 
-        <div className="space-y-6">
-          {/* Add New Category Button */}
-          <Button className="w-full" size="lg" onClick={openAddDialog}>
-            <PlusIcon className="h-4 w-4 mr-2" />
-            {t("add_category")}
-          </Button>
+        <div className="p-4 space-y-4">
+          <Searchbar
+            searchQuery={searchTerm}
+            setSearchQuery={setSearchTerm}
+            placeholder={t("search_placeholder")}
+          />
 
-          {/* Search Bar */}
-          <div className="relative">
-            <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder={t("search_placeholder")}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+          {/* Segmented Control */}
+          <div className="flex bg-muted rounded-lg p-1">
+            <button
+              onClick={() => setActiveTab("expense")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-md text-sm font-semibold transition-all duration-200 ${
+                activeTab === "expense"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ArrowUpCircleIcon
+                className={`h-4 w-4 ${
+                  activeTab === "expense"
+                    ? "text-red-600"
+                    : "text-muted-foreground"
+                }`}
+              />
+              {t("expenses")}
+            </button>
+            <button
+              onClick={() => setActiveTab("income")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-md text-sm font-semibold transition-all duration-200 ${
+                activeTab === "income"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ArrowDownCircleIcon
+                className={`h-4 w-4 ${
+                  activeTab === "income"
+                    ? "text-green-600"
+                    : "text-muted-foreground"
+                }`}
+              />
+              {t("incomes")}
+            </button>
           </div>
 
           {/* Categories List */}
           <CategoriesList
-            categories={filteredCategories}
+            categories={tabFilteredCategories}
             searchTerm={searchTerm}
             onAddCategory={openAddDialog}
             onEditCategory={openEditDialog}

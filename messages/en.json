@@ -216,8 +216,8 @@
     "select_type": "Select category type",
     "income": "Income",
     "expense": "Expense",
-    "expense_categories": "Expense Categories",
-    "income_categories": "Income Categories"
+    "expenses": "Expenses",
+    "incomes": "Incomes"
   },
   "transactions": {
     "delete_transaction": "Delete Transaction",
