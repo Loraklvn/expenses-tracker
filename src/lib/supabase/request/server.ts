@@ -9,11 +9,17 @@ import {
 } from "@/types";
 import { createServer } from "../server";
 
-export async function fetchBudgetsServer(): Promise<BudgetWithCurrent[]> {
+export async function fetchBudgetsServer(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<BudgetWithCurrent[]> {
   const supabase = createServer();
-  const { data, error } = await (await supabase)
+  const { data, error } = await (
+    await supabase
+  )
     .from("budgets_with_current")
     .select("*")
+    .range((page - 1) * pageSize, page * pageSize - 1)
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data || [];

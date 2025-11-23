@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
 import BudgetCard from "../BudgetCard";
+import { ArrowDownIcon, Loader2 } from "lucide-react";
 
 const BudgetsList = ({
   budgets: defaultBudgets,
@@ -15,7 +16,8 @@ const BudgetsList = ({
   budgets: BudgetWithCurrent[];
 }): ReactElement => {
   const t = useTranslations("budget_list");
-  const { budgets, remove } = useManageBudgets({ defaultBudgets });
+  const { budgets, remove, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useManageBudgets({ defaultBudgets });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showSecondDeleteConfirm, setShowSecondDeleteConfirm] = useState(false);
   const [budgetToDelete, setBudgetToDelete] =
@@ -75,6 +77,29 @@ const BudgetsList = ({
           );
         })}
       </div>
+
+      {hasNextPage && (
+        <div className="flex justify-center pt-4">
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+            variant="outline"
+            className="w-full max-w-sm rounded-xl h-11 px-6 font-semibold shadow-sm hover:bg-accent transition-all duration-200 active:scale-95"
+          >
+            {isFetchingNextPage ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                {t("loading")}
+              </>
+            ) : (
+              <>
+                <ArrowDownIcon className="h-4 w-4 mr-2" />
+                {t("load_more")}
+              </>
+            )}
+          </Button>
+        </div>
+      )}
 
       <ConfirmationModal
         visible={showSecondDeleteConfirm}

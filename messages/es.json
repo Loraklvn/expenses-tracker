@@ -123,7 +123,9 @@
     "budgeted_amount": "Cantidad presupuestada",
     "select_category": "Seleccionar categoría",
     "add_expense": "Agregar gasto",
-    "expense_name_placeholder": "Ejemplo: Alquiler, Comida"
+    "expense_name_placeholder": "Ejemplo: Alquiler, Comida",
+    "load_more": "Cargar Más",
+    "loading": "Cargando..."
   },
   "expenses": {
     "add_transaction": "Agregar Transacción",

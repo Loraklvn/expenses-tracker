@@ -14,14 +14,50 @@ import type {
   TransactionWithDetails,
 } from "@/types";
 
-/** Client-side: fetch budgets (you can wrap this in React-Query if you like) */
-export async function fetchBudgetsClient(): Promise<BudgetWithCurrent[]> {
+export type FetchBudgetsClientArgs = {
+  page?: number;
+  pageSize?: number;
+  searchTerm?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+};
+
+export type FetchBudgetsClientResult = {
+  budgets: BudgetWithCurrent[];
+  total: number;
+  page: number;
+  pageSize: number;
+};
+
+export async function fetchBudgetsClient({
+  page = 1,
+  pageSize = 10,
+  searchTerm,
+  sortBy = "created_at",
+  sortOrder = "desc",
+}: FetchBudgetsClientArgs = {}): Promise<FetchBudgetsClientResult> {
   const supabase = createClient();
-  const { data, error } = await supabase
+
+  let query = supabase
     .from("budgets_with_current")
-    .select("*");
+    .select("*", { count: "exact" });
+  if (searchTerm) {
+    query.filter("name", "ilike", `%${searchTerm}%`);
+  }
+  query = query.order(sortBy, { ascending: sortOrder === "asc" });
+  // 2) Compute range
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error, count } = await query.range(from, to);
   if (error) throw error;
-  return data || [];
+
+  return {
+    budgets: data || [],
+    total: count || 0,
+    page,
+    pageSize,
+  };
 }
 
 export const fetchBudgetClient = async (
