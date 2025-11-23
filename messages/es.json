@@ -190,7 +190,8 @@
     "cancel": "Cancelar",
     "default": "Monto",
     "no_expense_templates": "No hay plantillas de gastos aún",
-    "add_your_first_expense": "Agrega tu primer gasto"
+    "add_your_first_expense": "Agrega tu primer gasto",
+    "search_placeholder": "Buscar gastos..."
   },
   "categories": {
     "title": "Categorías",

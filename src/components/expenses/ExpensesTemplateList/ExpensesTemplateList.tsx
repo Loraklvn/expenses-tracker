@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Category, ExpenseTemplate } from "@/types";
-import { formatCurrency } from "@/utils/numbers";
-import { ArchiveIcon, PencilLineIcon, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
+import ExpenseItem from "../ExpenseItem";
 
 type ExpensesTemplateListProps = {
-  expenses: ExpenseTemplate[];
   groupedExpenses: Record<string, ExpenseTemplate[]>;
   categories: Category[];
   isEmpty: boolean;
@@ -24,63 +23,50 @@ const ExpensesTemplateList = ({
   onAddExpense,
 }: ExpensesTemplateListProps): ReactElement => {
   const t = useTranslations("manage_expenses");
+
   return (
-    <div className="space-y-4">
-      {Object.entries(groupedExpenses).map(([categoryId, expenses]) => (
-        <div key={categoryId}>
-          <h3 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-            {categories.find((cat) => cat.id === Number(categoryId))?.name}
-          </h3>
-          <div className="space-y-1">
-            {expenses.map((expense) => (
-              <div
-                key={expense.id}
-                className="flex items-center justify-between py-3 px-1 border-b border-border/50 last:border-b-0"
-              >
-                <div className="flex-1">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-                    <div>
-                      <p className="font-medium text-base">{expense.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {t("default")}: {formatCurrency(expense.default_amount)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="-space-x-2">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => onOpenEdit(expense)}
-                    className="text-gray-500"
-                  >
-                    <PencilLineIcon className="h-4 w-4" />
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => onArchive(expense)}
-                    className="text-gray-500"
-                  >
-                    <ArchiveIcon className="h-4 w-4" />
-                  </Button>
-                </div>
+    <div className="space-y-5">
+      {Object.entries(groupedExpenses).map(([categoryId, expenses]) => {
+        const category = categories.find(
+          (cat) => cat.id === Number(categoryId)
+        );
+        return (
+          <div key={categoryId} className="space-y-2">
+            {category && (
+              <div className="flex items-center gap-2 px-1">
+                <div
+                  className="w-4 h-4 rounded-lg flex-shrink-0"
+                  style={{ backgroundColor: category.color }}
+                />
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                  {category.name}
+                </h3>
               </div>
-            ))}
+            )}
+            <div className="space-y-2">
+              {expenses.map((expense) => (
+                <ExpenseItem
+                  key={expense.id}
+                  expense={expense}
+                  onOpenEdit={onOpenEdit}
+                  onArchive={onArchive}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       {isEmpty && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">
+        <div className="text-center py-16">
+          <p className="text-muted-foreground mb-6 text-base">
             {t("no_expense_templates")}
           </p>
-          <Button onClick={onAddExpense}>
-            <PlusIcon className="h-4 w-4 mr-2" />
+          <Button
+            onClick={onAddExpense}
+            className="rounded-xl h-11 px-6 font-semibold"
+          >
+            <PlusIcon className="h-5 w-5 mr-2" />
             {t("add_your_first_expense")}
           </Button>
         </div>

@@ -189,7 +189,8 @@
     "cancel": "Cancel",
     "default": "Default",
     "no_expense_templates": "No expense templates yet",
-    "add_your_first_expense": "Add your first expense"
+    "add_your_first_expense": "Add your first expense",
+    "search_placeholder": "Search expenses..."
   },
   "categories": {
     "title": "Categories",

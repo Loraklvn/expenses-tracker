@@ -6,10 +6,11 @@ import ExpensesTemplateList from "@/components/expenses/ExpensesTemplateList";
 import { Button } from "@/components/ui/button";
 
 import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
+import Searchbar from "@/components/common/Searchbar";
 import useManageExpensesTemplate from "@/hooks/useManageExpensesTemplate";
 import { cn } from "@/lib/utils";
 import { ExpenseTemplate } from "@/types";
-import { ArrowLeft, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -33,8 +34,15 @@ export default function ManageExpenses() {
     useState<ExpenseTemplate | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formValues, setFormValues] = useState(emptyForm);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const groupedExpenses = expenseTemplates?.reduce((acc, expense) => {
+    if (
+      searchTerm &&
+      !expense.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return acc;
+    }
     if (!acc[expense.category_id]) {
       acc[expense.category_id] = [];
     }
@@ -84,18 +92,15 @@ export default function ManageExpenses() {
   return (
     <div
       className={cn(
-        "min-h-screen bg-background p-4 pb-20",
+        "min-h-screen bg-gray-50 p-4s pb-20",
         isLoading && "opacity-50 pointer-events-none"
       )}
     >
-      <div className="max-w-md mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-        </div>
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-4">
+        <h1 className="text-xl font-bold tracking-tight">{t("title")}</h1>
+      </div>
 
+      <div className="max-w-md mx-auto p-4">
         <div className="space-y-6">
           {/* Add New Expense Button */}
           <Button
@@ -107,9 +112,14 @@ export default function ManageExpenses() {
             {t("add_new_expense")}
           </Button>
 
+          <Searchbar
+            searchQuery={searchTerm}
+            setSearchQuery={setSearchTerm}
+            placeholder={t("search_placeholder")}
+          />
+
           {/* Expenses List */}
           <ExpensesTemplateList
-            expenses={expenseTemplates}
             groupedExpenses={groupedExpenses}
             categories={categories}
             isEmpty={expenseTemplates.length === 0}
