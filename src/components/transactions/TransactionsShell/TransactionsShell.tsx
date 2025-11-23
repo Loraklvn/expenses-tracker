@@ -1,6 +1,7 @@
 "use client";
 
 import ConfirmationModal from "@/components/common/ConfirmationModal";
+import StickyHeader from "@/components/common/StickyHeader";
 import useManageTransactions from "@/hooks/useManageTransactions";
 import { TransactionWithDetails } from "@/types";
 import { useTranslations } from "next-intl";
@@ -41,6 +42,8 @@ export default function Transactions({
     defaultTransactions,
     defaultTotal,
   });
+
+  console.log({ transactions });
 
   const [showEditTransaction, setShowEditTransaction] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -107,10 +110,13 @@ export default function Transactions({
   const groupedTransactions = groupTransactionsByDate(transactions);
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-24">
       <div className="max-w-md mx-auto">
-        <div className="space-y-4">
-          {/* Search Bar */}
+        {/* Header */}
+        <StickyHeader title={t("title")} />
+
+        <div className="p-4 space-y-4">
+          {/* Search Bar and Summary */}
           <TransactionsHeader
             searchTerm={searchTerm}
             onSearchChange={onSearchChange}

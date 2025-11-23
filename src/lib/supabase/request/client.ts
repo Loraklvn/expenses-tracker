@@ -446,13 +446,13 @@ type FetchTransactionsArgs = {
   page: number;
   pageSize: number;
   searchTerm?: string;
-  type?: "income" | "expense";
+  type?: "income" | "expense" | "all";
 };
 export const fetchTransactionsClient = async ({
   page = 1,
   pageSize = 10,
   searchTerm,
-  type = "expense",
+  type = "all",
 }: FetchTransactionsArgs): Promise<FetchTransactionsResult> => {
   const supabase = createClient();
 
@@ -472,13 +472,16 @@ export const fetchTransactionsClient = async ({
     .from("transactions_with_details")
     .select("*", { count: "exact" })
     .eq("user_id", user.id)
-    .eq("type", type)
     .order("transaction_date", { ascending: false });
+
+  if (type !== "all") {
+    query.eq("type", type);
+  }
 
   // 4) Add search filter if searchTerm is provided
   if (searchTerm && searchTerm.trim()) {
     query = query.or(
-      `expense_name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,budget_name.ilike.%${searchTerm}%`
+      `expense_name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,budget_name.ilike.%${searchTerm}%,income_source_name.ilike.%${searchTerm}%`
     );
   }
 

@@ -222,6 +222,7 @@
     "incomes": "Ingresos"
   },
   "transactions": {
+    "title": "Transacciones",
     "delete_transaction": "Eliminar Transacción",
     "delete_transaction_confirmation": "¿Estás seguro de que deseas eliminar esta transacción?",
     "delete": "Eliminar",

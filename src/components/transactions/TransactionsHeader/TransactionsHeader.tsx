@@ -1,5 +1,4 @@
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import Searchbar from "@/components/common/Searchbar";
 import { useTranslations } from "next-intl";
 
 type TransactionsHeaderProps = {
@@ -16,22 +15,16 @@ const TransactionsHeader = ({
   const t = useTranslations("transactions");
   return (
     <>
-      <div className="relative">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder={t("search_transactions")}
-          value={searchTerm}
-          onChange={(e) => {
-            onSearchChange(e.target.value);
-          }}
-          className="pl-10"
-        />
-      </div>
+      <Searchbar
+        searchQuery={searchTerm}
+        setSearchQuery={onSearchChange}
+        placeholder={t("search_transactions")}
+      />
 
       {/* Summary */}
-      <div className="bg-muted/50 rounded-lg p-4">
+      <div className="rounded-xl bg-card border border-border/50 p-4 shadow-sm">
         <div className="flex justify-between items-center">
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm font-semibold text-muted-foreground">
             {t("total_transactions", { total })}
           </span>
         </div>

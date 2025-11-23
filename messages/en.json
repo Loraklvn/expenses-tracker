@@ -221,6 +221,7 @@
     "incomes": "Incomes"
   },
   "transactions": {
+    "title": "Transactions",
     "delete_transaction": "Delete Transaction",
     "delete_transaction_confirmation": "Are you sure you want to delete this transaction?",
     "delete": "Delete",
