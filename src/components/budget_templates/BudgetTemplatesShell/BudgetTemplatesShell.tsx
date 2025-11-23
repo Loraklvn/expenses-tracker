@@ -10,6 +10,7 @@ import BudgetTemplateFormModal from "../BudgetTemplateFormModal/BudgetTemplateFo
 import BudgetTemplatesList from "../BudgetTemplatesList";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import StickyHeader from "@/components/common/StickyHeader";
 
 interface BudgetTemplatesProps {
   defaultBudgetTemplates: BudgetTemplateWithStats[];
@@ -139,12 +140,9 @@ export default function BudgetTemplatesShell({
   }, {} as Record<string, ExpenseTemplate[]>);
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
-      <div className="max-w-md mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-        </div>
-
+    <div className="min-h-screen bg-gray-50  pb-20">
+      <StickyHeader title={t("title")} />
+      <div className="max-w-md mx-auto p-4">
         <div className="space-y-6">
           {/* Create Template Button */}
           <Button className="w-full" size="lg" onClick={openCreateDialog}>

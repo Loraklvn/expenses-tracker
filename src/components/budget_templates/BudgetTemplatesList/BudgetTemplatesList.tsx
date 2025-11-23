@@ -30,7 +30,10 @@ const BudgetTemplatesList = ({
     <div className="space-y-4">
       {budgetTemplates.length > 0 ? (
         budgetTemplates.map((template) => (
-          <Card key={template.id} className="hover:shadow-md transition-shadow">
+          <Card
+            key={template.id}
+            className="hover:shadow-md border-none transition-shadow"
+          >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1">

@@ -1,11 +1,11 @@
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BudgetTemplateWithStats } from "@/types";
 import { FileIcon as FileTemplate, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../../ui/button";
 import { formatCurrency } from "@/utils/numbers";
 import { getTranslations } from "next-intl/server";
+import StickyHeader from "@/components/common/StickyHeader";
 
 const SelectTemplateShell = async ({
   budgetTemplates,
@@ -14,37 +14,29 @@ const SelectTemplateShell = async ({
 }) => {
   const t = await getTranslations("select_template");
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-24">
       <div className="max-w-md mx-auto">
-        <div className="space-y-6">
-          <div className="text-center">
-            <h2 className="text-lg font-semibold mb-2">
-              {t("choose_how_to_start")}
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {t("select_template_description")}
-            </p>
-          </div>
+        <StickyHeader
+          title={t("choose_how_to_start")}
+          description={t("select_template_description")}
+        />
 
+        <div className="p-4 space-y-4">
           {/* Start from Scratch Option */}
           <Link href="/new-budget" className="block">
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-base">
-                      {t("start_from_scratch")}
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {t("start_from_scratch_description")}
-                    </p>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border/50 hover:bg-accent/30 transition-all duration-200 active:scale-[0.98] shadow-sm">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Plus className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base font-semibold mb-1">
+                  {t("start_from_scratch")}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {t("start_from_scratch_description")}
+                </p>
+              </div>
+            </div>
           </Link>
 
           {/* Template Options */}
@@ -54,53 +46,53 @@ const SelectTemplateShell = async ({
                 {t("or_choose_a_template")}
               </h3>
               <Link href="/budget_templates">
-                <Button variant="outline" size="sm" className="text-xs">
-                  <Plus className="h-3 w-3 mr-1" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-lg h-9 px-3 text-xs font-semibold"
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1.5" />
                   {t("new_template")}
                 </Button>
               </Link>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {budgetTemplates.map((template) => (
                 <Link
                   href={`/new-budget?templateId=${template.id}`}
                   className="block"
                   key={template.id}
                 >
-                  <Card
-                    key={template.id}
-                    className="cursor-pointer hover:shadow-md transition-shadow"
-                  >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                            <FileTemplate className="h-5 w-5 text-blue-600" />
-                          </div>
-                          <div>
-                            <CardTitle className="text-base">
-                              {template.name}
-                            </CardTitle>
-                            <p className="text-sm text-muted-foreground">
-                              {template.description}
-                            </p>
-                          </div>
-                        </div>
-                        <Badge variant="secondary">
-                          {formatCurrency(template.total_default_amount)}
-                        </Badge>
+                  <div className="p-4 rounded-xl bg-card border border-border/50 hover:bg-accent/30 transition-all duration-200 active:scale-[0.98] shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <FileTemplate className="h-6 w-6 text-blue-600" />
                       </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <div className="flex flex-wrap gap-1">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <h3 className="text-base font-semibold">
+                            {template.name}
+                          </h3>
+                          <Badge
+                            variant="secondary"
+                            className="flex-shrink-0 text-xs font-semibold"
+                          >
+                            {formatCurrency(template.total_default_amount)}
+                          </Badge>
+                        </div>
+                        {template.description && (
+                          <p className="text-sm text-muted-foreground mb-2">
+                            {template.description}
+                          </p>
+                        )}
                         <Badge variant="outline" className="text-xs">
                           {t("expenses_included", {
                             count: template.expense_count,
                           })}
                         </Badge>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>
