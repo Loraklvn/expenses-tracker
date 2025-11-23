@@ -2,11 +2,9 @@
 
 import BudgetDetailsForm from "@/components/new-budget/BudgetDetailsForm";
 import CustomExpenses from "@/components/new-budget/CustomExpenses";
-import NewBudgetHeader from "@/components/new-budget/NewBudgetHeader";
 import PreloadedExpenses from "@/components/new-budget/PreloadedExpenses";
 import { Button } from "@/components/ui/button";
 import { createBudgetWithLinesClient } from "@/lib/supabase/request/client";
-import { cn } from "@/lib/utils";
 import {
   BudgetTemplateWithStats,
   Category,
@@ -16,11 +14,11 @@ import {
 } from "@/types";
 import { genId } from "@/utils";
 import { useMutation } from "@tanstack/react-query";
-import { FileIcon, PlusIcon } from "lucide-react";
+import { ArrowLeft, FileIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
 type NewBudgetShellProps = {
@@ -51,6 +49,7 @@ export default function NewBudgetShell({
   // Initialize the state for new budget details
   const [newBudgetName, setNewBudgetName] = useState("");
   const [newBudgetAmount, setNewBudgetAmount] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Initialize the state for preloaded expense templates
   const [expenseTemplates, setSelectedExpenseTemplates] = useState<
@@ -121,6 +120,27 @@ export default function NewBudgetShell({
     setCustomExpenses((prev) => prev.filter((expense) => expense.id !== id));
   };
 
+  // Select all expenses
+  const selectAllExpenses = () => {
+    setSelectedExpenseTemplates((prev) =>
+      prev.map((template) => ({ ...template, selected: true }))
+    );
+  };
+
+  // Filter expenses by search term
+  const filteredExpenseTemplates = useMemo(() => {
+    if (!searchTerm) return expenseTemplates;
+    const lowerSearch = searchTerm.toLowerCase();
+    return expenseTemplates.filter(
+      (template) =>
+        template.name.toLowerCase().includes(lowerSearch) ||
+        categories
+          .find((cat) => cat.id === template.category_id)
+          ?.name.toLowerCase()
+          .includes(lowerSearch)
+    );
+  }, [expenseTemplates, searchTerm, categories]);
+
   const handleCreateBudget = async () => {
     // validate all selected expense templates have an amount
     const allTemplatesHaveAmount = expenseTemplates.every(
@@ -149,36 +169,64 @@ export default function NewBudgetShell({
 
   return (
     <div
-      className={cn(
-        "min-h-screen bg-background py-4 px-2 pb-0",
+      className={`min-h-screen bg-gray-50 pb-24 ${
         isPending ? "opacity-50 pointer-events-none" : ""
-      )}
+      }`}
     >
       <div className="max-w-md mx-auto">
-        <NewBudgetHeader />
+        {/* Header */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-4">
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 rounded-lg hover:bg-accent transition-colors"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
+            <h1 className="text-xl font-bold tracking-tight">{t("title")}</h1>
+          </div>
+        </div>
 
-        <div className="space-y-6">
-          <div className="bg-muted/50 rounded-lg p-3">
+        <div className="p-4 space-y-4">
+          {/* Template Info */}
+          <div className="rounded-xl bg-blue-50 border border-blue-200 p-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-1 min-w-0">
                 {budgetTemplate ? (
                   <>
-                    <FileIcon className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-medium">
-                      {t("using_template", { name: budgetTemplate?.name })}
-                    </span>
+                    <FileIcon className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
+                        {t("template")}
+                      </p>
+                      <p className="text-sm font-semibold text-foreground truncate">
+                        {budgetTemplate?.name}
+                      </p>
+                    </div>
                   </>
                 ) : (
                   <>
-                    <PlusIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {t("no_template_selected")}
-                    </span>
+                    <PlusIcon className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                        {t("template")}
+                      </p>
+                      <p className="text-sm font-semibold text-muted-foreground">
+                        {t("no_template_selected")}
+                      </p>
+                    </div>
                   </>
                 )}
               </div>
               <Link href="/select-template">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-lg h-9 px-3 text-xs font-semibold flex-shrink-0 border-blue-200 bg-white hover:bg-blue-50"
+                >
                   {t("change")}
                 </Button>
               </Link>
@@ -195,10 +243,13 @@ export default function NewBudgetShell({
 
           {/* Preloaded Expenses */}
           <PreloadedExpenses
-            expenseTemplates={expenseTemplates}
+            expenseTemplates={filteredExpenseTemplates}
             toggleExpenseTemplate={toggleExpenseTemplate}
             updateExpenseTemplateAmount={updateExpenseTemplateAmount}
             categories={categories || []}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onSelectAll={selectAllExpenses}
           />
 
           {/* Custom Expenses */}
@@ -212,12 +263,11 @@ export default function NewBudgetShell({
 
           {/* Create Button */}
           <Button
-            className="w-full"
-            size="lg"
-            disabled={!newBudgetName || !newBudgetAmount}
+            className="w-full rounded-xl h-11 px-6 font-semibold shadow-sm"
+            disabled={!newBudgetName || !newBudgetAmount || isPending}
             onClick={handleCreateBudget}
           >
-            {t("create_budget")}
+            {isPending ? t("creating") : t("create_budget")}
           </Button>
         </div>
       </div>
