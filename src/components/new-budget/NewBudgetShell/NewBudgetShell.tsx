@@ -14,7 +14,7 @@ import {
 } from "@/types";
 import { genId } from "@/utils";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowLeft, FileIcon, PlusIcon } from "lucide-react";
+import { ArrowLeft, Check, FileIcon, Loader2, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import Link from "next/link";
@@ -169,7 +169,7 @@ export default function NewBudgetShell({
 
   return (
     <div
-      className={`min-h-screen bg-gray-50 pb-24 ${
+      className={`min-h-screen bg-gray-50 pb-32 ${
         isPending ? "opacity-50 pointer-events-none" : ""
       }`}
     >
@@ -260,14 +260,28 @@ export default function NewBudgetShell({
             removeCustomExpense={removeCustomExpense}
             categories={categories || []}
           />
+        </div>
+      </div>
 
-          {/* Create Button */}
+      {/* Fixed Create Button - Positioned above navbar */}
+      <div className="fixed bottom-[84px] left-0 right-0 z-[60] bg-background/95 backdrop-blur-lg border-t ">
+        <div className="max-w-md mx-auto px-4 py-3">
           <Button
-            className="w-full rounded-xl h-11 px-6 font-semibold shadow-sm"
+            className="w-full rounded-xl h-12 px-6 font-semibold  transition-all duration-200 active:scale-[0.98]"
             disabled={!newBudgetName || !newBudgetAmount || isPending}
             onClick={handleCreateBudget}
           >
-            {isPending ? t("creating") : t("create_budget")}
+            {isPending ? (
+              <>
+                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                {t("creating")}
+              </>
+            ) : (
+              <>
+                <Check className="h-5 w-5 mr-2" />
+                {t("create_budget")}
+              </>
+            )}
           </Button>
         </div>
       </div>
