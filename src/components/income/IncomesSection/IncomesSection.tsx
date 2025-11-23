@@ -1,14 +1,17 @@
 "use client";
+import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
+import { Button } from "@/components/ui/button";
 import useManageIncomeSources from "@/hooks/useManageIncomeSources";
 import useManageIncomeTransactions from "@/hooks/useManageIncomeTransactions";
+import { Transaction } from "@/types";
+import { Settings, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import AddIncomeForm from "../AddIncomeForm";
+import AddIncomeModal from "../AddIncomeModal";
 import IncomeSummaryCard from "../IncomeSummaryCard";
 import RecentIncomesList from "../RecentIncomesList";
-import { Transaction } from "@/types";
-import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
 
 export default function IncomesSection() {
   const t = useTranslations("income");
@@ -26,6 +29,7 @@ export default function IncomesSection() {
     amount: "",
     incomeSourceId: "",
   });
+  const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [transactionToDelete, setTransactionToDelete] =
     useState<Transaction | null>(null);
@@ -46,11 +50,7 @@ export default function IncomesSection() {
   }, [transactions]);
 
   const handleAddIncome = async () => {
-    if (
-      !newIncomeForm.description ||
-      !newIncomeForm.amount ||
-      !newIncomeForm.incomeSourceId
-    ) {
+    if (!newIncomeForm.amount || !newIncomeForm.incomeSourceId) {
       toast.error(t("please_fill_required_fields"));
       return;
     }
@@ -62,12 +62,13 @@ export default function IncomesSection() {
         description: newIncomeForm.description,
       });
 
-      // Reset form
+      // Reset form and close modal
       setNewIncomeForm({
         description: "",
         amount: "",
         incomeSourceId: "",
       });
+      setShowAddIncomeModal(false);
     } catch (error) {
       console.error("Error adding income:", error);
       toast.error(t("failed_to_add_income"));
@@ -95,8 +96,36 @@ export default function IncomesSection() {
         transactions={transactions}
       />
 
-      {/* Add Income Form */}
-      <AddIncomeForm
+      {/* Action Buttons */}
+      <div className="flex gap-3">
+        <Button
+          className="flex-1 rounded-xl h-11 px-6 font-semibold shadow-sm"
+          onClick={() => setShowAddIncomeModal(true)}
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          {t("add_income")}
+        </Button>
+        <Link href="/income-sources" className="flex-1">
+          <Button
+            variant="outline"
+            className="w-full rounded-xl h-11 px-6 font-semibold border-border/50"
+          >
+            <Settings className="h-4 w-4 mr-2" />
+            {t("sources")}
+          </Button>
+        </Link>
+      </div>
+
+      {/* Income History */}
+      <RecentIncomesList
+        transactions={transactions}
+        incomeSources={incomeSources}
+        onDeleteClick={handleDeleteClick}
+      />
+
+      {/* Add Income Modal */}
+      <AddIncomeModal
+        visible={showAddIncomeModal}
         formValues={newIncomeForm}
         onChange={(field, value) =>
           setNewIncomeForm({ ...newIncomeForm, [field]: value })
@@ -104,16 +133,15 @@ export default function IncomesSection() {
         incomeSources={incomeSources}
         isCreatingIncome={isCreatingIncome}
         onSubmit={handleAddIncome}
+        onClose={() => {
+          setShowAddIncomeModal(false);
+          setNewIncomeForm({
+            description: "",
+            amount: "",
+            incomeSourceId: "",
+          });
+        }}
       />
-
-      {/* Income History */}
-      <div>
-        <RecentIncomesList
-          transactions={transactions}
-          incomeSources={incomeSources}
-          onDeleteClick={handleDeleteClick}
-        />
-      </div>
 
       {/* Delete Confirmation Modal */}
       <ConfirmationModal

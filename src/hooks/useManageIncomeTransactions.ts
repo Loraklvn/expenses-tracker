@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 const useManageIncomeTransactions = () => {
   const t = useTranslations("common");
-  const pageSize = 10;
+  const pageSize = 6;
 
   const {
     data: { transactions, total } = { transactions: [], total: 0 },
