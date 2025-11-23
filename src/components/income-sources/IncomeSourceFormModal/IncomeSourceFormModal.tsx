@@ -89,7 +89,7 @@ const IncomeSourceFormModal = ({
                 onChange("category_id", parseInt(value))
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder={t("select_category")} />
               </SelectTrigger>
               <SelectContent>

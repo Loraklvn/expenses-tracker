@@ -1,15 +1,16 @@
 "use client";
 
 import ConfirmationModal from "@/components/common/ConfirmationModal/ConfirmationModal";
+import Searchbar from "@/components/common/Searchbar";
+import StickyHeader from "@/components/common/StickyHeader";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import useManageIncomeSources from "@/hooks/useManageIncomeSources";
 import { IncomeSource } from "@/types";
-import { PlusIcon, SearchIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import IncomeSourcesList from "../IncomeSourcesList/IncomeSourcesList";
 import IncomeSourceFormModal from "../IncomeSourceFormModal/IncomeSourceFormModal";
-import { useTranslations } from "next-intl";
 
 type IncomeSourcesShellProps = {
   defaultIncomeSources: IncomeSource[];
@@ -97,29 +98,27 @@ export default function IncomeSourcesShell({
   );
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-24">
       <div className="max-w-md mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-        </div>
+        {/* Header */}
+        <StickyHeader title={t("title")} />
 
-        <div className="space-y-6">
+        <div className="p-4 space-y-4">
           {/* Add New Income Source Button */}
-          <Button className="w-full" size="lg" onClick={openAddDialog}>
+          <Button
+            className="w-full rounded-xl h-11 px-6 font-semibold shadow-sm"
+            onClick={openAddDialog}
+          >
             <PlusIcon className="h-4 w-4 mr-2" />
             {t("add_income_source")}
           </Button>
 
           {/* Search Bar */}
-          <div className="relative">
-            <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder={t("search_placeholder")}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+          <Searchbar
+            searchQuery={searchTerm}
+            setSearchQuery={setSearchTerm}
+            placeholder={t("search_placeholder")}
+          />
 
           {/* Income Sources List */}
           <IncomeSourcesList
