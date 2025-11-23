@@ -17,6 +17,7 @@ const BudgetsList = ({
   const t = useTranslations("budget_list");
   const { budgets, remove } = useManageBudgets({ defaultBudgets });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showSecondDeleteConfirm, setShowSecondDeleteConfirm] = useState(false);
   const [budgetToDelete, setBudgetToDelete] =
     useState<BudgetWithCurrent | null>(null);
 
@@ -75,14 +76,24 @@ const BudgetsList = ({
         })}
       </div>
 
+      <ConfirmationModal
+        visible={showSecondDeleteConfirm}
+        onClose={() => setShowSecondDeleteConfirm(false)}
+        onConfirm={deleteBudget}
+        title={t("last_warning")}
+        description={t("last_warning_confirmation")}
+        confirmButtonText={t("delete")}
+        cancelButtonText={t("cancel")}
+      />
+
       {/* Delete Confirmation Modal */}
       <ConfirmationModal
         visible={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
-        onConfirm={deleteBudget}
-        title={t("delete_budget")}
+        onConfirm={() => setShowSecondDeleteConfirm(true)}
+        title={`${t("delete_budget")} "${budgetToDelete?.name || ""}"`}
         description={t("delete_budget_confirmation")}
-        confirmButtonText={t("delete")}
+        confirmButtonText={t("im_sure")}
         cancelButtonText={t("cancel")}
       />
     </div>
