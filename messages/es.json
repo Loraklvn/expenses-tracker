@@ -223,6 +223,9 @@
   },
   "transactions": {
     "title": "Transacciones",
+    "all": "Todas",
+    "expenses": "Gastos",
+    "income": "Ingresos",
     "delete_transaction": "Eliminar Transacción",
     "delete_transaction_confirmation": "¿Estás seguro de que deseas eliminar esta transacción?",
     "delete": "Eliminar",

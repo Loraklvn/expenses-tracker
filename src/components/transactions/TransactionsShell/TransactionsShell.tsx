@@ -28,6 +28,9 @@ export default function Transactions({
   defaultTotal,
 }: TransactionsProps) {
   const t = useTranslations("transactions");
+  const [transactionType, setTransactionType] = useState<
+    "expense" | "income" | "all"
+  >("all");
   const {
     transactions,
     total,
@@ -41,9 +44,8 @@ export default function Transactions({
   } = useManageTransactions({
     defaultTransactions,
     defaultTotal,
+    transactionType,
   });
-
-  console.log({ transactions });
 
   const [showEditTransaction, setShowEditTransaction] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -116,11 +118,13 @@ export default function Transactions({
         <StickyHeader title={t("title")} />
 
         <div className="p-4 space-y-4">
-          {/* Search Bar and Summary */}
+          {/* Search Bar, Filter, and Summary */}
           <TransactionsHeader
             searchTerm={searchTerm}
             onSearchChange={onSearchChange}
             total={total}
+            transactionType={transactionType}
+            onTransactionTypeChange={setTransactionType}
           />
 
           {/* Transactions List */}

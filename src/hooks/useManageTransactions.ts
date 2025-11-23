@@ -14,11 +14,13 @@ import { toast } from "react-toastify";
 type UseManageTransactionsProps = {
   defaultTransactions: TransactionWithDetails[];
   defaultTotal: number;
+  transactionType?: "expense" | "income" | "all";
 };
 
 const useManageTransactions = ({
   defaultTransactions,
   defaultTotal,
+  transactionType = "all",
 }: UseManageTransactionsProps) => {
   const t = useTranslations("common");
   const pageSize = 10;
@@ -29,12 +31,19 @@ const useManageTransactions = ({
     data: { transactions, total },
     refetch,
   } = useQuery<FetchTransactionsResult>({
-    queryKey: ["transactions", page, pageSize, searchTermDebounced],
+    queryKey: [
+      "transactions",
+      page,
+      pageSize,
+      searchTermDebounced,
+      transactionType,
+    ],
     queryFn: () =>
       fetchTransactionsClient({
         page,
         pageSize,
         searchTerm: searchTermDebounced,
+        type: transactionType,
       }),
     initialData: {
       transactions: defaultTransactions,
@@ -45,7 +54,7 @@ const useManageTransactions = ({
 
   useEffect(() => {
     setPage(1);
-  }, [searchTermDebounced]);
+  }, [searchTermDebounced, transactionType]);
 
   const onSuccess = () => {
     refetch();

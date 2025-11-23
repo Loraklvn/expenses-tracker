@@ -90,11 +90,7 @@ export default function IncomesSection() {
 
   return (
     <div className="space-y-6">
-      {/* Income Summary */}
-      <IncomeSummaryCard
-        totalIncomeThisMonth={totalIncomeThisMonth}
-        transactions={transactions}
-      />
+      <IncomeSummaryCard totalIncomeThisMonth={totalIncomeThisMonth} />
 
       {/* Action Buttons */}
       <div className="flex gap-3">
