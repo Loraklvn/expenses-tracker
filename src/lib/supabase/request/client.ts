@@ -180,6 +180,7 @@ export async function fetchExpensesClient(
 export async function addBudgetedTransaction(
   expenseId: number,
   amount: number,
+  transactionDate: string,
   description?: string
 ): Promise<void> {
   const supabase = createClient();
@@ -190,6 +191,7 @@ export async function addBudgetedTransaction(
       amount,
       description,
       type: "expense",
+      transaction_date: transactionDate,
     },
   ]);
 
@@ -257,10 +259,16 @@ export async function addIncomeTransaction(
 export async function addTransactionClient(
   expenseId: number,
   amount: number,
+  transactionDate: string,
   description?: string
 ): Promise<void> {
   // For backward compatibility, we assume it's a budgeted expense
-  return addBudgetedTransaction(expenseId, amount, description);
+  return addBudgetedTransaction(
+    expenseId,
+    amount,
+    transactionDate,
+    description
+  );
 }
 
 export const fetchExpensesTemplateClient = async (): Promise<

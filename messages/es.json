@@ -155,7 +155,9 @@
     "description": "Descripción",
     "description_placeholder": "Descripción (opcional)",
     "error_updating_expense": "Error al actualizar gasto",
-    "error_deleting_expense": "Error al eliminar gasto"
+    "error_deleting_expense": "Error al eliminar gasto",
+    "date": "Fecha",
+    "transaction_date_out_of_range": "La fecha de la transacción debe estar dentro del período del presupuesto."
   },
   "new_budget": {
     "title": "Crear Presupuesto",
@@ -335,7 +337,8 @@
     "income_deleted_successfully": "Transacción de ingreso eliminada con éxito",
     "failed_to_delete_income": "Error al eliminar transacción de ingreso",
     "delete": "Eliminar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "date": "Fecha"
   },
   "income_sources": {
     "title": "Fuentes de Ingreso",

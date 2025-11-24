@@ -155,7 +155,9 @@
     "description": "Description",
     "description_placeholder": "Description (optional)",
     "error_updating_expense": "Error updating expense",
-    "error_deleting_expense": "Error deleting expense"
+    "error_deleting_expense": "Error deleting expense",
+    "date": "Date",
+    "transaction_date_out_of_range": "Transaction date must be within the budget period."
   },
   "new_budget": {
     "title": "Create Budget",
@@ -335,7 +337,8 @@
     "income_deleted_successfully": "Income transaction deleted successfully",
     "failed_to_delete_income": "Failed to delete income transaction",
     "delete": "Delete",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "date": "Date"
   },
   "income_sources": {
     "title": "Income Sources",

@@ -28,6 +28,7 @@ type AddIncomeModalProps = {
     description: string;
     amount: string;
     incomeSourceId: string;
+    transactionDate: string;
   };
   onChange: (field: string, value: string | number) => void;
   incomeSources: IncomeSource[];
@@ -111,6 +112,18 @@ const AddIncomeModal = ({
               </SelectContent>
             </Select>
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="transaction-date" className="text-sm font-medium">
+              {t("date")} *
+            </Label>
+            <Input
+              id="transaction-date"
+              type="date"
+              value={formValues.transactionDate}
+              onChange={(e) => onChange("transactionDate", e.target.value)}
+              className="rounded-xl border-border/50 focus:border-primary/50 transition-colors"
+            />
+          </div>
         </div>
         <DialogFooter className="flex-col gap-2 sm:flex-col">
           <Button
@@ -119,7 +132,8 @@ const AddIncomeModal = ({
             disabled={
               isCreatingIncome ||
               !formValues.amount ||
-              !formValues.incomeSourceId
+              !formValues.incomeSourceId ||
+              !formValues.transactionDate
             }
           >
             {isCreatingIncome ? t("adding") : t("save_income")}

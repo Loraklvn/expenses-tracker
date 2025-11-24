@@ -9,6 +9,7 @@ import {
   updateBudgetExpenseClient,
 } from "@/lib/supabase/request/client";
 import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
+import { formatDateToReadable } from "@/utils/date";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -149,7 +150,17 @@ const ExpensesShell = ({
                 <ArrowLeft className="h-5 w-5" />
               </Button>
             </Link>
-            <h1 className="text-xl font-bold tracking-tight">{budget?.name}</h1>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl font-bold tracking-tight">
+                {budget?.name}
+              </h1>
+              {budget?.start_date && budget?.end_date && (
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {formatDateToReadable(budget.start_date)} -{" "}
+                  {formatDateToReadable(budget.end_date)}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -191,6 +202,7 @@ const ExpensesShell = ({
             visible={showAddTransaction}
             onClose={handleCloseModal}
             selectedExpense={selectedExpense}
+            budget={budget}
             refetch={refetch}
           />
 

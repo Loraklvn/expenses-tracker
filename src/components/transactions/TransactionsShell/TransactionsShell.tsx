@@ -23,7 +23,7 @@ interface TransactionsProps {
   defaultTotal: number;
 }
 
-export default function Transactions({
+export default function TransactionsShell({
   defaultTransactions,
   defaultTotal,
 }: TransactionsProps) {

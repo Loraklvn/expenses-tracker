@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import useManageIncomeSources from "@/hooks/useManageIncomeSources";
 import useManageIncomeTransactions from "@/hooks/useManageIncomeTransactions";
 import { Transaction } from "@/types";
+import { getCurrentDateInYYYYMMDD } from "@/utils/date";
 import { Settings, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import AddIncomeModal from "../AddIncomeModal";
 import IncomeSummaryCard from "../IncomeSummaryCard";
@@ -28,8 +29,19 @@ export default function IncomesSection() {
     description: "",
     amount: "",
     incomeSourceId: "",
+    transactionDate: getCurrentDateInYYYYMMDD(),
   });
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
+
+  // Reset date to current date when modal opens
+  useEffect(() => {
+    if (showAddIncomeModal) {
+      setNewIncomeForm((prev) => ({
+        ...prev,
+        transactionDate: getCurrentDateInYYYYMMDD(),
+      }));
+    }
+  }, [showAddIncomeModal]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [transactionToDelete, setTransactionToDelete] =
     useState<Transaction | null>(null);
@@ -60,6 +72,7 @@ export default function IncomesSection() {
         incomeSourceId: Number(newIncomeForm.incomeSourceId),
         amount: Number.parseFloat(newIncomeForm.amount),
         description: newIncomeForm.description,
+        transactionDate: newIncomeForm.transactionDate,
       });
 
       // Reset form and close modal
@@ -67,6 +80,7 @@ export default function IncomesSection() {
         description: "",
         amount: "",
         incomeSourceId: "",
+        transactionDate: getCurrentDateInYYYYMMDD(),
       });
       setShowAddIncomeModal(false);
     } catch (error) {
@@ -135,6 +149,7 @@ export default function IncomesSection() {
             description: "",
             amount: "",
             incomeSourceId: "",
+            transactionDate: getCurrentDateInYYYYMMDD(),
           });
         }}
       />
