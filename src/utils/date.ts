@@ -52,3 +52,23 @@ export const formatDateToReadable = (dateString: string) => {
     return "Invalid Date";
   }
 };
+
+// Helper function to get first day of current month in YYYY-MM-DD format
+export const getFirstDayOfMonth = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  return `${year}-${month}-01`;
+};
+
+// Helper function to get last day of current month in YYYY-MM-DD format
+export const getLastDayOfMonth = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const lastDay = new Date(year, month, 0).getDate();
+  return `${year}-${String(month).padStart(2, "0")}-${String(lastDay).padStart(
+    2,
+    "0"
+  )}`;
+};

@@ -184,8 +184,12 @@
     "using_template": "Using template: {name}",
     "no_template_selected": "No template selected",
     "change": "Change",
+    "start_date": "Start Date",
+    "end_date": "End Date",
     "validate_expense_templates": "Please ensure all selected expense templates have an amount.",
-    "validate_custom_expenses": "Please ensure all custom expenses have a name, category, and amount."
+    "validate_custom_expenses": "Please ensure all custom expenses have a name, category, and amount.",
+    "validate_dates": "Please provide both start date and end date.",
+    "validate_date_range": "End date must be after start date."
   },
   "manage_expenses": {
     "title": "Manage Expenses",

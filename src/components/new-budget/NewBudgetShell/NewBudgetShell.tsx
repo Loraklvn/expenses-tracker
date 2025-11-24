@@ -13,6 +13,7 @@ import {
   PreloadedExpenseTemplate,
 } from "@/types";
 import { genId } from "@/utils";
+import { getFirstDayOfMonth, getLastDayOfMonth } from "@/utils/date";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeft, Check, FileIcon, Loader2, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -49,6 +50,8 @@ export default function NewBudgetShell({
   // Initialize the state for new budget details
   const [newBudgetName, setNewBudgetName] = useState("");
   const [newBudgetAmount, setNewBudgetAmount] = useState("");
+  const [startDate, setStartDate] = useState(getFirstDayOfMonth());
+  const [endDate, setEndDate] = useState(getLastDayOfMonth());
   const [searchTerm, setSearchTerm] = useState("");
 
   // Initialize the state for preloaded expense templates
@@ -158,10 +161,22 @@ export default function NewBudgetShell({
       toast.error(t("validate_custom_expenses"));
       return;
     }
+    // validate dates are provided
+    if (!startDate || !endDate) {
+      toast.error(t("validate_dates"));
+      return;
+    }
+    // validate end date is after start date
+    if (new Date(endDate) < new Date(startDate)) {
+      toast.error(t("validate_date_range"));
+      return;
+    }
 
     mutate({
       name: newBudgetName,
       expectedAmount: parseFloat(newBudgetAmount),
+      startDate,
+      endDate,
       templates: expenseTemplates,
       customs: customExpenses,
     });
@@ -237,8 +252,12 @@ export default function NewBudgetShell({
           <BudgetDetailsForm
             newBudgetName={newBudgetName}
             newBudgetAmount={newBudgetAmount}
+            startDate={startDate}
+            endDate={endDate}
             setNewBudgetName={setNewBudgetName}
             setNewBudgetAmount={setNewBudgetAmount}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
           />
 
           {/* Preloaded Expenses */}
@@ -268,7 +287,13 @@ export default function NewBudgetShell({
         <div className="max-w-md mx-auto px-4 py-3">
           <Button
             className="w-full rounded-xl h-12 px-6 font-semibold  transition-all duration-200 active:scale-[0.98]"
-            disabled={!newBudgetName || !newBudgetAmount || isPending}
+            disabled={
+              !newBudgetName ||
+              !newBudgetAmount ||
+              !startDate ||
+              !endDate ||
+              isPending
+            }
             onClick={handleCreateBudget}
           >
             {isPending ? (

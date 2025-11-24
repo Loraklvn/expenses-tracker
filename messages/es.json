@@ -185,8 +185,12 @@
     "no_template_selected": "No hay plantilla seleccionada",
     "change": "Cambiar",
     "budget_created": "Presupuesto creado con éxito",
+    "start_date": "Fecha de Inicio",
+    "end_date": "Fecha de Fin",
     "validate_expense_templates": "Por favor, asegúrate de que todos los gastos seleccionados tengan una cantidad.",
-    "validate_custom_expenses": "Por favor, asegúrate de que todos los gastos personalizados tengan un nombre, una categoría y una cantidad."
+    "validate_custom_expenses": "Por favor, asegúrate de que todos los gastos personalizados tengan un nombre, una categoría y una cantidad.",
+    "validate_dates": "Por favor, proporciona tanto la fecha de inicio como la fecha de fin.",
+    "validate_date_range": "La fecha de fin debe ser posterior a la fecha de inicio."
   },
   "manage_expenses": {
     "title": "Administrar Gastos",

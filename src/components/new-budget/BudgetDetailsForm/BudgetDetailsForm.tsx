@@ -7,13 +7,21 @@ import React, { ReactElement } from "react";
 const BudgetDetailsForm = ({
   newBudgetName,
   newBudgetAmount,
+  startDate,
+  endDate,
   setNewBudgetName,
   setNewBudgetAmount,
+  setStartDate,
+  setEndDate,
 }: {
   newBudgetName: string;
   newBudgetAmount: string;
+  startDate: string;
+  endDate: string;
   setNewBudgetName: (value: string) => void;
   setNewBudgetAmount: (value: string) => void;
+  setStartDate: (value: string) => void;
+  setEndDate: (value: string) => void;
 }): ReactElement => {
   const t = useTranslations("new_budget");
   return (
@@ -49,6 +57,31 @@ const BudgetDetailsForm = ({
               className="pl-10 rounded-xl border-border/50 focus:border-primary/50 transition-colors h-11"
             />
           </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="start-date" className="text-sm font-medium">
+            {t("start_date")} *
+          </Label>
+          <Input
+            id="start-date"
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="rounded-xl border-border/50 focus:border-primary/50 transition-colors h-11"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="end-date" className="text-sm font-medium">
+            {t("end_date")} *
+          </Label>
+          <Input
+            id="end-date"
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            min={startDate || undefined}
+            className="rounded-xl border-border/50 focus:border-primary/50 transition-colors h-11"
+          />
         </div>
       </div>
     </div>

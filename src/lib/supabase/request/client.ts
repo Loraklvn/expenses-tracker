@@ -286,6 +286,8 @@ export const fetchExpensesTemplateClient = async (): Promise<
 export interface CreateBudgetArgs {
   name: string;
   expectedAmount: number;
+  startDate: string;
+  endDate: string;
   templates: PreloadedExpenseTemplate[]; // has { id, category_id, selected, amount }
   customs: CustomExpense[]; // has { name, amount, category }
 }
@@ -297,6 +299,8 @@ export interface CreateBudgetArgs {
 export async function createBudgetWithLinesClient({
   name,
   expectedAmount,
+  startDate,
+  endDate,
   templates,
   customs,
 }: CreateBudgetArgs): Promise<string> {
@@ -334,6 +338,8 @@ export async function createBudgetWithLinesClient({
     _user_id: user.id,
     _name: name,
     _expected_amt: expectedAmount,
+    _start_date: startDate,
+    _end_date: endDate,
     _lines: linesPayload, // ← raw objects, not JSON.stringify
   });
 
