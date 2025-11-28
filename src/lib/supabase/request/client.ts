@@ -5,7 +5,6 @@ import {
   ExpenseTemplate,
   IncomeSource,
 } from "@/types";
-import { createClient } from "../client";
 import type {
   BudgetWithCurrent,
   CustomExpense,
@@ -13,6 +12,7 @@ import type {
   PreloadedExpenseTemplate,
   TransactionWithDetails,
 } from "@/types";
+import { getSupabaseClient } from "../client";
 
 export type FetchBudgetsClientArgs = {
   page?: number;
@@ -36,7 +36,7 @@ export async function fetchBudgetsClient({
   sortBy = "created_at",
   sortOrder = "desc",
 }: FetchBudgetsClientArgs = {}): Promise<FetchBudgetsClientResult> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   let query = supabase
     .from("budgets_with_current")
@@ -63,7 +63,7 @@ export async function fetchBudgetsClient({
 export const fetchBudgetClient = async (
   budgetId: number
 ): Promise<BudgetWithCurrent | null> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("budgets_with_current")
     .select("*")
@@ -82,7 +82,7 @@ export const addExpenseToBudgetClient = async ({
   expenseTemplate,
   budgetId,
 }: AddExpenseToBudgetArgs): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from("budget_expense").insert([
     {
       template_id: expenseTemplate.id,
@@ -107,7 +107,7 @@ export const addCustomExpenseToBudgetClient = async ({
   amount,
   budgetId,
 }: AddCustomExpenseToBudgetArgs): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from("budget_expense").insert([
     {
       name,
@@ -138,7 +138,7 @@ export const updateBudgetExpenseClient = async ({
   if (name) updates.name = name;
   if (description) updates.description = description;
 
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("budget_expense")
     .update(updates)
@@ -149,7 +149,7 @@ export const updateBudgetExpenseClient = async ({
 export const deleteBudgetExpenseClient = async (
   expenseId: number
 ): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("budget_expense")
     .delete()
@@ -158,7 +158,7 @@ export const deleteBudgetExpenseClient = async (
 };
 
 export const deleteBudgetClient = async (budgetId: number): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from("budget").delete().eq("id", budgetId);
   if (error) throw error;
 };
@@ -166,7 +166,7 @@ export const deleteBudgetClient = async (budgetId: number): Promise<void> => {
 export async function fetchExpensesClient(
   budgetId: number
 ): Promise<ExpenseWithCurrent[]> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("expenses_with_current")
     .select("*")
@@ -183,7 +183,7 @@ export async function addBudgetedTransaction(
   transactionDate: string,
   description?: string
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("transaction").insert([
     {
@@ -203,7 +203,7 @@ export async function addUnbudgetedTransactionWithTemplate(
   amount: number,
   description?: string
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("transaction").insert([
     {
@@ -222,7 +222,7 @@ export async function addUnbudgetedTransactionWithCategory(
   amount: number,
   description?: string
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("transaction").insert([
     {
@@ -241,7 +241,7 @@ export async function addIncomeTransaction(
   amount: number,
   description?: string
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("transaction").insert([
     {
@@ -274,7 +274,7 @@ export async function addTransactionClient(
 export const fetchExpensesTemplateClient = async (): Promise<
   ExpenseTemplate[]
 > => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
     .from("expense_template")
@@ -306,7 +306,7 @@ export async function createBudgetWithLinesClient({
   templates,
   customs,
 }: CreateBudgetArgs): Promise<string> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   // build your payload as JS objects:
   const linesPayload = [
@@ -349,7 +349,7 @@ export type PostExpenseTemplateArgs = {
 export const postExpenseTemplateClient = async (
   args: PostExpenseTemplateArgs
 ): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from("expense_template").insert([
     {
       ...args,
@@ -365,7 +365,7 @@ export const updateExpenseTemplateClient = async ({
   templateId: number;
   args: Partial<PostExpenseTemplateArgs>;
 }): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase
     .from("expense_template")
@@ -377,7 +377,7 @@ export const updateExpenseTemplateClient = async ({
 export const archiveExpenseTemplateClient = async (
   templateId: number
 ): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("expense_template")
     .update({ archived: true })
@@ -394,7 +394,7 @@ export const fetchCategoriesClient = async ({
   archived = false,
   type = "expense",
 }: FetchCategoriesArgs = {}): Promise<Category[]> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const query = supabase
     .from("category")
     .select("*")
@@ -422,7 +422,7 @@ export const createCategoryClient = async ({
   color,
   type = "expense",
 }: CategoryPayload): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("category").insert([
     {
@@ -442,7 +442,7 @@ export const updateCategoryClient = async ({
   categoryId: number;
   updates: Partial<CategoryPayload>;
 }): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("category")
     .update(updates)
@@ -453,7 +453,7 @@ export const updateCategoryClient = async ({
 export const archiveCategoryClient = async (
   categoryId: number
 ): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("category")
     .update({ archived: true })
@@ -478,7 +478,7 @@ export const fetchTransactionsClient = async ({
   searchTerm,
   type = "all",
 }: FetchTransactionsArgs): Promise<FetchTransactionsResult> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   // 2) Compute range
   const from = (page - 1) * pageSize;
@@ -527,7 +527,7 @@ export const updateTransactionClient = async (params: {
   };
 }): Promise<void> => {
   const { transactionId, updates } = params;
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase
     .from("transaction")
@@ -546,7 +546,7 @@ export const deleteTransactionClient = async (params: {
   transactionId: number;
 }): Promise<void> => {
   const { transactionId } = params;
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase
     .from("transaction")
@@ -567,7 +567,7 @@ export async function createBudgetTemplateClient({
   description,
   expenseTemplateIds,
 }: CreateBudgetTemplateArgs): Promise<string> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase.rpc("create_budget_template", {
     p_name: name,
     p_description: description ?? "",
@@ -582,7 +582,7 @@ export async function createBudgetTemplateClient({
 export const fetchBudgetTemplatesClient = async (): Promise<
   BudgetTemplateWithStats[]
 > => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
     .from("budget_templates_with_stats")
@@ -605,7 +605,7 @@ export async function updateBudgetTemplateClient({
   templateId,
   expenseTemplateIds,
 }: UpdateBudgetTemplateArgs): Promise<void> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase.rpc("update_budget_template", {
     p_template_id: templateId,
     p_name: name,
@@ -618,7 +618,7 @@ export async function updateBudgetTemplateClient({
 export async function deleteBudgetTemplateClient(
   templateId: number
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("budget_template")
     .delete()
@@ -628,7 +628,7 @@ export async function deleteBudgetTemplateClient(
 
 // Income Source Management Functions
 export const fetchIncomeSourcesClient = async (): Promise<IncomeSource[]> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
     .from("income_source")
@@ -648,7 +648,7 @@ type IncomeSourcePayload = {
 export const createIncomeSourceClient = async (
   args: IncomeSourcePayload
 ): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("income_source").insert([
     {
@@ -665,7 +665,7 @@ export const updateIncomeSourceClient = async ({
   incomeSourceId: number;
   updates: Partial<IncomeSourcePayload>;
 }): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("income_source")
     .update(updates)
@@ -676,7 +676,7 @@ export const updateIncomeSourceClient = async ({
 export const archiveIncomeSourceClient = async (
   incomeSourceId: number
 ): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
   const { error } = await supabase
     .from("income_source")
     .update({ active: false })
@@ -713,7 +713,7 @@ export const createIncomeTransactionClient = async ({
   description?: string;
   transactionDate?: string;
 }): Promise<void> => {
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from("transaction").insert([
     {
