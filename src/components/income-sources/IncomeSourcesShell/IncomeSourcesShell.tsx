@@ -53,7 +53,12 @@ export default function IncomeSourcesShell({
         incomeSourceId: formData.id,
         updates: formData,
       });
-    else await add.mutateAsync(formData);
+    else
+      await add.mutateAsync({
+        name: formData.name,
+        description: formData.description,
+        category_id: formData.category_id,
+      });
     resetStates();
   };
 
