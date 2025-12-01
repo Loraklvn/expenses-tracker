@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type MonthPickerProps = {
   date?: Date;
@@ -22,21 +23,22 @@ type MonthPickerProps = {
 };
 
 const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
+  "jan",
+  "feb",
+  "mar",
+  "apr",
+  "may",
+  "jun",
+  "jul",
+  "aug",
+  "sep",
+  "oct",
+  "nov",
+  "dec",
 ];
 
 export function MonthPicker({ date, onSelect, label }: MonthPickerProps) {
+  const tDate = useTranslations("date");
   const [open, setOpen] = React.useState(false);
 
   // Extract month and year from date (or use current if undefined)
@@ -75,9 +77,9 @@ export function MonthPicker({ date, onSelect, label }: MonthPickerProps) {
 
   const getDisplayText = () => {
     if (month !== undefined && year !== undefined) {
-      return `${MONTHS[month]} ${year}`;
+      return `${tDate("long_months." + MONTHS[month])} ${year}`;
     }
-    return "Select month";
+    return tDate("select_month");
   };
 
   return (
@@ -139,7 +141,7 @@ export function MonthPicker({ date, onSelect, label }: MonthPickerProps) {
                     )}
                     onClick={() => handleMonthSelect(index)}
                   >
-                    {monthName}
+                    {tDate("short_months." + monthName)}
                   </Button>
                 );
               })}

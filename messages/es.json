@@ -389,6 +389,42 @@
     "spending": "Gastos",
     "no_data": "No hay datos disponibles",
     "from": "Desde",
-    "to": "Hasta"
+    "to": "Hasta",
+    "income_vs_spending_history": "Historial de Ingresos vs Gastos",
+    "last_6_months_comparison": "Comparación de los últimos 6 meses",
+    "net_savings": "Ahorro Neto",
+    "spent": "Gastado"
+  },
+  "date": {
+    "short_months": {
+      "jan": "Ene",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Abr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Ago",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dic"
+    },
+    "long_months": {
+      "jan": "Enero",
+      "feb": "Febrero",
+      "mar": "Marzo",
+      "apr": "Abril",
+      "may": "Mayo",
+      "jun": "Junio",
+      "jul": "Julio",
+      "aug": "Agosto",
+      "sep": "Septiembre",
+      "oct": "Octubre",
+      "nov": "Noviembre",
+      "dec": "Diciembre"
+    },
+    "select_month": "Seleccionar Mes",
+    "select_year": "Seleccionar Año"
   }
 }
