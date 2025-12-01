@@ -16,22 +16,24 @@ const ExpensesList = ({
 }): ReactElement => {
   const t = useTranslations("budget_list");
 
-  // Helper function to check if expense is at or above limit
-  const isAtOrAboveLimit = (expense: ExpenseWithCurrent) => {
-    return expense.current_amount >= expense.budgeted_amount;
+  // Helper function to calculate fulfillment percentage
+  const getPercentage = (expense: ExpenseWithCurrent): number => {
+    if (expense.budgeted_amount === 0) return 0;
+    return (expense.current_amount / expense.budgeted_amount) * 100;
   };
 
-  // Sort expenses: first by limit status (below limit first), then alphabetically
+  // Sort expenses: first by percentage (lower percentage first), then alphabetically
   const sortExpenses = (expenses: ExpenseWithCurrent[]) => {
     return expenses.sort((a, b) => {
-      // First sort by limit status (below limit items first)
-      const aAtLimit = isAtOrAboveLimit(a);
-      const bAtLimit = isAtOrAboveLimit(b);
+      const aPercentage = getPercentage(a);
+      const bPercentage = getPercentage(b);
 
-      if (aAtLimit && !bAtLimit) return 1; // a goes after b
-      if (!aAtLimit && bAtLimit) return -1; // a goes before b
+      // First sort by percentage in ascending order (lower percentage first)
+      if (aPercentage !== bPercentage) {
+        return aPercentage - bPercentage;
+      }
 
-      // If both have same limit status, sort alphabetically
+      // If percentages are equal, sort alphabetically
       return a.name.localeCompare(b.name);
     });
   };
