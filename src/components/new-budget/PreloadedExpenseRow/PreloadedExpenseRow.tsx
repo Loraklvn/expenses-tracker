@@ -44,7 +44,7 @@ const PreloadedExpenseRow = ({
             updateExpenseTemplateAmount(template.id, e.target.value)
           }
           disabled={!template.selected}
-          className={`pl-9 rounded-xl border-border/50 focus:border-primary/50 transition-colors h-9 text-sm bg-background ${
+          className={`pl-9 rounded-xl border-border/50 focus:border-primary/50 transition-colors h-9 text-base bg-background ${
             !template.selected ? "opacity-50" : ""
           }`}
           placeholder="0.00"

@@ -103,7 +103,7 @@ const CustomExpenses = ({
                   <SelectTrigger className="w-full rounded-xl border-border/50 h-9 bg-background truncate">
                     <SelectValue placeholder={t("select_category")} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-[500px] overflow-y-auto">
                     {categories.map((category) => (
                       <SelectItem key={category.id} value={`${category.id}`}>
                         {category.name}
