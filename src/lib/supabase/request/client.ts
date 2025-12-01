@@ -13,6 +13,7 @@ import type {
   TransactionWithDetails,
 } from "@/types";
 import { getSupabaseClient } from "../client";
+import { getYYYYMMDDFromDate } from "@/utils/date";
 
 export type FetchBudgetsClientArgs = {
   page?: number;
@@ -727,4 +728,100 @@ export const createIncomeTransactionClient = async ({
   ]);
 
   if (error) throw error;
+};
+
+// --- Interfaces based on your Views ---
+
+export interface MonthlyFlowData {
+  month_start: string;
+  total_income: number;
+  total_spending: number;
+}
+
+export interface AnalyticsItem {
+  transaction_date: string;
+  amount: number;
+  primary_category_id: number | null;
+  income_source_id: number | null;
+  template_id: number | null;
+}
+
+export interface BudgetPerformanceData {
+  total_budgeted: number;
+  total_spent: number;
+  spent_percentage: number;
+}
+
+/**
+ * Income & Spending Over Time (Items 1 & 7)
+ * This function queries the monthly_flow_summary view.
+ * For Item 7 (Month by Month): Use the data array returned directly.
+ * For Item 1 (Total All Time): You can simply .reduce() the result array in the frontend to get the single total sum.
+ */
+export const getMonthlyFlow = async (
+  startDate?: Date | string,
+  endDate?: Date | string
+): Promise<MonthlyFlowData[]> => {
+  const supabase = getSupabaseClient();
+  let query = supabase
+    .from("monthly_flow_summary")
+    .select("*")
+    .order("month_start", { ascending: true });
+
+  if (startDate)
+    query = query.gte("month_start", getYYYYMMDDFromDate(startDate));
+  if (endDate) query = query.lte("month_start", getYYYYMMDDFromDate(endDate));
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  return data as MonthlyFlowData[];
+};
+
+/**
+ * B. The Breakdown Functions (Items 2, 3, 4, 5)
+ * Since the Supabase JS Client cannot perform GROUP BY operations natively on Views without complex workarounds, the most performant way for your app is to:
+ * Fetch the granular data from analytics_breakdown.
+ * Use a lightweight JavaScript helper to aggregate it. This reduces database load (one query vs four) and makes your UI snappier.
+ */
+
+export const getAnalyticsBreakdown = async (
+  type: "income" | "expense",
+  startDate?: Date | string,
+  endDate?: Date | string
+): Promise<AnalyticsItem[]> => {
+  const supabase = getSupabaseClient();
+  let query = supabase
+    .from("analytics_breakdown")
+    .select("amount, primary_category_id, income_source_id, template_id")
+    .eq("type", type);
+
+  // Default to all time if dates not provided
+  if (startDate)
+    query = query.gte("transaction_date", getYYYYMMDDFromDate(startDate));
+  if (endDate)
+    query = query.lte("transaction_date", getYYYYMMDDFromDate(endDate));
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  return data as AnalyticsItem[];
+};
+
+export const getBudgetPerformance = async (
+  startDate?: Date | string,
+  endDate?: Date | string
+) => {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.rpc("get_budget_performance", {
+    _start_date: startDate ? getYYYYMMDDFromDate(startDate) : "1970-01-01",
+    _end_date: endDate ? getYYYYMMDDFromDate(endDate) : "2100-01-01",
+  });
+
+  if (error) throw error;
+
+  // RPC returns an array, but we know it's a single row
+  return (
+    data && data.length > 0 ? data[0] : null
+  ) as BudgetPerformanceData | null;
 };

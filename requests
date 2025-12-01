@@ -1,0 +1,13 @@
+1. Fetch income and spending amounts over time, filtered by date range, default to all time
+
+2. Fetch income amount by income source, filtered by date range, default to all time
+
+3. Fetch income amount by income category, filtered by date range, default to all time
+
+4. Fetch the spent amount by category, filtered by date range, default to all time
+
+5. Fetch the spent amount by templated expense, filtered by date range, default to all time
+
+6. Fetch the percentage of all the budgets' results, meaning how much is spent compared to how much is budgeted
+
+7. Fetch income and the spent month by month, filtered by date range

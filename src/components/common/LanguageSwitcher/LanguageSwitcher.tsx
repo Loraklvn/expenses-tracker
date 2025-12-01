@@ -9,7 +9,7 @@ export default function LanguageSwitcher() {
   const locale = useLocale();
 
   const switchLanguage = async () => {
-    const newLocale = locale === "en" ? "en" : "es";
+    const newLocale = locale === "en" ? "es" : "en";
 
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; secure; samesite=strict`;
 

@@ -73,8 +73,7 @@ export const getMenuItems = (t: ReturnType<typeof useTranslations>) => {
       label: t("analytics"),
       icon: BarChart3Icon,
       description: t("analytics_description"),
-      href: "#",
-      disabled: true,
+      href: "/analytics",
     },
     {
       id: "settings",
