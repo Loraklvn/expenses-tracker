@@ -9,9 +9,9 @@ export default function LanguageSwitcher() {
   const locale = useLocale();
 
   const switchLanguage = async () => {
-    const newLocale = locale === "en" ? "es" : "en";
+    const newLocale = locale === "en" ? "en" : "es";
 
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/`;
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; secure; samesite=strict`;
 
     // Refresh the app to apply the new locale
     router.refresh();
