@@ -393,7 +393,15 @@
     "income_vs_spending_history": "Income vs Spending History",
     "last_6_months_comparison": "Last 6 months comparison",
     "net_savings": "Net Savings",
-    "spent": "Spent"
+    "spent": "Spent",
+    "total": "Total",
+    "of_total_income": "of total income",
+    "no_income_sources_available": "No income sources available",
+    "income_sources": "Income Sources",
+    "average_completion": "Average Completion",
+    "based_on_budgets": "Based on",
+    "budget": "budget",
+    "budgets": "budgets"
   },
   "date": {
     "short_months": {

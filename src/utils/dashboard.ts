@@ -1,48 +1,11 @@
-import { AnalyticsItem, MonthlyFlowData } from "@/lib/supabase/request/client";
-import { Category, IncomeSource, ExpenseTemplate } from "@/types";
-
-/**
- * Item 2: Group by Income Source
- */
-export const aggregateByIncomeSource = (
-  data: AnalyticsItem[]
-): Record<number, number> => {
-  const result: Record<number, number> = {};
-  data.forEach((item) => {
-    if (item.income_source_id) {
-      result[item.income_source_id] =
-        (result[item.income_source_id] || 0) + item.amount;
-    }
-  });
-  return result; // Returns { [source_id]: total_amount }
-};
-
-/**
- * Items 3 & 4: Group by Category
- */
-export const aggregateByCategory = (data: AnalyticsItem[]) => {
-  const result: Record<number, number> = {};
-  data.forEach((item) => {
-    if (item.primary_category_id) {
-      result[item.primary_category_id] =
-        (result[item.primary_category_id] || 0) + item.amount;
-    }
-  });
-  return result; // Returns { [category_id]: total_amount }
-};
-
-/**
- * Item 5: Group by Expense Template
- */
-export const aggregateByTemplate = (data: AnalyticsItem[]) => {
-  const result: Record<number, number> = {};
-  data.forEach((item) => {
-    if (item.template_id) {
-      result[item.template_id] = (result[item.template_id] || 0) + item.amount;
-    }
-  });
-  return result; // Returns { [template_id]: total_amount }
-};
+import {
+  IncomeByCategoryItem,
+  IncomeBySourceItem,
+  MonthlyFlowData,
+  SpendingByCategoryItem,
+  SpendingByTemplateItem,
+} from "@/lib/supabase/request/client";
+import { Category, ExpenseTemplate } from "@/types";
 
 /**
  * Item 1: Calculate total income and spending all time
@@ -61,32 +24,31 @@ export const calculateTotalFlow = (
 
 /**
  * Format aggregated data with names for display
+ * Works directly with aggregated array results from RPC queries
  */
 export const formatIncomeSourceData = (
-  aggregated: Record<number, number>,
-  incomeSources: IncomeSource[]
+  aggregated: IncomeBySourceItem[]
 ): Array<{ name: string; value: number }> => {
-  return Object.entries(aggregated)
-    .map(([id, value]) => {
-      const source = incomeSources.find((s) => s.id === Number(id));
-      return {
-        name: source?.name || `Unknown (${id})`,
-        value,
-      };
-    })
-    .sort((a, b) => b.value - a.value);
+  // Data is already sorted by total DESC from the SQL query
+  // Income source name is included directly from the database
+  return aggregated.map((item) => ({
+    name: item.income_source_name || `Unknown (${item.income_source_id})`,
+    value: Number(item.total),
+  }));
 };
 
 export const formatCategoryData = (
-  aggregated: Record<number, number>,
+  aggregated: IncomeByCategoryItem[] | SpendingByCategoryItem[],
   categories: Category[]
 ): Array<{ name: string; value: number; color?: string }> => {
-  return Object.entries(aggregated)
-    .map(([id, value]) => {
-      const category = categories.find((c) => c.id === Number(id));
+  return aggregated
+    .map((item) => {
+      const category = categories.find(
+        (c) => c.id === item.primary_category_id
+      );
       return {
-        name: category?.name || `Unknown (${id})`,
-        value,
+        name: category?.name || `Unknown (${item.primary_category_id})`,
+        value: Number(item.total),
         color: category?.color,
       };
     })
@@ -94,15 +56,15 @@ export const formatCategoryData = (
 };
 
 export const formatTemplateData = (
-  aggregated: Record<number, number>,
+  aggregated: SpendingByTemplateItem[],
   templates: ExpenseTemplate[]
 ): Array<{ name: string; value: number }> => {
-  return Object.entries(aggregated)
-    .map(([id, value]) => {
-      const template = templates.find((t) => t.id === Number(id));
+  return aggregated
+    .map((item) => {
+      const template = templates.find((t) => t.id === item.template_id);
       return {
-        name: template?.name || `Unknown (${id})`,
-        value,
+        name: template?.name || `Unknown (${item.template_id})`,
+        value: Number(item.total),
       };
     })
     .sort((a, b) => b.value - a.value);

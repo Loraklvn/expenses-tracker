@@ -393,7 +393,15 @@
     "income_vs_spending_history": "Historial de Ingresos vs Gastos",
     "last_6_months_comparison": "Comparación de los últimos 6 meses",
     "net_savings": "Ahorro Neto",
-    "spent": "Gastado"
+    "spent": "Gastado",
+    "total": "Total",
+    "of_total_income": "de ingresos totales",
+    "no_income_sources_available": "No hay fuentes de ingreso disponibles",
+    "income_sources": "Fuentes de Ingreso",
+    "average_completion": "Completación Promedio",
+    "based_on_budgets": "Basado en",
+    "budget": "presupuesto",
+    "budgets": "presupuestos"
   },
   "date": {
     "short_months": {

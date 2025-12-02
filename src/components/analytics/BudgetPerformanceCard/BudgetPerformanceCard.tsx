@@ -1,13 +1,7 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useTranslations } from "next-intl";
-import { formatCurrency } from "@/utils/numbers";
 import { BudgetPerformanceData } from "@/lib/supabase/request/client";
 
 type BudgetPerformanceCardProps = {
@@ -34,7 +28,7 @@ export default function BudgetPerformanceCard({
     );
   }
 
-  if (!data) {
+  if (!data || data.total_budgets === 0) {
     return (
       <Card>
         <CardHeader>
@@ -49,8 +43,9 @@ export default function BudgetPerformanceCard({
     );
   }
 
-  const isOverBudget = data.spent_percentage > 100;
-  const isWarning = data.spent_percentage > 80;
+  const avgPercentage = Number(data.average_completion_percentage) || 0;
+  const isOverBudget = avgPercentage > 100;
+  const isWarning = avgPercentage > 80 && avgPercentage <= 100;
 
   return (
     <Card>
@@ -60,33 +55,11 @@ export default function BudgetPerformanceCard({
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">{t("total_budgeted")}</span>
-            <span className="font-semibold">
-              {formatCurrency(data.total_budgeted)}
-            </span>
-          </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">{t("total_spent")}</span>
-            <span
-              className={`font-semibold ${
-                isOverBudget
-                  ? "text-red-600 dark:text-red-400"
-                  : isWarning
-                  ? "text-orange-600 dark:text-orange-400"
-                  : "text-green-600 dark:text-green-400"
-              }`}
-            >
-              {formatCurrency(data.total_spent)}
-            </span>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              {t("spent_percentage")}
+              {t("average_completion")}
             </span>
             <span
-              className={`font-semibold ${
+              className={`font-semibold text-lg ${
                 isOverBudget
                   ? "text-red-600 dark:text-red-400"
                   : isWarning
@@ -94,11 +67,11 @@ export default function BudgetPerformanceCard({
                   : "text-green-600 dark:text-green-400"
               }`}
             >
-              {data.spent_percentage.toFixed(1)}%
+              {avgPercentage.toFixed(1)}%
             </span>
           </div>
           <Progress
-            value={Math.min(data.spent_percentage, 100)}
+            value={Math.min(avgPercentage, 100)}
             className="h-3"
             indicatorClassName={
               isOverBudget
@@ -109,8 +82,13 @@ export default function BudgetPerformanceCard({
             }
           />
         </div>
+        <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
+          <span>
+            {t("based_on_budgets")} {data.total_budgets}{" "}
+            {data.total_budgets === 1 ? t("budget") : t("budgets")}
+          </span>
+        </div>
       </CardContent>
     </Card>
   );
 }
-

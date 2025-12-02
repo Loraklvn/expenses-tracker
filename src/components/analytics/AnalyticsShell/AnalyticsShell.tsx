@@ -4,15 +4,14 @@ import {
   BudgetPerformanceData,
   fetchCategoriesClient,
   fetchExpensesTemplateClient,
-  fetchIncomeSourcesClient,
-  getAnalyticsBreakdown,
   getBudgetPerformance,
+  getIncomeBySource,
+  getIncomeByCategory,
+  getSpendingByCategory,
+  getSpendingByTemplate,
   getMonthlyFlow,
 } from "@/lib/supabase/request/client";
 import {
-  aggregateByCategory,
-  aggregateByIncomeSource,
-  aggregateByTemplate,
   calculateTotalFlow,
   formatCategoryData,
   formatIncomeSourceData,
@@ -36,15 +35,10 @@ export default function AnalyticsShell() {
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
 
-  // Fetch reference data (categories, income sources, templates)
+  // Fetch reference data (categories, templates)
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: () => fetchCategoriesClient({ type: "all" }),
-  });
-
-  const { data: incomeSources = [] } = useQuery({
-    queryKey: ["incomeSources"],
-    queryFn: () => fetchIncomeSourcesClient(),
   });
 
   const { data: expenseTemplates = [] } = useQuery({
@@ -59,19 +53,37 @@ export default function AnalyticsShell() {
       queryFn: () => getMonthlyFlow(startDate, endDate),
     });
 
-  // Fetch income breakdown data (Items 2 & 3)
-  const { data: incomeBreakdown = [], isLoading: isLoadingIncomeBreakdown } =
+  // Item 2: Income by Source
+  const { data: incomeBySource = [], isLoading: isLoadingIncomeBySource } =
     useQuery({
-      queryKey: ["incomeBreakdown", startDate, endDate],
-      queryFn: () => getAnalyticsBreakdown("income", startDate, endDate),
+      queryKey: ["incomeBySource", startDate, endDate],
+      queryFn: () => getIncomeBySource(startDate, endDate),
     });
 
-  // Fetch expense breakdown data (Items 4 & 5)
-  const { data: expenseBreakdown = [], isLoading: isLoadingExpenseBreakdown } =
+  // Item 3: Income by Category
+  const { data: incomeByCategory = [], isLoading: isLoadingIncomeByCategory } =
     useQuery({
-      queryKey: ["expenseBreakdown", startDate, endDate],
-      queryFn: () => getAnalyticsBreakdown("expense", startDate, endDate),
+      queryKey: ["incomeByCategory", startDate, endDate],
+      queryFn: () => getIncomeByCategory(startDate, endDate),
     });
+
+  // Item 4: Spending by Category
+  const {
+    data: spendingByCategory = [],
+    isLoading: isLoadingSpendingByCategory,
+  } = useQuery({
+    queryKey: ["spendingByCategory", startDate, endDate],
+    queryFn: () => getSpendingByCategory(startDate, endDate),
+  });
+
+  // Item 5: Spending by Template
+  const {
+    data: spendingByTemplate = [],
+    isLoading: isLoadingSpendingByTemplate,
+  } = useQuery({
+    queryKey: ["spendingByTemplate", startDate, endDate],
+    queryFn: () => getSpendingByTemplate(startDate, endDate),
+  });
 
   // Fetch budget performance (Item 6)
   const { data: budgetPerformance, isLoading: isLoadingBudgetPerformance } =
@@ -83,39 +95,25 @@ export default function AnalyticsShell() {
   // Process data
   const totalFlow = calculateTotalFlow(monthlyFlowData);
 
-  const incomeBySourceAggregated = aggregateByIncomeSource(incomeBreakdown);
-  const incomeBySourceData = formatIncomeSourceData(
-    incomeBySourceAggregated,
-    incomeSources
-  );
+  // Format aggregated data with names
+  const incomeBySourceData = formatIncomeSourceData(incomeBySource);
 
-  const incomeByCategoryAggregated = aggregateByCategory(incomeBreakdown);
   const incomeCategories = categories.filter((c) => c.type === "income");
   const incomeByCategoryData = formatCategoryData(
-    incomeByCategoryAggregated,
+    incomeByCategory,
     incomeCategories
   );
 
-  const spendingByCategoryAggregated = aggregateByCategory(expenseBreakdown);
   const expenseCategories = categories.filter((c) => c.type === "expense");
   const spendingByCategoryData = formatCategoryData(
-    spendingByCategoryAggregated,
+    spendingByCategory,
     expenseCategories
   );
 
-  const spendingByTemplateAggregated = aggregateByTemplate(expenseBreakdown);
   const spendingByTemplateData = formatTemplateData(
-    spendingByTemplateAggregated,
+    spendingByTemplate,
     expenseTemplates
   );
-
-  // const isLoading =
-  //   isLoadingMonthlyFlow ||
-  //   isLoadingIncomeBreakdown ||
-  //   isLoadingExpenseBreakdown ||
-  //   isLoadingBudgetPerformance;
-
-  console.log({ monthlyFlowData });
 
   return (
     <div className="min-h-dvh bg-gray-50 dark:bg-background">
@@ -157,25 +155,25 @@ export default function AnalyticsShell() {
           {/* Item 2: Income by Source */}
           <IncomeBySourceChart
             data={incomeBySourceData}
-            isLoading={isLoadingIncomeBreakdown}
+            isLoading={isLoadingIncomeBySource}
           />
 
           {/* Item 3: Income by Category */}
           <IncomeByCategoryChart
             data={incomeByCategoryData}
-            isLoading={isLoadingIncomeBreakdown}
+            isLoading={isLoadingIncomeByCategory}
           />
 
           {/* Item 4: Spending by Category */}
           <SpendingByCategoryChart
             data={spendingByCategoryData}
-            isLoading={isLoadingExpenseBreakdown}
+            isLoading={isLoadingSpendingByCategory}
           />
 
           {/* Item 5: Spending by Template */}
           <SpendingByTemplateChart
             data={spendingByTemplateData}
-            isLoading={isLoadingExpenseBreakdown}
+            isLoading={isLoadingSpendingByTemplate}
           />
 
           {/* Item 6: Budget Performance */}
