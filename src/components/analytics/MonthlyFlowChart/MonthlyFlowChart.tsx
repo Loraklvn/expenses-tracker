@@ -38,7 +38,8 @@ export default function MonthlyFlowChart({
   const [showModal, setShowModal] = useState(false);
 
   // Format data for chart - show last 6 months
-  const chartData = [...data].slice(data.length - 6).map((item) => {
+  const last6Months = data.length > 6 ? data.slice(data.length - 6) : data;
+  const chartData = last6Months.map((item) => {
     const [, month] = item.month_start.split("-").map(Number);
     const monthKey = MONTH_KEYS[month - 1]; // month is 1-indexed
     return {
