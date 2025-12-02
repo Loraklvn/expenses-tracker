@@ -401,7 +401,11 @@
     "average_completion": "Average Completion",
     "based_on_budgets": "Based on",
     "budget": "budget",
-    "budgets": "budgets"
+    "budgets": "budgets",
+    "view_more": "View More",
+    "others": "Others",
+    "full_list_description": "Complete breakdown of all items",
+    "month": "Month"
   },
   "date": {
     "short_months": {
@@ -420,13 +424,13 @@
     },
     "long_months": {
       "jan": "January",
-      "february": "February",
-      "march": "March",
+      "feb": "February",
+      "mar": "March",
       "apr": "April",
       "may": "May",
       "jun": "June",
       "jul": "July",
-      "august": "August",
+      "aug": "August",
       "sep": "September",
       "oct": "October",
       "nov": "November",

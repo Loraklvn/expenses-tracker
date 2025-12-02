@@ -401,7 +401,11 @@
     "average_completion": "Completación Promedio",
     "based_on_budgets": "Basado en",
     "budget": "presupuesto",
-    "budgets": "presupuestos"
+    "budgets": "presupuestos",
+    "view_more": "Ver Más",
+    "others": "Otros",
+    "full_list_description": "Desglose completo de todos los elementos",
+    "month": "Mes"
   },
   "date": {
     "short_months": {

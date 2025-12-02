@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { MonthlyFlowData } from "@/lib/supabase/request/client";
 import { useTranslations } from "next-intl";
 import {
@@ -19,7 +21,8 @@ import {
   YAxis,
 } from "recharts";
 import { formatCompactNumber } from "@/utils/numbers";
-import { getLastDayOfMonthDate } from "@/utils/date";
+import { MONTH_KEYS } from "@/utils/constants";
+import MonthlyFlowDetailsModal from "../MonthlyFlowDetailsModal";
 
 type MonthlyFlowChartProps = {
   data: MonthlyFlowData[];
@@ -32,17 +35,14 @@ export default function MonthlyFlowChart({
 }: MonthlyFlowChartProps) {
   const t = useTranslations("analytics");
   const tDate = useTranslations("date");
+  const [showModal, setShowModal] = useState(false);
 
   // Format data for chart - show last 6 months
   const chartData = [...data].slice(data.length - 6).map((item) => {
-    const [year, month] = item.month_start.split("-").map(Number);
-    const lastDay = getLastDayOfMonthDate(year, month - 1);
+    const [, month] = item.month_start.split("-").map(Number);
+    const monthKey = MONTH_KEYS[month - 1]; // month is 1-indexed
     return {
-      month: lastDay
-        .toLocaleDateString("en-US", {
-          month: "short",
-        })
-        .toLowerCase() as string,
+      month: monthKey,
       income: item.total_income,
       spending: item.total_spending,
     };
@@ -171,7 +171,25 @@ export default function MonthlyFlowChart({
             {netSavings >= 0 ? "+" : ""}${netSavings.toLocaleString()}
           </span>
         </div>
+
+        {/* View More button */}
+        {data.length > 6 && (
+          <div className="mt-4 flex justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowModal(true)}
+            >
+              {t("view_more")}
+            </Button>
+          </div>
+        )}
       </CardContent>
+      <MonthlyFlowDetailsModal
+        open={showModal}
+        onOpenChange={setShowModal}
+        data={data}
+      />
     </Card>
   );
 }
