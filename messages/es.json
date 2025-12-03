@@ -438,5 +438,136 @@
     },
     "select_month": "Seleccionar Mes",
     "select_year": "Seleccionar Año"
+  },
+  "landing": {
+    "header": {
+      "brand_name": "BudgetWise",
+      "features": "Características",
+      "how_it_works": "Cómo Funciona",
+      "testimonials": "Testimonios",
+      "log_in": "Iniciar sesión",
+      "sign_up": "Regístrate",
+      "close_menu": "Cerrar menú",
+      "open_menu": "Abrir menú"
+    },
+    "hero": {
+      "badge": "Planifica tus finanzas con anticipación",
+      "title": "Presupuesta de forma más inteligente, no más difícil",
+      "description": "La única aplicación de presupuesto que te permite planificar tus gastos antes de que ocurran. Toma el control de tu dinero con presupuestos pre-planificados, plantillas de gastos y seguimiento de ingresos.",
+      "get_started": "Comienza Gratis",
+      "log_in_account": "Inicia sesión en tu cuenta",
+      "disclaimer": "No se requiere tarjeta de crédito · Gratis para siempre para uso personal"
+    },
+    "features": {
+      "title": "Todo lo que necesitas para presupuestar de manera efectiva",
+      "description": "A diferencia de los rastreadores de gastos típicos, BudgetWise te ayuda a planificar con anticipación para que siempre tengas el control de tus finanzas.",
+      "pre_plan_budget": {
+        "title": "Planifica Tu Presupuesto",
+        "description": "Planifica los gastos antes de que comience el mes. Sabrás exactamente a dónde irá tu dinero antes de gastarlo."
+      },
+      "categories_expenses": {
+        "title": "Categorías y Gastos",
+        "description": "Organiza tus gastos en categorías personalizadas. Agrupa costos similares para obtener mejores insights."
+      },
+      "budget_templates": {
+        "title": "Plantillas de Presupuesto",
+        "description": "Crea plantillas reutilizables para presupuestos recurrentes. Ahorra tiempo con la recreación de presupuestos con un clic."
+      },
+      "transaction_tracking": {
+        "title": "Seguimiento de Transacciones",
+        "description": "Registra transacciones contra tus gastos planificados. Ve el gasto real vs. las cantidades presupuestadas al instante."
+      },
+      "income_management": {
+        "title": "Gestión de Ingresos",
+        "description": "Rastrea múltiples fuentes de ingresos con categorías. Ve tu panorama financiero completo de un vistazo."
+      },
+      "visual_insights": {
+        "title": "Insights Visuales",
+        "description": "Hermosos gráficos muestran patrones de gasto. Toma decisiones más inteligentes con insights basados en datos."
+      }
+    },
+    "how_it_works": {
+      "title": "Cómo funciona BudgetWise",
+      "description": "Comienza en minutos. Nuestro flujo de trabajo simple hace que el presupuesto se sienta sin esfuerzo.",
+      "step_1": {
+        "title": "Configura Tus Ingresos",
+        "description": "Agrega tus fuentes de ingresos y categorízalas. Rastrea salario, trabajo independiente, inversiones y más.",
+        "highlights": {
+          "multiple_sources": "Múltiples fuentes de ingresos",
+          "custom_categories": "Categorías personalizadas",
+          "monthly_totals": "Totales mensuales"
+        }
+      },
+      "step_2": {
+        "title": "Crea Tu Presupuesto",
+        "description": "Planifica tus gastos mensuales antes de gastar. Asigna cantidades a cada categoría de gasto que crees.",
+        "highlights": {
+          "expense_templates": "Plantillas de gastos",
+          "category_organization": "Organización de categorías",
+          "flexible_planning": "Planificación flexible"
+        }
+      },
+      "step_3": {
+        "title": "Rastrea Transacciones",
+        "description": "Registra tu gasto real contra las cantidades planificadas. Ve cómo te está yendo en tiempo real.",
+        "highlights": {
+          "real_time_tracking": "Seguimiento en tiempo real",
+          "budget_vs_actual": "Presupuesto vs real",
+          "spending_alerts": "Alertas de gasto"
+        }
+      },
+      "step_4": {
+        "title": "Revisa y Optimiza",
+        "description": "Analiza tus patrones de gasto con el tiempo. Ajusta los presupuestos futuros basándote en datos reales.",
+        "highlights": {
+          "visual_reports": "Informes visuales",
+          "trend_analysis": "Análisis de tendencias",
+          "smart_suggestions": "Sugerencias inteligentes"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Amado por personas conscientes del presupuesto",
+      "description": "Únete a miles de usuarios que han transformado sus hábitos financieros con BudgetWise.",
+      "sarah": {
+        "name": "Sarah Mitchell",
+        "role": "Diseñadora Freelance",
+        "content": "¡Finalmente, una aplicación que me permite planificar mi presupuesto antes de que comience el mes! Como freelancer con ingresos variables, esto es exactamente lo que necesitaba."
+      },
+      "james": {
+        "name": "James Chen",
+        "role": "Ingeniero de Software",
+        "content": "La función de plantillas de presupuesto es un cambio de juego. Creo mi presupuesto una vez y lo reutilizo cada mes. ¡Me ahorra mucho tiempo!"
+      },
+      "emily": {
+        "name": "Emily Rodriguez",
+        "role": "Propietaria de Pequeña Empresa",
+        "content": "He probado todas las aplicaciones de presupuesto que existen. BudgetWise es la única que realmente me ayuda a planificar con anticipación en lugar de solo rastrear lo que ya he gastado."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para tomar el control de tus finanzas?",
+      "description": "Comienza a planificar tu presupuesto hoy. No se requiere tarjeta de crédito, gratis para siempre para uso personal.",
+      "create_account": "Crear Cuenta Gratis",
+      "log_in": "Iniciar sesión"
+    },
+    "footer": {
+      "brand_name": "BudgetWise",
+      "features": "Características",
+      "how_it_works": "Cómo Funciona",
+      "testimonials": "Testimonios",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "copyright": "© {year} BudgetWise. Todos los derechos reservados."
+    },
+    "budget_preview": {
+      "title": "Fuentes de Ingreso",
+      "total": "Total",
+      "of_income": "% de ingresos",
+      "total_monthly_income": "Ingreso Mensual Total",
+      "main_job": "Trabajo Principal",
+      "side_projects": "Proyectos Secundarios",
+      "stock_dividends": "Dividendos de Acciones"
+    }
   }
 }

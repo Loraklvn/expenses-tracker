@@ -438,5 +438,136 @@
     },
     "select_month": "Select Month",
     "select_year": "Select Year"
+  },
+  "landing": {
+    "header": {
+      "brand_name": "BudgetWise",
+      "features": "Features",
+      "how_it_works": "How It Works",
+      "testimonials": "Testimonials",
+      "log_in": "Log in",
+      "sign_up": "Sign up",
+      "close_menu": "Close menu",
+      "open_menu": "Open menu"
+    },
+    "hero": {
+      "badge": "Plan your finances ahead",
+      "title": "Budget smarter, not harder",
+      "description": "The only budgeting app that lets you plan your expenses before they happen. Take control of your money with pre-planned budgets, expense templates, and income tracking.",
+      "get_started": "Get Started Free",
+      "log_in_account": "Log in to your account",
+      "disclaimer": "No credit card required · Free forever for personal use"
+    },
+    "features": {
+      "title": "Everything you need to budget effectively",
+      "description": "Unlike typical expense trackers, BudgetWise helps you plan ahead so you're always in control of your finances.",
+      "pre_plan_budget": {
+        "title": "Pre-Plan Your Budget",
+        "description": "Plan expenses before the month begins. Know exactly where your money will go before you spend it."
+      },
+      "categories_expenses": {
+        "title": "Categories & Expenses",
+        "description": "Organize your expenses into custom categories. Group similar costs together for better insights."
+      },
+      "budget_templates": {
+        "title": "Budget Templates",
+        "description": "Create reusable templates for recurring budgets. Save time with one-click budget recreation."
+      },
+      "transaction_tracking": {
+        "title": "Transaction Tracking",
+        "description": "Log transactions against your planned expenses. See real spending vs. budgeted amounts instantly."
+      },
+      "income_management": {
+        "title": "Income Management",
+        "description": "Track multiple income sources with categories. See your complete financial picture at a glance."
+      },
+      "visual_insights": {
+        "title": "Visual Insights",
+        "description": "Beautiful charts show spending patterns. Make smarter decisions with data-driven insights."
+      }
+    },
+    "how_it_works": {
+      "title": "How BudgetWise works",
+      "description": "Get started in minutes. Our simple workflow makes budgeting feel effortless.",
+      "step_1": {
+        "title": "Set Up Your Income",
+        "description": "Add your income sources and categorize them. Track salary, freelance work, investments, and more.",
+        "highlights": {
+          "multiple_sources": "Multiple income sources",
+          "custom_categories": "Custom categories",
+          "monthly_totals": "Monthly totals"
+        }
+      },
+      "step_2": {
+        "title": "Create Your Budget",
+        "description": "Plan your monthly expenses before spending. Assign amounts to each expense category you create.",
+        "highlights": {
+          "expense_templates": "Expense templates",
+          "category_organization": "Category organization",
+          "flexible_planning": "Flexible planning"
+        }
+      },
+      "step_3": {
+        "title": "Track Transactions",
+        "description": "Log your actual spending against planned amounts. See how you're doing in real-time.",
+        "highlights": {
+          "real_time_tracking": "Real-time tracking",
+          "budget_vs_actual": "Budget vs actual",
+          "spending_alerts": "Spending alerts"
+        }
+      },
+      "step_4": {
+        "title": "Review & Optimize",
+        "description": "Analyze your spending patterns over time. Adjust future budgets based on real data.",
+        "highlights": {
+          "visual_reports": "Visual reports",
+          "trend_analysis": "Trend analysis",
+          "smart_suggestions": "Smart suggestions"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Loved by budget-conscious people",
+      "description": "Join thousands of users who have transformed their financial habits with BudgetWise.",
+      "sarah": {
+        "name": "Sarah Mitchell",
+        "role": "Freelance Designer",
+        "content": "Finally, an app that lets me plan my budget before the month starts! As a freelancer with variable income, this is exactly what I needed."
+      },
+      "james": {
+        "name": "James Chen",
+        "role": "Software Engineer",
+        "content": "The budget templates feature is a game-changer. I create my budget once and reuse it every month. Saves me so much time!"
+      },
+      "emily": {
+        "name": "Emily Rodriguez",
+        "role": "Small Business Owner",
+        "content": "I've tried every budgeting app out there. BudgetWise is the only one that actually helps me plan ahead instead of just tracking what I've already spent."
+      }
+    },
+    "cta": {
+      "title": "Ready to take control of your finances?",
+      "description": "Start planning your budget today. No credit card required, free forever for personal use.",
+      "create_account": "Create Free Account",
+      "log_in": "Log in"
+    },
+    "footer": {
+      "brand_name": "BudgetWise",
+      "features": "Features",
+      "how_it_works": "How It Works",
+      "testimonials": "Testimonials",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "copyright": "© {year} BudgetWise. All rights reserved."
+    },
+    "budget_preview": {
+      "title": "Income Sources",
+      "total": "Total",
+      "of_income": "% of income",
+      "total_monthly_income": "Total Monthly Income",
+      "main_job": "Main Job",
+      "side_projects": "Side Projects",
+      "stock_dividends": "Stock Dividends"
+    }
   }
 }
