@@ -441,7 +441,7 @@
   },
   "landing": {
     "header": {
-      "brand_name": "BudgetWise",
+      "brand_name": "Spendiee",
       "features": "Características",
       "how_it_works": "Cómo Funciona",
       "testimonials": "Testimonios",
@@ -460,7 +460,7 @@
     },
     "features": {
       "title": "Todo lo que necesitas para presupuestar de manera efectiva",
-      "description": "A diferencia de los rastreadores de gastos típicos, BudgetWise te ayuda a planificar con anticipación para que siempre tengas el control de tus finanzas.",
+      "description": "A diferencia de los rastreadores de gastos típicos, Spendiee te ayuda a planificar con anticipación para que siempre tengas el control de tus finanzas.",
       "pre_plan_budget": {
         "title": "Planifica Tu Presupuesto",
         "description": "Planifica los gastos antes de que comience el mes. Sabrás exactamente a dónde irá tu dinero antes de gastarlo."
@@ -487,7 +487,7 @@
       }
     },
     "how_it_works": {
-      "title": "Cómo funciona BudgetWise",
+      "title": "Cómo funciona Spendiee",
       "description": "Comienza en minutos. Nuestro flujo de trabajo simple hace que el presupuesto se sienta sin esfuerzo.",
       "step_1": {
         "title": "Configura Tus Ingresos",
@@ -528,7 +528,7 @@
     },
     "testimonials": {
       "title": "Amado por personas conscientes del presupuesto",
-      "description": "Únete a miles de usuarios que han transformado sus hábitos financieros con BudgetWise.",
+      "description": "Únete a miles de usuarios que han transformado sus hábitos financieros con Spendiee.",
       "sarah": {
         "name": "Sarah Mitchell",
         "role": "Diseñadora Freelance",
@@ -542,7 +542,7 @@
       "emily": {
         "name": "Emily Rodriguez",
         "role": "Propietaria de Pequeña Empresa",
-        "content": "He probado todas las aplicaciones de presupuesto que existen. BudgetWise es la única que realmente me ayuda a planificar con anticipación en lugar de solo rastrear lo que ya he gastado."
+        "content": "He probado todas las aplicaciones de presupuesto que existen. Spendiee es la única que realmente me ayuda a planificar con anticipación en lugar de solo rastrear lo que ya he gastado."
       }
     },
     "cta": {
@@ -552,13 +552,13 @@
       "log_in": "Iniciar sesión"
     },
     "footer": {
-      "brand_name": "BudgetWise",
+      "brand_name": "Spendiee",
       "features": "Características",
       "how_it_works": "Cómo Funciona",
       "testimonials": "Testimonios",
       "privacy": "Privacidad",
       "terms": "Términos",
-      "copyright": "© {year} BudgetWise. Todos los derechos reservados."
+      "copyright": "© {year} Spendiee. Todos los derechos reservados."
     },
     "budget_preview": {
       "title": "Fuentes de Ingreso",

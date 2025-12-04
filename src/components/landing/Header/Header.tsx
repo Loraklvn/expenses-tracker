@@ -46,13 +46,13 @@ export default function Header() {
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/login"
+            href="/auth/login"
             className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 transition-colors"
           >
             {t("log_in")}
           </Link>
           <Link
-            href="/signup"
+            href="/auth/sign-up"
             className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
           >
             {t("sign_up")}
@@ -100,13 +100,13 @@ export default function Header() {
             </Link>
             <div className="flex flex-col gap-3 pt-4 border-t border-stone-200">
               <Link
-                href="/login"
+                href="/auth/login"
                 className="inline-flex items-center justify-center rounded-md border border-stone-300 bg-transparent px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 transition-colors w-full"
               >
                 {t("log_in")}
               </Link>
               <Link
-                href="/signup"
+                href="/auth/sign-up"
                 className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors w-full"
               >
                 {t("sign_up")}

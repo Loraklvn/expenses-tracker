@@ -2,6 +2,7 @@
 
 import { Building2, Laptop, TrendingUp, Wallet } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 export default function BudgetPreviewCard() {
   const t = useTranslations("landing.budget_preview");
@@ -35,6 +36,18 @@ export default function BudgetPreviewCard() {
 
   const total = incomeData.reduce((sum, item) => sum + item.amount, 0);
 
+  // Transform data for PieChart
+  const chartData = incomeData.map((item) => ({
+    name: item.name,
+    value: item.amount,
+    percentage: item.percentage,
+    icon: item.icon,
+    colorClass: item.colorClass,
+    bgClass: item.bgClass,
+  }));
+
+  const colors = ["#059669", "#3b82f6", "#a855f7"];
+
   return (
     <div className="w-full max-w-md p-6 shadow-xl border border-stone-200/50 rounded-xl bg-white">
       <div className="flex items-center gap-3 mb-6">
@@ -46,45 +59,34 @@ export default function BudgetPreviewCard() {
 
       <div className="flex gap-6 mb-6">
         {/* Donut Chart */}
-        <div className="relative flex-shrink-0">
-          <svg
-            width="120"
-            height="120"
-            viewBox="0 0 120 120"
-            className="transform -rotate-90"
-          >
-            <circle
-              cx="60"
-              cy="60"
-              r="50"
-              fill="none"
-              stroke="#e7e5e4"
-              strokeWidth="16"
-            />
-            {incomeData.map((item, index) => {
-              const previousPercentages = incomeData
-                .slice(0, index)
-                .reduce((sum, i) => sum + i.percentage, 0);
-              const dashArray = (item.percentage / 100) * 314.16;
-              const dashOffset = (previousPercentages / 100) * 314.16;
-              const strokeColors = ["#059669", "#3b82f6", "#a855f7"];
-
-              return (
-                <circle
-                  key={item.name}
-                  cx="60"
-                  cy="60"
-                  r="50"
-                  fill="none"
-                  stroke={strokeColors[index]}
-                  strokeWidth="16"
-                  strokeDasharray={`${dashArray} 314.16`}
-                  strokeDashoffset={-dashOffset}
-                />
-              );
-            })}
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="relative flex-shrink-0 w-[120px] h-[120px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="50%"
+                innerRadius={42}
+                outerRadius={58}
+                dataKey="value"
+                startAngle={90}
+                endAngle={-270}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index]} />
+                ))}
+              </Pie>
+              <Tooltip
+                formatter={(value: number) => `$${value.toLocaleString()}`}
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px",
+                }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
             <span className="text-xs text-stone-500">{t("total")}</span>
             <span className="text-lg font-bold text-stone-900">
               ${(total / 1000).toFixed(1)}k
@@ -106,7 +108,8 @@ export default function BudgetPreviewCard() {
                   {item.name}
                 </p>
                 <p className="text-xs text-stone-500">
-                  {item.percentage}{t("of_income")}
+                  {item.percentage}
+                  {t("of_income")}
                 </p>
               </div>
               <span className="text-sm font-semibold text-stone-900">
@@ -129,4 +132,3 @@ export default function BudgetPreviewCard() {
     </div>
   );
 }
-

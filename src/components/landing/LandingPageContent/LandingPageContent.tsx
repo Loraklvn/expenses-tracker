@@ -6,7 +6,7 @@ import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import CTASection from "@/components/landing/CTASection";
 import Footer from "@/components/landing/Footer";
 
-export default function LandingPage() {
+export default function LandingPageContent() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />

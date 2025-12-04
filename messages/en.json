@@ -441,7 +441,7 @@
   },
   "landing": {
     "header": {
-      "brand_name": "BudgetWise",
+      "brand_name": "Spendiee",
       "features": "Features",
       "how_it_works": "How It Works",
       "testimonials": "Testimonials",
@@ -460,7 +460,7 @@
     },
     "features": {
       "title": "Everything you need to budget effectively",
-      "description": "Unlike typical expense trackers, BudgetWise helps you plan ahead so you're always in control of your finances.",
+      "description": "Unlike typical expense trackers, Spendiee helps you plan ahead so you're always in control of your finances.",
       "pre_plan_budget": {
         "title": "Pre-Plan Your Budget",
         "description": "Plan expenses before the month begins. Know exactly where your money will go before you spend it."
@@ -487,7 +487,7 @@
       }
     },
     "how_it_works": {
-      "title": "How BudgetWise works",
+      "title": "How Spendiee works",
       "description": "Get started in minutes. Our simple workflow makes budgeting feel effortless.",
       "step_1": {
         "title": "Set Up Your Income",
@@ -528,7 +528,7 @@
     },
     "testimonials": {
       "title": "Loved by budget-conscious people",
-      "description": "Join thousands of users who have transformed their financial habits with BudgetWise.",
+      "description": "Join thousands of users who have transformed their financial habits with Spendiee.",
       "sarah": {
         "name": "Sarah Mitchell",
         "role": "Freelance Designer",
@@ -542,7 +542,7 @@
       "emily": {
         "name": "Emily Rodriguez",
         "role": "Small Business Owner",
-        "content": "I've tried every budgeting app out there. BudgetWise is the only one that actually helps me plan ahead instead of just tracking what I've already spent."
+        "content": "I've tried every budgeting app out there. Spendiee is the only one that actually helps me plan ahead instead of just tracking what I've already spent."
       }
     },
     "cta": {
@@ -552,13 +552,13 @@
       "log_in": "Log in"
     },
     "footer": {
-      "brand_name": "BudgetWise",
+      "brand_name": "Spendiee",
       "features": "Features",
       "how_it_works": "How It Works",
       "testimonials": "Testimonials",
       "privacy": "Privacy",
       "terms": "Terms",
-      "copyright": "© {year} BudgetWise. All rights reserved."
+      "copyright": "© {year} Spendiee. All rights reserved."
     },
     "budget_preview": {
       "title": "Income Sources",

@@ -26,23 +26,21 @@ export default function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
               <Link
-                href="/signup"
+                href="/auth/sign-up"
                 className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-6 py-3 text-base font-medium text-white hover:bg-emerald-700 transition-colors"
               >
                 {t("get_started")}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               <Link
-                href="/login"
+                href="/auth/login"
                 className="inline-flex items-center justify-center rounded-md border border-stone-300 bg-transparent px-6 py-3 text-base font-medium text-stone-700 hover:bg-stone-100 transition-colors"
               >
                 {t("log_in_account")}
               </Link>
             </div>
 
-            <p className="text-sm text-stone-500">
-              {t("disclaimer")}
-            </p>
+            <p className="text-sm text-stone-500">{t("disclaimer")}</p>
           </div>
 
           {/* Right Content - Preview Card */}
@@ -60,4 +58,3 @@ export default function HeroSection() {
     </section>
   );
 }
-
