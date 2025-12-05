@@ -7,7 +7,7 @@ interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-export async function AuthLayout({ children }: AuthLayoutProps) {
+async function AuthLayout({ children }: AuthLayoutProps) {
   const t = await getTranslations("landing.header");
   const tAuth = await getTranslations("auth");
 
