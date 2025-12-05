@@ -24,19 +24,19 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
-            href="#features"
+            href="/#features"
             className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
           >
             {t("features")}
           </Link>
           <Link
-            href="#how-it-works"
+            href="/#how-it-works"
             className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
           >
             {t("how_it_works")}
           </Link>
           <Link
-            href="#testimonials"
+            href="/#testimonials"
             className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
           >
             {t("testimonials")}
@@ -78,21 +78,21 @@ export default function Header() {
         <div className="md:hidden border-t border-stone-200 bg-white">
           <nav className="container mx-auto flex flex-col gap-4 px-4 py-6">
             <Link
-              href="#features"
+              href="/#features"
               className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               {t("features")}
             </Link>
             <Link
-              href="#how-it-works"
+              href="/#how-it-works"
               className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               {t("how_it_works")}
             </Link>
             <Link
-              href="#testimonials"
+              href="/#testimonials"
               className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >

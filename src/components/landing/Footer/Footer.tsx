@@ -19,19 +19,19 @@ export default function Footer() {
 
           <nav className="flex flex-wrap items-center justify-center gap-6">
             <Link
-              href="#features"
+              href="/#features"
               className="text-sm text-stone-500 hover:text-stone-900 transition-colors"
             >
               {t("features")}
             </Link>
             <Link
-              href="#how-it-works"
+              href="/#how-it-works"
               className="text-sm text-stone-500 hover:text-stone-900 transition-colors"
             >
               {t("how_it_works")}
             </Link>
             <Link
-              href="#testimonials"
+              href="/#testimonials"
               className="text-sm text-stone-500 hover:text-stone-900 transition-colors"
             >
               {t("testimonials")}
@@ -58,4 +58,3 @@ export default function Footer() {
     </footer>
   );
 }
-
