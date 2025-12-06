@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import AddExpenseToBudgetModal from "../AddExpenseToBudgetModal/AddExpenseToBudgetModal";
 import AddTransactionModal from "../AddTransactionModal";
@@ -134,6 +134,10 @@ const ExpensesShell = ({
   const filteredExpenses = expenses.filter((expense) =>
     expense.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  useEffect(() => {
+    document.cookie = `budgetId=${budget?.id}; path=/; max-age=31536000; secure; samesite=strict`;
+  }, [budget?.id]);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">

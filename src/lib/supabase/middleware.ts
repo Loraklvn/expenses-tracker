@@ -57,6 +57,38 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  const budgetId = request.cookies.get("budgetId")?.value;
+  const pathname = request.nextUrl.pathname;
+  const hasVisited = request.cookies.get("hasVisited")?.value === "true";
+  const SESSION_DURATION = 5 * 60; // 5 minutes in seconds
+
+  // If user hasn't visited yet (first visit in session)
+  if (!hasVisited) {
+    // Set the hasVisited cookie to true
+    supabaseResponse.cookies.set("hasVisited", "true", {
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: SESSION_DURATION,
+    });
+
+    // If on home page and has budgetId, redirect to budget
+    if (budgetId && pathname === "/") {
+      const url = request.nextUrl.clone();
+      url.pathname = `/budget/${budgetId}`;
+
+      return NextResponse.redirect(url);
+    }
+  } else {
+    // Refresh cookie on any navigation (extends the session)
+    supabaseResponse.cookies.set("hasVisited", "true", {
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: SESSION_DURATION,
+    });
+  }
+
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
