@@ -60,7 +60,7 @@ export async function updateSession(request: NextRequest) {
   const budgetId = request.cookies.get("budgetId")?.value;
   const pathname = request.nextUrl.pathname;
   const hasVisited = request.cookies.get("hasVisited")?.value === "true";
-  const SESSION_DURATION = 5 * 60; // 5 minutes in seconds
+  const SESSION_DURATION = 2 * 60; // 2 minutes in seconds
 
   // If user hasn't visited yet (first visit in session)
   if (!hasVisited) {
