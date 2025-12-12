@@ -1,6 +1,19 @@
-import type { ExpenseTemplate, ExpenseWithCurrent } from "@/types";
+import type { ExpenseWithCurrent } from "@/types";
 import { createServer } from "../../server";
+import { handleSupabaseError } from "../utils/error-handler";
 
+/**
+ * Fetches all expenses for a specific budget (server-side)
+ *
+ * @param budgetId - The ID of the budget to fetch expenses for
+ * @returns Promise resolving to an array of expenses with current spending data
+ * @throws {SupabaseRequestError} If the database query fails
+ *
+ * @example
+ * ```typescript
+ * const expenses = await fetchExpensesServer(123);
+ * ```
+ */
 export async function fetchExpensesServer(
   budgetId: number
 ): Promise<ExpenseWithCurrent[]> {
@@ -10,19 +23,7 @@ export async function fetchExpensesServer(
     .select("*")
     .eq("budget_id", budgetId);
 
-  if (error) throw error;
+  if (error)
+    handleSupabaseError(error, `fetching expenses for budget ${budgetId}`);
   return data || [];
 }
-
-export const fetchExpensesTemplateServer = async (): Promise<
-  ExpenseTemplate[]
-> => {
-  const supabase = await createServer();
-  const { data, error } = await supabase
-    .from("expense_template")
-    .select("*")
-    .eq("archived", false)
-    .order("name", { ascending: true });
-  if (error) throw error;
-  return data || [];
-};

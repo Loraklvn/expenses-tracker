@@ -2,7 +2,10 @@
 export { fetchBudgetsServer, fetchBudgetServer } from "./budgets";
 
 // Expenses
-export { fetchExpensesServer, fetchExpensesTemplateServer } from "./expenses";
+export { fetchExpensesServer } from "./expenses";
+
+// Expense Templates
+export { fetchExpensesTemplateServer } from "./expense-templates";
 
 // Categories
 export { fetchCategoriesServer } from "./categories";

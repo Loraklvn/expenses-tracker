@@ -1,5 +1,6 @@
 import { getSupabaseClient } from "../../client";
 import { getYYYYMMDDFromDate } from "@/utils/date";
+import { handleSupabaseError } from "../utils/error-handler";
 
 // --- Interfaces based on your Views ---
 
@@ -45,10 +46,25 @@ export interface SpendingByTemplateItem {
 }
 
 /**
- * Income & Spending Over Time (Items 1 & 7)
- * This function queries the monthly_flow_summary view.
- * For Item 7 (Month by Month): Use the data array returned directly.
- * For Item 1 (Total All Time): You can simply .reduce() the result array in the frontend to get the single total sum.
+ * Fetches monthly income and spending flow data over time
+ *
+ * This function queries the monthly_flow_summary view to get aggregated income
+ * and spending data grouped by month. Use the returned array directly for month-by-month
+ * analysis, or reduce it in the frontend to get total all-time values.
+ *
+ * @param startDate - Optional start date to filter results (inclusive)
+ * @param endDate - Optional end date to filter results (inclusive)
+ * @returns Promise resolving to an array of monthly flow data, sorted by month
+ * @throws {SupabaseRequestError} If the database query fails
+ *
+ * @example
+ * ```typescript
+ * // Get all time data
+ * const allTime = await getMonthlyFlow();
+ *
+ * // Get data for a specific date range
+ * const range = await getMonthlyFlow("2024-01-01", "2024-12-31");
+ * ```
  */
 export const getMonthlyFlow = async (
   startDate?: Date | string,
@@ -65,7 +81,7 @@ export const getMonthlyFlow = async (
   if (endDate) query = query.lte("month_start", getYYYYMMDDFromDate(endDate));
 
   const { data, error } = await query;
-  if (error) throw error;
+  if (error) handleSupabaseError(error, "fetching monthly flow data");
 
   return data as MonthlyFlowData[];
 };
@@ -97,11 +113,28 @@ export const getAnalyticsBreakdown = async (
     query = query.lte("transaction_date", getYYYYMMDDFromDate(endDate));
 
   const { data, error } = await query;
-  if (error) throw error;
+  if (error)
+    handleSupabaseError(error, `fetching analytics breakdown for ${type}`);
 
   return data as AnalyticsItem[];
 };
 
+/**
+ * Fetches budget performance metrics (average completion percentage and total budgets)
+ *
+ * @param startDate - Optional start date to filter results (inclusive)
+ * @param endDate - Optional end date to filter results (inclusive)
+ * @returns Promise resolving to budget performance data or null if no data found
+ * @throws {SupabaseRequestError} If the database query fails
+ *
+ * @example
+ * ```typescript
+ * const performance = await getBudgetPerformance("2024-01-01", "2024-12-31");
+ * if (performance) {
+ *   console.log(`Average completion: ${performance.average_completion_percentage}%`);
+ * }
+ * ```
+ */
 export const getBudgetPerformance = async (
   startDate?: Date | string,
   endDate?: Date | string
@@ -112,7 +145,7 @@ export const getBudgetPerformance = async (
     _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
   });
 
-  if (error) throw error;
+  if (error) handleSupabaseError(error, "fetching budget performance");
 
   // RPC returns an array, but we know it's a single row
   return (
@@ -135,7 +168,7 @@ export const getIncomeBySource = async (
     _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
   });
 
-  if (error) throw error;
+  if (error) handleSupabaseError(error, "fetching income by source");
   return (data || []) as IncomeBySourceItem[];
 };
 
@@ -154,7 +187,7 @@ export const getIncomeByCategory = async (
     _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
   });
 
-  if (error) throw error;
+  if (error) handleSupabaseError(error, "fetching income by category");
   return (data || []) as IncomeByCategoryItem[];
 };
 
@@ -173,7 +206,7 @@ export const getSpendingByCategory = async (
     _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
   });
 
-  if (error) throw error;
+  if (error) handleSupabaseError(error, "fetching spending by category");
   return (data || []) as SpendingByCategoryItem[];
 };
 
@@ -192,6 +225,6 @@ export const getSpendingByTemplate = async (
     _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
   });
 
-  if (error) throw error;
+  if (error) handleSupabaseError(error, "fetching spending by template");
   return (data || []) as SpendingByTemplateItem[];
 };

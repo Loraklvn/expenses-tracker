@@ -9,14 +9,14 @@ export {
   type CreateBudgetArgs,
 } from "./budgets";
 
-// Budget Expenses
+// Expenses
 export {
   fetchExpensesClient,
   addExpenseToBudgetClient,
   addCustomExpenseToBudgetClient,
   updateBudgetExpenseClient,
   deleteBudgetExpenseClient,
-} from "./budget-expenses";
+} from "./expenses";
 
 // Transactions
 export {
