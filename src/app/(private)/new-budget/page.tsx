@@ -13,9 +13,9 @@ const NewBudgetPage = async ({
   const params = await searchParams;
   const expenseTemplates = await fetchExpensesTemplateServer();
   const categories = await fetchCategoriesServer();
-  const budgetTemplate = await fetchBudgetTemplateServer(
-    Number(params?.templateId)
-  );
+  const budgetTemplate = params?.templateId
+    ? await fetchBudgetTemplateServer(Number(params?.templateId))
+    : undefined;
 
   return (
     <NewBudgetShell
