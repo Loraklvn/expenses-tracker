@@ -135,10 +135,6 @@ const ExpensesShell = ({
     expense.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  useEffect(() => {
-    document.cookie = `budgetId=${budget?.id}; path=/; max-age=31536000; secure; samesite=strict`;
-  }, [budget?.id]);
-
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       <div className="max-w-md mx-auto">
