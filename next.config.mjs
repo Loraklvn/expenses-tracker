@@ -12,7 +12,7 @@ const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(
   withSerwist({
     // Your Next.js config
-  })
+  }),
 );
 
 // const withPWA = withPWAInit({
