@@ -21,7 +21,7 @@ export async function addBudgetedTransaction(
   expenseId: number,
   amount: number,
   transactionDate: string,
-  description?: string
+  description?: string,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -38,7 +38,7 @@ export async function addBudgetedTransaction(
   if (error)
     handleSupabaseError(
       error,
-      `adding budgeted transaction for expense ${expenseId}`
+      `adding budgeted transaction for expense ${expenseId}`,
     );
 }
 
@@ -59,7 +59,7 @@ export async function addBudgetedTransaction(
 export async function addUnbudgetedTransactionWithTemplate(
   templateId: number,
   amount: number,
-  description?: string
+  description?: string,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -75,7 +75,7 @@ export async function addUnbudgetedTransactionWithTemplate(
   if (error)
     handleSupabaseError(
       error,
-      `adding unbudgeted transaction with template ${templateId}`
+      `adding unbudgeted transaction with template ${templateId}`,
     );
 }
 
@@ -96,7 +96,7 @@ export async function addUnbudgetedTransactionWithTemplate(
 export async function addUnbudgetedTransactionWithCategory(
   categoryId: number,
   amount: number,
-  description?: string
+  description?: string,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -112,7 +112,7 @@ export async function addUnbudgetedTransactionWithCategory(
   if (error)
     handleSupabaseError(
       error,
-      `adding unbudgeted transaction with category ${categoryId}`
+      `adding unbudgeted transaction with category ${categoryId}`,
     );
 }
 
@@ -133,7 +133,7 @@ export async function addUnbudgetedTransactionWithCategory(
 export async function addIncomeTransaction(
   incomeSourceId: number,
   amount: number,
-  description?: string
+  description?: string,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -149,7 +149,7 @@ export async function addIncomeTransaction(
   if (error)
     handleSupabaseError(
       error,
-      `adding income transaction for source ${incomeSourceId}`
+      `adding income transaction for source ${incomeSourceId}`,
     );
 }
 
@@ -170,14 +170,14 @@ export async function addTransactionClient(
   expenseId: number,
   amount: number,
   transactionDate: string,
-  description?: string
+  description?: string,
 ): Promise<void> {
   // For backward compatibility, we assume it's a budgeted expense
   return addBudgetedTransaction(
     expenseId,
     amount,
     transactionDate,
-    description
+    description,
   );
 }
 
@@ -238,7 +238,7 @@ export const fetchTransactionsClient = async ({
   // 4) Add search filter if searchTerm is provided
   if (searchTerm && searchTerm.trim()) {
     query = query.or(
-      `expense_name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,budget_name.ilike.%${searchTerm}%,income_source_name.ilike.%${searchTerm}%`
+      `expense_name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,budget_name.ilike.%${searchTerm}%,income_source_name.ilike.%${searchTerm}%`,
     );
   }
 
@@ -407,6 +407,6 @@ export const createIncomeTransactionClient = async ({
   if (error)
     handleSupabaseError(
       error,
-      `creating income transaction for source ${incomeSourceId}`
+      `creating income transaction for source ${incomeSourceId}`,
     );
 };

@@ -1,9 +1,12 @@
 import {
+  addUnbudgetedTransactionWithCategory,
+  addUnbudgetedTransactionWithTemplate,
   deleteTransactionClient,
   FetchTransactionsResult,
   fetchTransactionsClient,
   updateTransactionClient,
 } from "@/lib/supabase/request/client";
+import { AddUnbudgetedTransactionFormValues } from "@/components/transactions/AddUnbudgetedTransactionModal";
 import { TransactionWithDetails } from "@/types";
 import debounce from "@/utils/debounce";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -64,6 +67,28 @@ const useManageTransactions = ({
     toast.error(t("operation_failed"));
   };
 
+  const createUnbudgetedMutation = useMutation({
+    mutationFn: async (values: AddUnbudgetedTransactionFormValues) => {
+      const amount = Number.parseFloat(values.amount);
+      const description = values.description || undefined;
+      if (values.mode === "template") {
+        await addUnbudgetedTransactionWithTemplate(
+          Number(values.templateId),
+          amount,
+          description,
+        );
+      } else {
+        await addUnbudgetedTransactionWithCategory(
+          Number(values.categoryId),
+          amount,
+          description,
+        );
+      }
+    },
+    onSuccess,
+    onError,
+  });
+
   const updateMutation = useMutation({
     mutationFn: updateTransactionClient,
     onSuccess,
@@ -85,6 +110,7 @@ const useManageTransactions = ({
     transactions,
     total,
     totalPages,
+    createUnbudgetedMutation,
     updateMutation,
     deleteMutation,
     onSearchChange,

@@ -32,14 +32,18 @@ const TransactionItem = ({
         />
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-base truncate">
-            {transaction.expense_name || transaction.income_source_name}
+            {transaction.expense_name ||
+              transaction.income_source_name ||
+              transaction.category_name}
           </p>
           <p className="text-sm text-muted-foreground mt-0.5 line-clamp-1">
             {transaction.description || "No description"}
           </p>
           <div className="flex items-center gap-2 mt-1.5">
             <Badge variant="outline" className="text-xs">
-              {transaction.budget_name || transaction.income_source_name}
+              {transaction.budget_name ||
+                transaction.income_source_name ||
+                t("unbudgeted")}
             </Badge>
             <span className="text-xs font-semibold text-foreground">
               {formatCurrency(transaction.amount)}

@@ -291,7 +291,19 @@
     "no_transactions_yet": "No transactions yet",
     "clear_filters": "Clear filters",
     "search_transactions": "Search transactions...",
-    "total_transactions": "{total} transaction in total"
+    "total_transactions": "{total} transaction in total",
+    "add_expense": "Add Expense",
+    "add_unbudgeted_transaction": "Add Unbudgeted Expense",
+    "add_unbudgeted_transaction_description": "Log an expense not linked to a budget. Choose a template or a category.",
+    "by_template": "By Template",
+    "by_category": "By Category",
+    "select_template": "Select a template",
+    "select_category_placeholder": "Select a category",
+    "no_templates_available": "No expense templates available",
+    "no_categories_available": "No categories available",
+    "adding": "Adding...",
+    "save_transaction": "Save Transaction",
+    "unbudgeted": "Unbudgeted"
   },
   "budget_templates": {
     "title": "Budget Templates",

@@ -292,7 +292,19 @@
     "no_transactions_yet": "No hay transacciones aún",
     "clear_filters": "Limpiar filtros",
     "search_transactions": "Buscar transacciones...",
-    "total_transactions": "{total} transacción en total"
+    "total_transactions": "{total} transacción en total",
+    "add_expense": "Agregar Gasto",
+    "add_unbudgeted_transaction": "Agregar Gasto Sin Presupuesto",
+    "add_unbudgeted_transaction_description": "Registra un gasto que no está vinculado a un presupuesto. Elige una plantilla o una categoría.",
+    "by_template": "Por Plantilla",
+    "by_category": "Por Categoría",
+    "select_template": "Selecciona una plantilla",
+    "select_category_placeholder": "Selecciona una categoría",
+    "no_templates_available": "No hay plantillas de gastos disponibles",
+    "no_categories_available": "No hay categorías disponibles",
+    "adding": "Agregando...",
+    "save_transaction": "Guardar Transacción",
+    "unbudgeted": "No presupuestado"
   },
   "budget_templates": {
     "title": "Plantillas de Presupuesto",

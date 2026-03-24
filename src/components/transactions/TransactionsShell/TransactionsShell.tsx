@@ -2,10 +2,15 @@
 
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import StickyHeader from "@/components/common/StickyHeader";
+import { Button } from "@/components/ui/button";
 import useManageTransactions from "@/hooks/useManageTransactions";
 import { TransactionWithDetails } from "@/types";
+import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import AddUnbudgetedTransactionModal, {
+  AddUnbudgetedTransactionFormValues,
+} from "../AddUnbudgetedTransactionModal";
 import EditTransactionFormModal from "../EditTransactionFormModal";
 import TransactionsHeader from "../TransactionsHeader";
 import TransactionsList from "../TransactionsList";
@@ -39,6 +44,7 @@ export default function TransactionsShell({
     searchTerm,
     page,
     setPage,
+    createUnbudgetedMutation,
     updateMutation,
     deleteMutation,
   } = useManageTransactions({
@@ -46,6 +52,15 @@ export default function TransactionsShell({
     defaultTotal,
     transactionType,
   });
+
+  const [showAddUnbudgeted, setShowAddUnbudgeted] = useState(false);
+
+  const handleAddUnbudgeted = async (
+    values: AddUnbudgetedTransactionFormValues
+  ) => {
+    await createUnbudgetedMutation.mutateAsync(values);
+    setShowAddUnbudgeted(false);
+  };
 
   const [showEditTransaction, setShowEditTransaction] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -118,6 +133,15 @@ export default function TransactionsShell({
         <StickyHeader title={t("title")} />
 
         <div className="p-4 space-y-4">
+          {/* Add Unbudgeted Expense */}
+          <Button
+            className="w-full rounded-xl h-11 font-semibold shadow-sm"
+            onClick={() => setShowAddUnbudgeted(true)}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            {t("add_expense")}
+          </Button>
+
           {/* Search Bar, Filter, and Summary */}
           <TransactionsHeader
             searchTerm={searchTerm}
@@ -144,6 +168,13 @@ export default function TransactionsShell({
             setPage={setPage}
           />
         </div>
+
+        <AddUnbudgetedTransactionModal
+          visible={showAddUnbudgeted}
+          isSubmitting={createUnbudgetedMutation.isPending}
+          onSubmit={handleAddUnbudgeted}
+          onClose={() => setShowAddUnbudgeted(false)}
+        />
 
         <EditTransactionFormModal
           visible={showEditTransaction}
