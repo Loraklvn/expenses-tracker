@@ -181,6 +181,7 @@
     "description": "Description",
     "description_placeholder": "Description (optional)",
     "error_updating_expense": "Error updating expense",
+    "error_updating_budget": "Error updating budget",
     "error_deleting_expense": "Error deleting expense",
     "date": "Date",
     "transaction_date_out_of_range": "Transaction date must be within the budget period."

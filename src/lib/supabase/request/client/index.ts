@@ -4,9 +4,11 @@ export {
   fetchBudgetClient,
   createBudgetWithLinesClient,
   deleteBudgetClient,
+  updateBudgetClient,
   type FetchBudgetsClientArgs,
   type FetchBudgetsClientResult,
   type CreateBudgetArgs,
+  type UpdateBudgetClientArgs,
 } from "./budgets";
 
 // Expenses

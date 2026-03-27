@@ -8,17 +8,19 @@ import {
   fetchExpensesClient,
   updateBudgetExpenseClient,
 } from "@/lib/supabase/request/client";
+import useEditBudget from "@/hooks/useEditBudget";
 import { BudgetWithCurrent, ExpenseWithCurrent } from "@/types";
 import { formatDateToReadable } from "@/utils/date";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, SquarePenIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import { toast } from "react-toastify";
 import AddExpenseToBudgetModal from "../AddExpenseToBudgetModal/AddExpenseToBudgetModal";
 import AddTransactionModal from "../AddTransactionModal";
 import BudgetSumaryCard from "../BudgetSumaryCard/BudgetSumaryCard";
+import EditBudgetFormModal from "../EditBudgetFormModal";
 import EditBudgetExpenseFormModal from "../EditBudgetExpenseFormModal";
 import ExpensesList from "../ExpensesList/ExpensesList";
 
@@ -45,11 +47,11 @@ const ExpensesShell = ({
   });
   const budgetedExpensesAmount = expenses.reduce(
     (acc, expense) => acc + expense.budgeted_amount,
-    0
+    0,
   );
   const spentExpensesAmount = expenses.reduce(
     (acc, expense) => acc + expense.current_amount,
-    0
+    0,
   );
 
   const [showAddTransaction, setShowAddTransaction] = useState(false);
@@ -59,7 +61,7 @@ const ExpensesShell = ({
   const [showEditExpense, setShowEditExpense] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState<ExpenseWithCurrent | null>(
-    null
+    null,
   );
   const [editForm, setEditForm] = useState(emptyFormData);
   const [searchQuery, setSearchQuery] = useState("");
@@ -69,6 +71,21 @@ const ExpensesShell = ({
     !editForm.name ||
     (editForm.name === expenseToEdit?.name &&
       editForm.amount === expenseToEdit?.budgeted_amount.toString());
+
+  const {
+    budgetData,
+    showEditBudget,
+    budgetForm,
+    isUpdatingBudget,
+    isBudgetUpdateDisabled,
+    setBudgetForm,
+    handleOpenEditBudget,
+    handleCloseEditBudget,
+    handleUpdateBudget,
+  } = useEditBudget({
+    budget,
+    onErrorMessage: t("error_updating_budget"),
+  });
 
   const handleCloseModal = () => {
     setShowAddTransaction(false);
@@ -132,7 +149,7 @@ const ExpensesShell = ({
   };
 
   const filteredExpenses = expenses.filter((expense) =>
-    expense.name.toLowerCase().includes(searchQuery.toLowerCase())
+    expense.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -152,15 +169,23 @@ const ExpensesShell = ({
             </Link>
             <div className="flex-1 min-w-0">
               <h1 className="text-xl font-bold tracking-tight">
-                {budget?.name}
+                {budgetData?.name}
               </h1>
-              {budget?.start_date && budget?.end_date && (
+              {budgetData?.start_date && budgetData?.end_date && (
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  {formatDateToReadable(budget.start_date)} -{" "}
-                  {formatDateToReadable(budget.end_date)}
+                  {formatDateToReadable(budgetData.start_date)} -{" "}
+                  {formatDateToReadable(budgetData.end_date)}
                 </p>
               )}
             </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 rounded-lg hover:bg-accent transition-colors"
+              onClick={handleOpenEditBudget}
+            >
+              <SquarePenIcon className="h-5 w-5" />
+            </Button>
           </div>
         </div>
 
@@ -169,7 +194,7 @@ const ExpensesShell = ({
           <BudgetSumaryCard
             spentAmount={spentExpensesAmount}
             currentAmount={budgetedExpensesAmount}
-            expectedAmount={budget?.expected_amount || 0}
+            expectedAmount={budgetData?.expected_amount || 0}
           />
 
           <div className="flex items-center justify-end">
@@ -210,11 +235,23 @@ const ExpensesShell = ({
             visible={showAddExpenseToBudget}
             onClose={handleCloseAddExpenseToBudget}
             expenses={expenses}
-            budgetId={budget?.id || 0}
+            budgetId={budgetData?.id || 0}
             onSuccess={() => {
               setShowAddExpenseToBudget(false);
               refetch();
             }}
+          />
+
+          <EditBudgetFormModal
+            visible={showEditBudget}
+            isSubmitting={isUpdatingBudget}
+            formData={budgetForm}
+            disabledSubmit={isBudgetUpdateDisabled}
+            onClose={handleCloseEditBudget}
+            onSubmit={handleUpdateBudget}
+            onChange={(field, value) =>
+              setBudgetForm((prev) => ({ ...prev, [field]: value }))
+            }
           />
 
           <ConfirmationModal

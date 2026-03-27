@@ -88,7 +88,7 @@ export async function fetchBudgetsClient({
  * ```
  */
 export const fetchBudgetClient = async (
-  budgetId: number
+  budgetId: number,
 ): Promise<BudgetWithCurrent | null> => {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
@@ -198,4 +198,56 @@ export const deleteBudgetClient = async (budgetId: number): Promise<void> => {
   const supabase = getSupabaseClient();
   const { error } = await supabase.from("budget").delete().eq("id", budgetId);
   if (error) handleSupabaseError(error, `deleting budget ${budgetId}`);
+};
+
+export type UpdateBudgetClientArgs = {
+  budgetId: number;
+  updates: {
+    name?: string;
+    expectedAmount?: number;
+    startDate?: string;
+    endDate?: string;
+  };
+};
+
+/**
+ * Updates a budget's basic details.
+ *
+ * @param params - Update payload containing budget id and fields
+ * @returns Promise that resolves when the budget is updated
+ * @throws {SupabaseRequestError} If the database update fails
+ */
+export const updateBudgetClient = async ({
+  budgetId,
+  updates,
+}: UpdateBudgetClientArgs): Promise<void> => {
+  const supabase = getSupabaseClient();
+
+  const fieldMap = {
+    name: "name",
+    expectedAmount: "expected_amount",
+    startDate: "start_date",
+    endDate: "end_date",
+  } as const;
+
+  const payload = Object.entries(updates).reduce(
+    (acc, [key, value]) => {
+      if (typeof value !== "undefined") {
+        const dbKey = fieldMap[key as keyof typeof fieldMap];
+        acc[dbKey] = value;
+      }
+      return acc;
+    },
+    {} as Record<string, unknown>,
+  );
+
+  if (Object.keys(payload).length === 0) {
+    throw new Error("No valid fields provided for update");
+  }
+
+  const { error } = await supabase
+    .from("budget")
+    .update(payload)
+    .eq("id", budgetId);
+  if (error) handleSupabaseError(error, `updating budget ${budgetId}`);
 };
