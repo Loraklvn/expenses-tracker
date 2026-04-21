@@ -504,6 +504,7 @@ VALUES ($income_source_id, $amount, $description, 'income', $transaction_date);
 | Chart | Data source |
 |---|---|
 | Total income / spending / net for period | `monthly_flow_summary` view, aggregated in `calculateTotalFlow` |
+| Average income / spending / net per month | Same view, aggregated in `calculateAverageMonthlyFlow` (totals ÷ number of months returned) |
 | Month-by-month bar chart (income vs spending) | `monthly_flow_summary` view |
 | Income by source (pie) | `get_income_by_source` RPC |
 | Income by category (pie) | `get_income_by_category` RPC |
@@ -523,7 +524,7 @@ VALUES ($income_source_id, $amount, $description, 'income', $transaction_date);
 - `src/app/(private)/analytics/page.tsx`
 - `src/components/analytics/AnalyticsShell/`
 - `src/lib/supabase/request/client/analytics.ts` — all RPC wrappers
-- `src/utils/dashboard.ts` — data formatting helpers
+- `src/utils/dashboard.ts` — data formatting helpers (`calculateTotalFlow`, `calculateAverageMonthlyFlow`, …)
 
 ---
 

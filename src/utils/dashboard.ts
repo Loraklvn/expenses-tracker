@@ -23,6 +23,29 @@ export const calculateTotalFlow = (
 };
 
 /**
+ * Average income and spending per month over the months present in the data
+ * (one row per calendar month that has activity in `monthly_flow_summary`).
+ */
+export const calculateAverageMonthlyFlow = (
+  data: MonthlyFlowData[]
+): {
+  averageIncome: number;
+  averageSpending: number;
+  monthCount: number;
+} => {
+  const n = data.length;
+  if (n === 0) {
+    return { averageIncome: 0, averageSpending: 0, monthCount: 0 };
+  }
+  const { totalIncome, totalSpending } = calculateTotalFlow(data);
+  return {
+    averageIncome: totalIncome / n,
+    averageSpending: totalSpending / n,
+    monthCount: n,
+  };
+};
+
+/**
  * Format aggregated data with names for display
  * Works directly with aggregated array results from RPC queries
  */

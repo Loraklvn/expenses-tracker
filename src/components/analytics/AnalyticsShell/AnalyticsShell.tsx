@@ -12,6 +12,7 @@ import {
   getMonthlyFlow,
 } from "@/lib/supabase/request/client";
 import {
+  calculateAverageMonthlyFlow,
   calculateTotalFlow,
   formatCategoryData,
   formatIncomeSourceData,
@@ -19,7 +20,7 @@ import {
 } from "@/utils/dashboard";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { getLastDayOfMonthDate, getYYYYMMDDFromDate } from "@/utils/date";
 import BudgetPerformanceCard from "../BudgetPerformanceCard";
 import DateRangeFilter from "../DateRangeFilter";
@@ -28,6 +29,7 @@ import IncomeBySourceChart from "../IncomeBySourceChart";
 import MonthlyFlowChart from "../MonthlyFlowChart";
 import SpendingByCategoryChart from "../SpendingByCategoryChart";
 import SpendingByTemplateChart from "../SpendingByTemplateChart";
+import AverageMonthlyFlowCard from "../AverageMonthlyFlowCard";
 import TotalFlowCard from "../TotalFlowCard";
 
 export default function AnalyticsShell() {
@@ -94,6 +96,21 @@ export default function AnalyticsShell() {
 
   // Process data
   const totalFlow = calculateTotalFlow(monthlyFlowData);
+  const averageMonthlyFlow = calculateAverageMonthlyFlow(monthlyFlowData);
+
+  const { flowPeriodDateFrom, flowPeriodDateTo } = useMemo(() => {
+    const dateFrom = monthlyFlowData[0]?.month_start ?? "";
+    const lastMonth = monthlyFlowData[monthlyFlowData.length - 1];
+    if (!lastMonth?.month_start) {
+      return { flowPeriodDateFrom: dateFrom, flowPeriodDateTo: "" };
+    }
+    const [year, month] = lastMonth.month_start.split("-").map(Number);
+    const lastDay = getLastDayOfMonthDate(year, month - 1);
+    return {
+      flowPeriodDateFrom: dateFrom,
+      flowPeriodDateTo: getYYYYMMDDFromDate(lastDay),
+    };
+  }, [monthlyFlowData]);
 
   // Format aggregated data with names
   const incomeBySourceData = formatIncomeSourceData(incomeBySource);
@@ -133,17 +150,17 @@ export default function AnalyticsShell() {
             totalIncome={totalFlow.totalIncome}
             totalSpending={totalFlow.totalSpending}
             isLoading={isLoadingMonthlyFlow}
-            dateFrom={monthlyFlowData[0]?.month_start || ""}
-            dateTo={(() => {
-              const lastMonth = monthlyFlowData[monthlyFlowData.length - 1];
-              if (!lastMonth?.month_start) return "";
-              // month_start is in "YYYY-MM" format
-              const [year, month] = lastMonth.month_start
-                .split("-")
-                .map(Number);
-              const lastDay = getLastDayOfMonthDate(year, month - 1); // month is 1-indexed in string, 0-indexed in Date
-              return getYYYYMMDDFromDate(lastDay);
-            })()}
+            dateFrom={flowPeriodDateFrom}
+            dateTo={flowPeriodDateTo}
+          />
+
+          <AverageMonthlyFlowCard
+            averageIncome={averageMonthlyFlow.averageIncome}
+            averageSpending={averageMonthlyFlow.averageSpending}
+            monthCount={averageMonthlyFlow.monthCount}
+            isLoading={isLoadingMonthlyFlow}
+            dateFrom={flowPeriodDateFrom}
+            dateTo={flowPeriodDateTo}
           />
 
           {/* Item 7: Month by Month */}
