@@ -49,12 +49,14 @@ export default function BudgetPreviewCard() {
   const colors = ["#059669", "#3b82f6", "#a855f7"];
 
   return (
-    <div className="w-full max-w-md p-6 shadow-xl border border-stone-200/50 rounded-xl bg-white">
+    <div className="w-full max-w-md p-6 shadow-xl border border-stone-200/50 dark:border-stone-700/50 rounded-xl bg-white dark:bg-stone-900">
       <div className="flex items-center gap-3 mb-6">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-          <Wallet className="h-5 w-5 text-emerald-700" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-950/80">
+          <Wallet className="h-5 w-5 text-emerald-700 dark:text-emerald-400" />
         </div>
-        <h3 className="text-xl font-semibold text-stone-900">{t("title")}</h3>
+        <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-50">
+          {t("title")}
+        </h3>
       </div>
 
       <div className="flex gap-6 mb-6">
@@ -87,8 +89,10 @@ export default function BudgetPreviewCard() {
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-xs text-stone-500">{t("total")}</span>
-            <span className="text-lg font-bold text-stone-900">
+            <span className="text-xs text-stone-500 dark:text-stone-400">
+              {t("total")}
+            </span>
+            <span className="text-lg font-bold text-stone-900 dark:text-stone-50">
               ${(total / 1000).toFixed(1)}k
             </span>
           </div>
@@ -104,15 +108,15 @@ export default function BudgetPreviewCard() {
                 <item.icon className={`h-4 w-4 ${item.colorClass}`} />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-stone-900">
+                <p className="text-sm font-medium text-stone-900 dark:text-stone-50">
                   {item.name}
                 </p>
-                <p className="text-xs text-stone-500">
+                <p className="text-xs text-stone-500 dark:text-stone-400">
                   {item.percentage}
                   {t("of_income")}
                 </p>
               </div>
-              <span className="text-sm font-semibold text-stone-900">
+              <span className="text-sm font-semibold text-stone-900 dark:text-stone-50">
                 ${item.amount.toLocaleString()}
               </span>
             </div>
@@ -121,11 +125,11 @@ export default function BudgetPreviewCard() {
       </div>
 
       {/* Total */}
-      <div className="flex items-center justify-between rounded-lg bg-emerald-600/10 px-4 py-3">
-        <span className="text-sm font-medium text-emerald-700">
+      <div className="flex items-center justify-between rounded-lg bg-emerald-600/10 dark:bg-emerald-500/15 px-4 py-3">
+        <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">
           {t("total_monthly_income")}
         </span>
-        <span className="text-xl font-bold text-emerald-700">
+        <span className="text-xl font-bold text-emerald-700 dark:text-emerald-400">
           ${total.toLocaleString()}
         </span>
       </div>

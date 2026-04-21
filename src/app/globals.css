@@ -82,3 +82,22 @@ textarea {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+/* react-toastify — follow theme tokens */
+.Toastify__toast {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--card-foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.dark .Toastify__toast {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+}
+.Toastify__close-button {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 1;
+}
+.Toastify__progress-bar {
+  background: hsl(var(--primary)) !important;
+}

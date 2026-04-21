@@ -33,7 +33,7 @@ const BudgetCardContent = ({
 
         <Progress
           value={Math.min(progress.percentage, 100)}
-          className="h-3 bg-gray-200"
+          className="h-3 bg-muted"
           indicatorClassName={
             progress.percentage > 100 ? "bg-red-500" : "bg-green-500"
           }

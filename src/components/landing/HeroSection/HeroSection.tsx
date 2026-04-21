@@ -6,21 +6,21 @@ import BudgetPreviewCard from "../BudgetPreviewCard";
 export default function HeroSection() {
   const t = useTranslations("landing.hero");
   return (
-    <section className="relative overflow-hidden py-16 md:py-24 lg:py-32 bg-stone-50">
+    <section className="relative overflow-hidden py-16 md:py-24 lg:py-32 bg-stone-50 dark:bg-stone-950">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="flex flex-col gap-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 self-center lg:self-start rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+            <div className="inline-flex items-center gap-2 self-center lg:self-start rounded-full bg-emerald-100 dark:bg-emerald-950/60 px-4 py-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-400">
               <Sparkles className="h-4 w-4" />
               <span>{t("badge")}</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-stone-900 text-balance">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-stone-900 dark:text-stone-50 text-balance">
               {t("title")}
             </h1>
 
-            <p className="text-lg md:text-xl text-stone-500 max-w-xl mx-auto lg:mx-0 text-pretty">
+            <p className="text-lg md:text-xl text-stone-500 dark:text-stone-400 max-w-xl mx-auto lg:mx-0 text-pretty">
               {t("description")}
             </p>
 
@@ -34,13 +34,15 @@ export default function HeroSection() {
               </Link>
               <Link
                 href="/auth/login"
-                className="inline-flex items-center justify-center rounded-md border border-stone-300 bg-transparent px-6 py-3 text-base font-medium text-stone-700 hover:bg-stone-100 transition-colors"
+                className="inline-flex items-center justify-center rounded-md border border-stone-300 dark:border-stone-600 bg-transparent px-6 py-3 text-base font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 {t("log_in_account")}
               </Link>
             </div>
 
-            <p className="text-sm text-stone-500">{t("disclaimer")}</p>
+            <p className="text-sm text-stone-500 dark:text-stone-400">
+              {t("disclaimer")}
+            </p>
           </div>
 
           {/* Right Content - Preview Card */}
@@ -53,7 +55,7 @@ export default function HeroSection() {
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/4 -right-1/4 h-96 w-96 rounded-full bg-emerald-600/5 blur-3xl" />
-        <div className="absolute -bottom-1/4 -left-1/4 h-96 w-96 rounded-full bg-emerald-100/30 blur-3xl" />
+        <div className="absolute -bottom-1/4 -left-1/4 h-96 w-96 rounded-full bg-emerald-100/30 dark:bg-emerald-900/20 blur-3xl" />
       </div>
     </section>
   );

@@ -103,7 +103,7 @@ export default function IncomeSourcesShell({
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <StickyHeader title={t("title")} />

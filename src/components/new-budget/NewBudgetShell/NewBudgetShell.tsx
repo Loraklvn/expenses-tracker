@@ -184,7 +184,7 @@ export default function NewBudgetShell({
 
   return (
     <div
-      className={`min-h-screen bg-gray-50 pb-32 ${
+      className={`min-h-screen bg-background pb-32 ${
         isPending ? "opacity-50 pointer-events-none" : ""
       }`}
     >
@@ -207,14 +207,14 @@ export default function NewBudgetShell({
 
         <div className="p-4 space-y-4">
           {/* Template Info */}
-          <div className="rounded-xl bg-blue-50 border border-blue-200 p-4">
+          <div className="rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 flex-1 min-w-0">
                 {budgetTemplate ? (
                   <>
-                    <FileIcon className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                    <FileIcon className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
+                      <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
                         {t("template")}
                       </p>
                       <p className="text-sm font-semibold text-foreground truncate">
@@ -240,7 +240,7 @@ export default function NewBudgetShell({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-lg h-9 px-3 text-xs font-semibold flex-shrink-0 border-blue-200 bg-white hover:bg-blue-50"
+                  className="rounded-lg h-9 px-3 text-xs font-semibold flex-shrink-0 border-blue-200 dark:border-blue-700 bg-card hover:bg-blue-50 dark:hover:bg-blue-950/60"
                 >
                   {t("change")}
                 </Button>

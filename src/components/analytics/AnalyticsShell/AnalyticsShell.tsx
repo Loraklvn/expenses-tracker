@@ -133,7 +133,7 @@ export default function AnalyticsShell() {
   );
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-background">
+    <div className="min-h-dvh bg-background">
       <div className="max-w-md mx-auto">
         <StickyHeader title={t("title")} description={t("description")} />
 

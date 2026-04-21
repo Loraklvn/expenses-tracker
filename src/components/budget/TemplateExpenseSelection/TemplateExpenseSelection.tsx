@@ -40,7 +40,7 @@ const TemplateExpenseSelection = ({
                   }`}
                 >
                   {selectedTemplateExpense?.id === template.id && (
-                    <div className="w-2 h-2 bg-white rounded-full" />
+                    <div className="w-2 h-2 bg-primary-foreground rounded-full" />
                   )}
                 </div>
                 <div>

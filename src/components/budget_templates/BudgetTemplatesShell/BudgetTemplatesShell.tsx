@@ -140,7 +140,7 @@ export default function BudgetTemplatesShell({
   }, {} as Record<string, ExpenseTemplate[]>);
 
   return (
-    <div className="min-h-screen bg-gray-50  pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <StickyHeader title={t("title")} />
       <div className="max-w-md mx-auto p-4">
         <div className="space-y-6">

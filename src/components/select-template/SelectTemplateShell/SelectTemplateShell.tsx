@@ -14,7 +14,7 @@ const SelectTemplateShell = async ({
 }) => {
   const t = await getTranslations("select_template");
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <div className="max-w-md mx-auto">
         <StickyHeader
           title={t("choose_how_to_start")}
@@ -65,8 +65,8 @@ const SelectTemplateShell = async ({
                 >
                   <div className="p-4 rounded-xl bg-card border border-border/50 hover:bg-accent/30 transition-all duration-200 active:scale-[0.98] shadow-sm">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                        <FileTemplate className="h-6 w-6 text-blue-600" />
+                      <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center flex-shrink-0">
+                        <FileTemplate className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-2">

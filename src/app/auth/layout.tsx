@@ -12,7 +12,7 @@ async function AuthLayout({ children }: AuthLayoutProps) {
   const tAuth = await getTranslations("auth");
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="w-full py-4 px-4">
         <div className="max-w-md mx-auto">
@@ -20,7 +20,7 @@ async function AuthLayout({ children }: AuthLayoutProps) {
             <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center">
               <WalletIcon className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-stone-900">
+            <span className="text-xl font-bold text-foreground">
               {t("brand_name")}
             </span>
           </Link>
@@ -34,7 +34,7 @@ async function AuthLayout({ children }: AuthLayoutProps) {
 
       {/* Footer */}
       <footer className="py-6 px-4 text-center">
-        <p className="text-sm text-stone-500">
+        <p className="text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} {t("brand_name")}.{" "}
           {tAuth("all_rights_reserved")}.
         </p>

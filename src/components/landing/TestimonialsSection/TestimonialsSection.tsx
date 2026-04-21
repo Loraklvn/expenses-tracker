@@ -31,13 +31,16 @@ export default function TestimonialsSection() {
     },
   ];
   return (
-    <section id="testimonials" className="py-16 md:py-24 bg-stone-100/30">
+    <section
+      id="testimonials"
+      className="py-16 md:py-24 bg-stone-100/30 dark:bg-stone-900/30"
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50 mb-4">
             {t("title")}
           </h2>
-          <p className="text-lg text-stone-500 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-500 dark:text-stone-400 max-w-2xl mx-auto">
             {t("description")}
           </p>
         </div>
@@ -46,27 +49,29 @@ export default function TestimonialsSection() {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.name}
-              className="border border-stone-200/50 bg-white rounded-xl p-6"
+              className="border border-stone-200/50 dark:border-stone-700/50 bg-white dark:bg-stone-900 rounded-xl p-6"
             >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
                   <Star
                     key={i}
-                    className="h-5 w-5 fill-emerald-600 text-emerald-600"
+                    className="h-5 w-5 fill-emerald-600 dark:fill-emerald-500 text-emerald-600 dark:text-emerald-500"
                   />
                 ))}
               </div>
-              <p className="text-stone-900 mb-6">{`"${testimonial.content}"`}</p>
+              <p className="text-stone-900 dark:text-stone-100 mb-6">{`"${testimonial.content}"`}</p>
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={testimonial.avatar} />
                   <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium text-stone-900">
+                  <p className="font-medium text-stone-900 dark:text-stone-50">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm text-stone-500">{testimonial.role}</p>
+                  <p className="text-sm text-stone-500 dark:text-stone-400">
+                    {testimonial.role}
+                  </p>
                 </div>
               </div>
             </div>

@@ -43,7 +43,7 @@ const BudgetCard = ({
           e.stopPropagation();
           onDelete(budget);
         }}
-        className="absolute bottom-1 shadow-none right-2 text-gray-500 hover:text-destructive"
+        className="absolute bottom-1 shadow-none right-2 text-muted-foreground hover:text-destructive"
       >
         <Trash2Icon className="h-4 w-4" />
       </Button>

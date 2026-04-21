@@ -45,7 +45,7 @@ const Navbar = (): ReactElement => {
               className={cn(
                 "flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 px-3 rounded-xl transition-all duration-200 active:scale-95 relative",
                 item.active
-                  ? "text-primary bg-blue-50"
+                  ? "text-primary bg-blue-50 dark:bg-blue-950/50"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent/30 active:bg-accent/50"
               )}
             >
@@ -54,19 +54,21 @@ const Navbar = (): ReactElement => {
                   className={cn(
                     "w-6 h-6 transition-all duration-200",
                     item.active
-                      ? "text-blue-500 scale-110"
+                      ? "text-blue-600 dark:text-blue-400 scale-110"
                       : "text-muted-foreground"
                   )}
                   strokeWidth={item.active ? 2.5 : 2}
                 />
                 {item.active && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full shadow-sm" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full shadow-sm" />
                 )}
               </div>
               <span
                 className={cn(
                   "text-[10px] font-semibold leading-tight transition-all duration-200",
-                  item.active ? "text-blue-500" : "text-muted-foreground"
+                  item.active
+                    ? "text-blue-600 dark:text-blue-400"
+                    : "text-muted-foreground"
                 )}
               >
                 {item.label}

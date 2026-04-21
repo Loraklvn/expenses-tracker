@@ -40,15 +40,15 @@ export function LoginForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 sm:p-8">
+    <div className="bg-card rounded-2xl shadow-lg border border-border p-6 sm:p-8">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-stone-900 mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
           {t("welcome_back")}
         </h1>
-        <p className="text-stone-500">{t("sign_in_to_continue")}</p>
+        <p className="text-muted-foreground">{t("sign_in_to_continue")}</p>
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
 
       {/* Form */}
@@ -57,13 +57,13 @@ export function LoginForm() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-stone-700 mb-1.5"
+            className="block text-sm font-medium text-foreground mb-1.5"
           >
             {t("email_address")}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-              <Mail className="h-5 w-5 text-stone-400" />
+              <Mail className="h-5 w-5 text-muted-foreground" />
             </div>
             <input
               id="email"
@@ -72,7 +72,7 @@ export function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("email_placeholder_login")}
               required
-              className="w-full pl-11 pr-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              className="w-full pl-11 pr-4 py-3 bg-background border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
           </div>
         </div>
@@ -82,20 +82,20 @@ export function LoginForm() {
           <div className="flex items-center justify-between mb-1.5">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-stone-700"
+              className="block text-sm font-medium text-foreground"
             >
               {t("password")}
             </label>
             <Link
               href="/auth/forgot-password"
-              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+              className="text-sm text-emerald-600 hover:text-emerald-500 dark:text-emerald-500 dark:hover:text-emerald-400 font-medium"
             >
               {t("forgot_password_link")}
             </Link>
           </div>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-              <Lock className="h-5 w-5 text-stone-400" />
+              <Lock className="h-5 w-5 text-muted-foreground" />
             </div>
             <input
               id="password"
@@ -104,12 +104,12 @@ export function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("password_placeholder")}
               required
-              className="w-full pl-11 pr-12 py-3 bg-stone-50 border border-stone-200 rounded-xl text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              className="w-full pl-11 pr-12 py-3 bg-background border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-stone-600"
+              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-muted-foreground hover:text-foreground"
             >
               {showPassword ? (
                 <EyeOff className="h-5 w-5" />
@@ -138,11 +138,11 @@ export function LoginForm() {
       </form>
 
       {/* Sign up link */}
-      <p className="mt-6 text-center text-sm text-stone-600">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
         {t("dont_have_account")}{" "}
         <Link
           href="/auth/sign-up"
-          className="text-emerald-600 hover:text-emerald-700 font-semibold"
+          className="text-emerald-600 hover:text-emerald-500 dark:text-emerald-500 dark:hover:text-emerald-400 font-semibold"
         >
           {t("sign_up_for_free")}
         </Link>

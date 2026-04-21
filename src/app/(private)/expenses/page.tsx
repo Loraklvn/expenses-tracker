@@ -36,19 +36,22 @@ export default function ManageExpenses() {
   const [formValues, setFormValues] = useState(emptyForm);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const groupedExpenses = expenseTemplates?.reduce((acc, expense) => {
-    if (
-      searchTerm &&
-      !expense.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
+  const groupedExpenses = expenseTemplates?.reduce(
+    (acc, expense) => {
+      if (
+        searchTerm &&
+        !expense.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        return acc;
+      }
+      if (!acc[expense.category_id]) {
+        acc[expense.category_id] = [];
+      }
+      acc[expense.category_id].push(expense);
       return acc;
-    }
-    if (!acc[expense.category_id]) {
-      acc[expense.category_id] = [];
-    }
-    acc[expense.category_id].push(expense);
-    return acc;
-  }, {} as Record<string, ExpenseTemplate[]>);
+    },
+    {} as Record<string, ExpenseTemplate[]>,
+  );
 
   // Handlers
   const addExpense = async () => {
@@ -92,8 +95,8 @@ export default function ManageExpenses() {
   return (
     <div
       className={cn(
-        "min-h-screen bg-gray-50 p-4s pb-20",
-        isLoading && "opacity-50 pointer-events-none"
+        "min-h-screen bg-background pb-20",
+        isLoading && "opacity-50 pointer-events-none",
       )}
     >
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-4">

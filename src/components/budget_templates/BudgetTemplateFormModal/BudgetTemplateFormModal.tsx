@@ -114,7 +114,7 @@ const BudgetTemplateFormModal = ({
                             }`}
                           >
                             {isSelected && (
-                              <div className="w-2 h-2 bg-white rounded-sm" />
+                              <div className="w-2 h-2 bg-primary-foreground rounded-sm" />
                             )}
                           </button>
                           <span className="text-sm font-medium">

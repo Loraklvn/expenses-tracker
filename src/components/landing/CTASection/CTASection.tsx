@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 export default function CTASection() {
   const t = useTranslations("landing.cta");
   return (
-    <section className="py-16 md:py-24 bg-stone-50">
+    <section className="py-16 md:py-24 bg-stone-50 dark:bg-stone-950">
       <div className="container mx-auto px-4">
         <div className="relative overflow-hidden rounded-3xl bg-emerald-600 px-6 py-16 md:px-12 md:py-20 text-center">
           <div className="relative z-10">
@@ -18,7 +18,7 @@ export default function CTASection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/auth/sign-up"
-                className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-emerald-700 hover:bg-stone-100 transition-colors"
+                className="inline-flex items-center justify-center rounded-md bg-white dark:bg-stone-100 px-6 py-3 text-base font-medium text-emerald-700 dark:text-emerald-800 hover:bg-stone-100 dark:hover:bg-white transition-colors"
               >
                 {t("create_account")}
                 <ArrowRight className="ml-2 h-5 w-5" />

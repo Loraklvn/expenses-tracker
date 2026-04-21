@@ -25,8 +25,8 @@ const BudgetComponentHeader = ({
       </div>
 
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <span className="bg-blue-50 rounded-md p-1.5">
-          <Calendar className="h-3 w-3" color="#2563EB" />
+        <span className="bg-primary/10 rounded-md p-1.5">
+          <Calendar className="h-3 w-3 text-primary" />
         </span>
         <span>
           {new Date(budget.start_date).toLocaleDateString()} -{" "}

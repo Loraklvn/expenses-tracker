@@ -44,13 +44,16 @@ export default function FeaturesSection() {
     },
   ];
   return (
-    <section id="features" className="py-16 md:py-24 bg-stone-100/30">
+    <section
+      id="features"
+      className="py-16 md:py-24 bg-stone-100/30 dark:bg-stone-900/30"
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50 mb-4">
             {t("title")}
           </h2>
-          <p className="text-lg text-stone-500 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-500 dark:text-stone-400 max-w-2xl mx-auto">
             {t("description")}
           </p>
         </div>
@@ -59,15 +62,17 @@ export default function FeaturesSection() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="border border-stone-200/50 bg-white rounded-xl p-6 hover:shadow-lg transition-shadow"
+              className="border border-stone-200/50 dark:border-stone-700/50 bg-white dark:bg-stone-900 rounded-xl p-6 hover:shadow-lg transition-shadow"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600/10 mb-4">
-                <feature.icon className="h-6 w-6 text-emerald-600" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600/10 dark:bg-emerald-500/15 mb-4">
+                <feature.icon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <h3 className="text-lg font-semibold text-stone-900 mb-2">
+              <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-50 mb-2">
                 {feature.title}
               </h3>
-              <p className="text-stone-500">{feature.description}</p>
+              <p className="text-stone-500 dark:text-stone-400">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>

@@ -47,13 +47,16 @@ export default function HowItWorksSection() {
     },
   ];
   return (
-    <section id="how-it-works" className="py-16 md:py-24 bg-stone-50">
+    <section
+      id="how-it-works"
+      className="py-16 md:py-24 bg-stone-50 dark:bg-stone-950"
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50 mb-4">
             {t("title")}
           </h2>
-          <p className="text-lg text-stone-500 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-500 dark:text-stone-400 max-w-2xl mx-auto">
             {t("description")}
           </p>
         </div>
@@ -63,24 +66,26 @@ export default function HowItWorksSection() {
             <div key={step.step} className="relative">
               {/* Connector line for desktop */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-0.5 bg-stone-200" />
+                <div className="hidden lg:block absolute top-8 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-0.5 bg-stone-200 dark:bg-stone-700" />
               )}
 
               <div className="flex flex-col items-center text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600 text-white text-xl font-bold mb-4 relative z-10">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-semibold text-stone-900 mb-2">
+                <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-50 mb-2">
                   {step.title}
                 </h3>
-                <p className="text-stone-500 mb-4">{step.description}</p>
+                <p className="text-stone-500 dark:text-stone-400 mb-4">
+                  {step.description}
+                </p>
                 <ul className="space-y-2">
                   {step.highlights.map((highlight) => (
                     <li
                       key={highlight}
-                      className="flex items-center gap-2 text-sm text-stone-500"
+                      className="flex items-center gap-2 text-sm text-stone-500 dark:text-stone-400"
                     >
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600 flex-shrink-0" />
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                       {highlight}
                     </li>
                   ))}
