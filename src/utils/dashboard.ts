@@ -1,4 +1,6 @@
 import {
+  AvgSpendingByCategoryItem,
+  AvgSpendingByTemplateItem,
   IncomeByCategoryItem,
   IncomeBySourceItem,
   MonthlyFlowData,
@@ -6,6 +8,13 @@ import {
   SpendingByTemplateItem,
 } from "@/lib/supabase/request/client";
 import { Category, ExpenseTemplate } from "@/types";
+
+export type AverageSpendingChartItem = {
+  name: string;
+  value: number;
+  count: number;
+  color?: string;
+};
 
 /**
  * Item 1: Calculate total income and spending all time
@@ -88,6 +97,41 @@ export const formatTemplateData = (
       return {
         name: template?.name || `Unknown (${item.template_id})`,
         value: Number(item.total),
+      };
+    })
+    .sort((a, b) => b.value - a.value);
+};
+
+export const formatAvgCategoryData = (
+  aggregated: AvgSpendingByCategoryItem[],
+  categories: Category[]
+): AverageSpendingChartItem[] => {
+  return aggregated
+    .map((item) => {
+      const category = categories.find(
+        (c) => c.id === item.primary_category_id
+      );
+      return {
+        name: category?.name || `Unknown (${item.primary_category_id})`,
+        value: Number(item.avg_amount),
+        count: Number(item.month_count),
+        color: category?.color,
+      };
+    })
+    .sort((a, b) => b.value - a.value);
+};
+
+export const formatAvgTemplateData = (
+  aggregated: AvgSpendingByTemplateItem[],
+  templates: ExpenseTemplate[]
+): AverageSpendingChartItem[] => {
+  return aggregated
+    .map((item) => {
+      const template = templates.find((t) => t.id === item.template_id);
+      return {
+        name: template?.name || `Unknown (${item.template_id})`,
+        value: Number(item.avg_amount),
+        count: Number(item.month_count),
       };
     })
     .sort((a, b) => b.value - a.value);

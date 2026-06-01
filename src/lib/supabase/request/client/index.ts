@@ -79,6 +79,9 @@ export {
   getIncomeByCategory,
   getSpendingByCategory,
   getSpendingByTemplate,
+  getAvgSpendingByCategory,
+  getAvgSpendingByTemplate,
+  getAvgSpendingTemplateVsNonTemplate,
   type MonthlyFlowData,
   type AnalyticsItem,
   type BudgetPerformanceData,
@@ -86,4 +89,7 @@ export {
   type IncomeByCategoryItem,
   type SpendingByCategoryItem,
   type SpendingByTemplateItem,
+  type AvgSpendingByCategoryItem,
+  type AvgSpendingByTemplateItem,
+  type TemplateVsNonTemplateData,
 } from "./analytics";

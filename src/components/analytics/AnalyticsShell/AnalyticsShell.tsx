@@ -9,11 +9,16 @@ import {
   getIncomeByCategory,
   getSpendingByCategory,
   getSpendingByTemplate,
+  getAvgSpendingByCategory,
+  getAvgSpendingByTemplate,
+  getAvgSpendingTemplateVsNonTemplate,
   getMonthlyFlow,
 } from "@/lib/supabase/request/client";
 import {
   calculateAverageMonthlyFlow,
   calculateTotalFlow,
+  formatAvgCategoryData,
+  formatAvgTemplateData,
   formatCategoryData,
   formatIncomeSourceData,
   formatTemplateData,
@@ -29,6 +34,8 @@ import IncomeBySourceChart from "../IncomeBySourceChart";
 import MonthlyFlowChart from "../MonthlyFlowChart";
 import SpendingByCategoryChart from "../SpendingByCategoryChart";
 import SpendingByTemplateChart from "../SpendingByTemplateChart";
+import AverageSpendingBarChart from "../AverageSpendingBarChart";
+import TemplateVsNonTemplateCard from "../TemplateVsNonTemplateCard";
 import AverageMonthlyFlowCard from "../AverageMonthlyFlowCard";
 import TotalFlowCard from "../TotalFlowCard";
 
@@ -87,6 +94,33 @@ export default function AnalyticsShell() {
     queryFn: () => getSpendingByTemplate(startDate, endDate),
   });
 
+  // Item 8: Average Spending by Category
+  const {
+    data: avgSpendingByCategory = [],
+    isLoading: isLoadingAvgSpendingByCategory,
+  } = useQuery({
+    queryKey: ["avgSpendingByCategory", startDate, endDate],
+    queryFn: () => getAvgSpendingByCategory(startDate, endDate),
+  });
+
+  // Item 9: Average Spending by Template
+  const {
+    data: avgSpendingByTemplate = [],
+    isLoading: isLoadingAvgSpendingByTemplate,
+  } = useQuery({
+    queryKey: ["avgSpendingByTemplate", startDate, endDate],
+    queryFn: () => getAvgSpendingByTemplate(startDate, endDate),
+  });
+
+  // Item 10: Template vs Non-Template averages
+  const {
+    data: templateVsNonTemplate,
+    isLoading: isLoadingTemplateVsNonTemplate,
+  } = useQuery({
+    queryKey: ["templateVsNonTemplate", startDate, endDate],
+    queryFn: () => getAvgSpendingTemplateVsNonTemplate(startDate, endDate),
+  });
+
   // Fetch budget performance (Item 6)
   const { data: budgetPerformance, isLoading: isLoadingBudgetPerformance } =
     useQuery({
@@ -129,6 +163,16 @@ export default function AnalyticsShell() {
 
   const spendingByTemplateData = formatTemplateData(
     spendingByTemplate,
+    expenseTemplates
+  );
+
+  const avgSpendingByCategoryData = formatAvgCategoryData(
+    avgSpendingByCategory,
+    expenseCategories
+  );
+
+  const avgSpendingByTemplateData = formatAvgTemplateData(
+    avgSpendingByTemplate,
     expenseTemplates
   );
 
@@ -191,6 +235,27 @@ export default function AnalyticsShell() {
           <SpendingByTemplateChart
             data={spendingByTemplateData}
             isLoading={isLoadingSpendingByTemplate}
+          />
+
+          {/* Item 8: Average Spending by Category */}
+          <AverageSpendingBarChart
+            title={t("avg_spending_by_category")}
+            data={avgSpendingByCategoryData}
+            barColor="hsl(0, 84%, 60%)"
+            isLoading={isLoadingAvgSpendingByCategory}
+          />
+
+          {/* Item 9: Average Spending by Template */}
+          <AverageSpendingBarChart
+            title={t("avg_spending_by_template")}
+            data={avgSpendingByTemplateData}
+            isLoading={isLoadingAvgSpendingByTemplate}
+          />
+
+          {/* Item 10: Template vs Non-Template */}
+          <TemplateVsNonTemplateCard
+            data={templateVsNonTemplate ?? null}
+            isLoading={isLoadingTemplateVsNonTemplate}
           />
 
           {/* Item 6: Budget Performance */}

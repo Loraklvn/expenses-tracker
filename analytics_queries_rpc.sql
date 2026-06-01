@@ -203,3 +203,172 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+-- Item 8–10: Average monthly spending analytics
+-- DROP required when OUT parameter names/types change (CREATE OR REPLACE cannot alter return type)
+DROP FUNCTION IF EXISTS get_avg_spending_by_category(DATE, DATE);
+DROP FUNCTION IF EXISTS get_avg_spending_by_template(DATE, DATE);
+DROP FUNCTION IF EXISTS get_avg_spending_template_vs_non_template(DATE, DATE);
+
+-- Item 8: Average Monthly Spending by Category
+-- Returns average monthly spending grouped by category (avg of monthly totals)
+CREATE OR REPLACE FUNCTION get_avg_spending_by_category(
+  _start_date DATE DEFAULT NULL,
+  _end_date DATE DEFAULT NULL
+)
+RETURNS TABLE (
+  primary_category_id INTEGER,
+  avg_amount NUMERIC,
+  month_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH filtered_expenses AS (
+    SELECT 
+      COALESCE(be.category_id, et.category_id, t.category_id) as primary_category_id,
+      t.amount,
+      date_trunc('month', t.transaction_date)::date as month_start
+    FROM transaction t
+    LEFT JOIN budget_expense be ON t.expense_id = be.id
+    LEFT JOIN expense_template et ON t.template_id = et.id
+    WHERE 
+      t.type = 'expense'
+      AND (_start_date IS NULL OR t.transaction_date >= _start_date)
+      AND (_end_date IS NULL OR t.transaction_date <= _end_date)
+      AND COALESCE(be.category_id, et.category_id, t.category_id) IS NOT NULL
+      AND (
+        (t.expense_id IS NOT NULL AND EXISTS (
+          SELECT 1 FROM budget b WHERE b.id = be.budget_id AND b.user_id = auth.uid()
+        ))
+        OR
+        (t.template_id IS NOT NULL AND et.id IS NOT NULL AND et.user_id = auth.uid())
+        OR
+        (t.category_id IS NOT NULL AND EXISTS (
+          SELECT 1 FROM category c WHERE c.id = t.category_id AND c.user_id = auth.uid()
+        ))
+      )
+  ),
+  monthly_totals AS (
+    SELECT 
+      fe.primary_category_id AS cat_id,
+      fe.month_start,
+      SUM(fe.amount) as monthly_total
+    FROM filtered_expenses fe
+    GROUP BY fe.primary_category_id, fe.month_start
+  )
+  SELECT 
+    mt.cat_id,
+    AVG(mt.monthly_total) as avg_amount,
+    COUNT(*)::BIGINT as month_count
+  FROM monthly_totals mt
+  GROUP BY mt.cat_id
+  ORDER BY avg_amount DESC;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Item 9: Average Monthly Spending by Template
+-- Returns average monthly spending grouped by template (avg of monthly totals)
+CREATE OR REPLACE FUNCTION get_avg_spending_by_template(
+  _start_date DATE DEFAULT NULL,
+  _end_date DATE DEFAULT NULL
+)
+RETURNS TABLE (
+  template_id INTEGER,
+  avg_amount NUMERIC,
+  month_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH filtered_expenses AS (
+    SELECT 
+      COALESCE(be.template_id, t.template_id) as template_id,
+      t.amount,
+      date_trunc('month', t.transaction_date)::date as month_start
+    FROM transaction t
+    LEFT JOIN budget_expense be ON t.expense_id = be.id
+    WHERE 
+      t.type = 'expense'
+      AND COALESCE(be.template_id, t.template_id) IS NOT NULL
+      AND (_start_date IS NULL OR t.transaction_date >= _start_date)
+      AND (_end_date IS NULL OR t.transaction_date <= _end_date)
+      AND (
+        (t.expense_id IS NOT NULL AND EXISTS (
+          SELECT 1 FROM budget b WHERE b.id = be.budget_id AND b.user_id = auth.uid()
+        ))
+        OR
+        (t.template_id IS NOT NULL AND EXISTS (
+          SELECT 1 FROM expense_template et WHERE et.id = t.template_id AND et.user_id = auth.uid()
+        ))
+      )
+  ),
+  monthly_totals AS (
+    SELECT 
+      fe.template_id AS tpl_id,
+      fe.month_start,
+      SUM(fe.amount) as monthly_total
+    FROM filtered_expenses fe
+    GROUP BY fe.template_id, fe.month_start
+  )
+  SELECT 
+    mt.tpl_id,
+    AVG(mt.monthly_total) as avg_amount,
+    COUNT(*)::BIGINT as month_count
+  FROM monthly_totals mt
+  GROUP BY mt.tpl_id
+  ORDER BY avg_amount DESC;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Item 10: Average Monthly Spending — Template vs Non-Template
+-- Compares average monthly spending for template-linked vs non-template expenses
+CREATE OR REPLACE FUNCTION get_avg_spending_template_vs_non_template(
+  _start_date DATE DEFAULT NULL,
+  _end_date DATE DEFAULT NULL
+)
+RETURNS TABLE (
+  template_avg NUMERIC,
+  template_month_count BIGINT,
+  non_template_avg NUMERIC,
+  non_template_month_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH filtered_expenses AS (
+    SELECT 
+      t.amount,
+      date_trunc('month', t.transaction_date)::date as month_start,
+      COALESCE(be.template_id, t.template_id) IS NOT NULL as is_from_template
+    FROM transaction t
+    LEFT JOIN budget_expense be ON t.expense_id = be.id
+    LEFT JOIN expense_template et ON t.template_id = et.id
+    WHERE 
+      t.type = 'expense'
+      AND (_start_date IS NULL OR t.transaction_date >= _start_date)
+      AND (_end_date IS NULL OR t.transaction_date <= _end_date)
+      AND (
+        (t.expense_id IS NOT NULL AND EXISTS (
+          SELECT 1 FROM budget b WHERE b.id = be.budget_id AND b.user_id = auth.uid()
+        ))
+        OR
+        (t.template_id IS NOT NULL AND et.id IS NOT NULL AND et.user_id = auth.uid())
+        OR
+        (t.category_id IS NOT NULL AND EXISTS (
+          SELECT 1 FROM category c WHERE c.id = t.category_id AND c.user_id = auth.uid()
+        ))
+      )
+  ),
+  monthly_by_type AS (
+    SELECT 
+      month_start,
+      is_from_template,
+      SUM(amount) as monthly_total
+    FROM filtered_expenses
+    GROUP BY month_start, is_from_template
+  )
+  SELECT 
+    COALESCE(AVG(monthly_total) FILTER (WHERE is_from_template), 0) as template_avg,
+    COUNT(*) FILTER (WHERE is_from_template)::BIGINT as template_month_count,
+    COALESCE(AVG(monthly_total) FILTER (WHERE NOT is_from_template), 0) as non_template_avg,
+    COUNT(*) FILTER (WHERE NOT is_from_template)::BIGINT as non_template_month_count
+  FROM monthly_by_type;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;

@@ -45,6 +45,25 @@ export interface SpendingByTemplateItem {
   total: number;
 }
 
+export interface AvgSpendingByCategoryItem {
+  primary_category_id: number;
+  avg_amount: number;
+  month_count: number;
+}
+
+export interface AvgSpendingByTemplateItem {
+  template_id: number;
+  avg_amount: number;
+  month_count: number;
+}
+
+export interface TemplateVsNonTemplateData {
+  template_avg: number;
+  template_month_count: number;
+  non_template_avg: number;
+  non_template_month_count: number;
+}
+
 /**
  * Fetches monthly income and spending flow data over time
  *
@@ -227,4 +246,64 @@ export const getSpendingByTemplate = async (
 
   if (error) handleSupabaseError(error, "fetching spending by template");
   return (data || []) as SpendingByTemplateItem[];
+};
+
+/**
+ * Item 8: Average Monthly Spending by Category
+ * Fetches average monthly spending grouped by category.
+ */
+export const getAvgSpendingByCategory = async (
+  startDate?: Date | string,
+  endDate?: Date | string
+): Promise<AvgSpendingByCategoryItem[]> => {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.rpc("get_avg_spending_by_category", {
+    _start_date: startDate ? getYYYYMMDDFromDate(startDate) : null,
+    _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
+  });
+
+  if (error) handleSupabaseError(error, "fetching average spending by category");
+  return (data || []) as AvgSpendingByCategoryItem[];
+};
+
+/**
+ * Item 9: Average Monthly Spending by Template
+ * Fetches average monthly spending grouped by template.
+ */
+export const getAvgSpendingByTemplate = async (
+  startDate?: Date | string,
+  endDate?: Date | string
+): Promise<AvgSpendingByTemplateItem[]> => {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.rpc("get_avg_spending_by_template", {
+    _start_date: startDate ? getYYYYMMDDFromDate(startDate) : null,
+    _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
+  });
+
+  if (error) handleSupabaseError(error, "fetching average spending by template");
+  return (data || []) as AvgSpendingByTemplateItem[];
+};
+
+/**
+ * Item 10: Average Monthly Spending — Template vs Non-Template
+ * Compares average monthly spending for template-linked vs non-template expenses.
+ */
+export const getAvgSpendingTemplateVsNonTemplate = async (
+  startDate?: Date | string,
+  endDate?: Date | string
+): Promise<TemplateVsNonTemplateData | null> => {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.rpc(
+    "get_avg_spending_template_vs_non_template",
+    {
+      _start_date: startDate ? getYYYYMMDDFromDate(startDate) : null,
+      _end_date: endDate ? getYYYYMMDDFromDate(endDate) : null,
+    }
+  );
+
+  if (error)
+    handleSupabaseError(error, "fetching template vs non-template averages");
+  return data && data.length > 0
+    ? (data[0] as TemplateVsNonTemplateData)
+    : null;
 };
